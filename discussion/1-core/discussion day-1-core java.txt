@@ -13,3 +13,107 @@ course git repo
 https://github.com/rgupta00/Korber_java_backend_25_code
 
 
+JVM vs JRE
+
+java runtime env	java
+JRE					---->		JVM
+
+JDK:
+
+class ---> object
+
+Day -1
+---------
+• Intro about Programming Language Paradigms
+• Why Java?
+• Flavors of Java
+• Java Designing Goal
+• Role of Java Programming in industry
+• Features of java Language
+• Difference between JDK, JRE and JVM
+• JVM- The heart of Java
+• Java’s Magic Byte code
+• Java Architecture
+• Java Environment
+• Installing JDK and IDE Setup (Intellij / Eclipse)
+• Java Program Development
+• Java Source File Structure
+• Compilation
+• Executions
+• Java Fundamentals
+• Data Types
+• Variables, Keywords, Literals
+• Comments
+• Assignment ,Initialization
+• Control Structures – IF ELSE, Switch Case
+• Loops – For, While, Do While, ForEach
+• Methods Overview
+• Define a method
+• Call a method
+• Passing Arguments and Returning values
+• Pass by Value
+• Pass by Reference
+• Static Blocks
+• Static Methods
+
+
+
+session 1
+-----------
+programming is all about logic
+programming is branch of mathmatics
+
+dry run 
+looping example
+date problem
+logic is important
+
+Object Oriented Programming:
+class
+Object
+ctr
+inheratacnce
+composition
+static data/ methods
+instance variable/ methods
+
+class 				vs     Object
+cookie cutter					cookie
+temple to create the object
+
+
+how to create class, how to create object
+
+i want to class Player
+id
+name
+rank
+
+showDetails()
+
+logic class + tester class
+
+camel notation
+
+Design pattern and SOLID 
+
+
+
+Trainer ------------- Marker
+	raj					black color
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
