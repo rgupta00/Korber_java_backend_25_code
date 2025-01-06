@@ -1,0 +1,15 @@
+Korber java backend 2025
+----------------------
+
+Agenda:
+Course overview
+Trainer introduction
+Trainee introduction
+
+Training stuff
+https://drive.google.com/drive/folders/1lm1li0PolVr6jJAIQdj7JmYAyJ_f6ful?usp=sharing
+
+course git repo
+https://github.com/rgupta00/Korber_java_backend_25_code
+
+
