@@ -1,0 +1,59 @@
+Korber java backend 2025
+----------------------
+
+Agenda:
+Course overview
+Trainer introduction
+Trainee introduction
+
+Training stuff
+https://drive.google.com/drive/folders/1lm1li0PolVr6jJAIQdj7JmYAyJ_f6ful?usp=sharing
+
+course git repo
+https://github.com/rgupta00/Korber_java_backend_25_code
+
+
+JVM vs JRE
+
+java runtime env	java
+JRE					---->		JVM
+
+JDK:
+
+class ---> object
+
+Day -2
+---------
+Oject orientation in java in details
+Understanding basic of oops solid design pattern lib 
+relationship bw object
+achiving loose coupling and high cohesion
+pillors of oops
+	abstraction encapsulation modularity and herirarchy
+inheritance 
+polymprphism
+overloading vs overriding
+visiblity modifier
+concept of packages
+
+
+
+
+Trainer ------------- Marker
+	raj					black color
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

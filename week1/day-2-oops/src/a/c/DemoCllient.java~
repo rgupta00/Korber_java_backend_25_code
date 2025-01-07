@@ -1,0 +1,7 @@
+package a.c;
+import a.b.*;
+public class DemoCllient {
+    public static void main(String[] args) {
+        A a=new A();
+    }
+}
