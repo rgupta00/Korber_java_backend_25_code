@@ -8,7 +8,7 @@ public class A_NeedOfExceptionHanding_ARM {
         //java 7: ARM "automcatic resouce management"
         //try with resouces
 
-        try(Scanner scanner=new Scanner(System.in)) {
+        try (Scanner scanner = new Scanner(System.in)) {
             System.out.println("PE numerator");
             int x = scanner.nextInt();
 
@@ -17,9 +17,9 @@ public class A_NeedOfExceptionHanding_ARM {
 
             int result = x / y;
             System.out.println(result);
-        }catch (ArithmeticException e){
+        } catch (ArithmeticException e) {
             System.out.println("divide by zero");
-        }catch (InputMismatchException e){
+        } catch (InputMismatchException e) {
             System.out.println("pls enter ints only");
         }
         System.out.println("done");

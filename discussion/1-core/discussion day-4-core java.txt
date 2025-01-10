@@ -1,11 +1,95 @@
+Good morning!
+
+what we have done ?
+-------------------
+interface abs 
+solid
+some basic idea design pattern
+typecasting 
+wrapper class
+
 day 4: core java 
 ----------------
+Object class in java?
+
+public class java.lang.Object {
+
+  public java.lang.Object();
+  
+  public final native java.lang.Class<?> getClass();
+  
+  public native int hashCode();
+  
+  public boolean equals(java.lang.Object);
+  
+  protected native java.lang.Object clone() throws java.lang.CloneNotSupportedException;
+  
+  public java.lang.String toString();
+  
+  protected void finalize() throws java.lang.Throwable;
+  
+  //-----------threads------------------
+  public final native void notify();
+  public final native void notifyAll();
+  public final void wait() throws java.lang.InterruptedException;
+  public final void wait(long) throws java.lang.InterruptedException;
+  public final void wait(long, int) throws java.lang.InterruptedException;
+  
+  
+  
+  
+  
+}
+
+
+
+
+String
+
+inner classes
+
+
+
+
 String class, Stringbuider, Stringbuffer
 immutable classes in java
 Inner classes in java
+
+some java 5 enhancements
+
+
+
+
+
+
+
+
+
 Exception handing in java
 IO , char streams and byte streams
 serilization in details
 
 
+try
+
+catch
+
+finally : to close the resource
+
+
+
+throws
+
+throw 
+
+
 	
+	
+Monday: collection aka readymade ds in java
+Tue: Threads
+Wed: Java 8 new features
+Th: java 9+ features
+Friday: jdbc
+
+Monday: junit
+--------------------
