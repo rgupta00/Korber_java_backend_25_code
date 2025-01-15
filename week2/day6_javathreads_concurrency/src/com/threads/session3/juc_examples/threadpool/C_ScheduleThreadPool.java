@@ -16,11 +16,12 @@ class ScheduledJob implements Runnable{
 public class C_ScheduleThreadPool {
     public static void main(String[] args) {
 
-        ScheduledExecutorService es= Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
+        ScheduledExecutorService es=
+                Executors.newScheduledThreadPool(Runtime.getRuntime().availableProcessors());
 
-//        es.schedule(new ScheduledJob(),1, TimeUnit.SECONDS);
+       //es.schedule(new ScheduledJob(),1, TimeUnit.MINUTES);
 
-     //es.scheduleWithFixedDelay(new ScheduledJob(),2,4, TimeUnit.SECONDS);
+      //   es.scheduleWithFixedDelay(new ScheduledJob(),2,1, TimeUnit.SECONDS);
         es.scheduleAtFixedRate(new ScheduledJob(),2,4, TimeUnit.SECONDS);
        // es.shutdown();
 

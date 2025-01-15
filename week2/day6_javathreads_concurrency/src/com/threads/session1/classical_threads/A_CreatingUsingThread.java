@@ -1,9 +1,5 @@
 package com.threads.session1.classical_threads;
-import com.threads.session3.juc_examples.MyThread;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 class Job implements Runnable{
     @Override
     public void run() {

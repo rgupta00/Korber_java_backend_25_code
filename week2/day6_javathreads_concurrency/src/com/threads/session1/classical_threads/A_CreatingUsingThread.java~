@@ -27,8 +27,6 @@ public class A_CreatingUsingThread {
 
         thread1.start();
         thread1.start();
-        
-        thread2.start();
         thread3.start();
 
         thread1.join();

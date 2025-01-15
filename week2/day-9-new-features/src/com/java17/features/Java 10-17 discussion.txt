@@ -1,0 +1,146 @@
+Java 10-17:
+-------------
+* Time-Based Release Versioning
+* Local-Variable Type Inference (var)
+* Switch Expressions
+* Pattern Matching for instanceof
+* Text Blocks , New Methods in String Class for Text Blocks
+* Helpful NullPointerExceptions
+* Records
+* Sealed Classes
+* Hidden Classes
+* HTTP Client
+* Project amber (java 12 onwards)
+	enum enhancement
+	
+
+Type interence:
+--------------
+	var keyword, some important rules
+	var with classes
+	var with interface
+	var with array
+	var passing in method argument
+
+
+What is type inference?
+-----------------------
+The ability to use type inference with local variables ( var )
+
+It reduces the verbosity of the language without compromising Java's dependable static
+binding and type safety.
+
+The compiler infers the type by using the information available in
+the code, and adds it to the bytecode that it generates.
+
+Type inference with var
+-----------------------
+The following lines of code show how local variable
+
+String name = "Java Everywhere";
+LocalDateTime dateTime = new LocalDateTime.now
+
+
+var name = "Java Everywhere";
+var dateTime = new LocalDateTime.now();
+
+HashMap<Integer, String> map = new HashMap<Integer, String>();
+
+var map = new HashMap<Integer, String>();
+By replacing HashMap<Integer, String> with var , the preceding line of code is much
+shorter
+
+
+important point about var:
+------------------------
+1. Compulsory non-null initialization
+2. var can be used with only local variable
+3. Using var with primitive data types
+
+var counter = 9_009_998_992_887; vs var counter = 9_009_998_992_887L;
+
+Eg:
+long population = 10L;
+float weight = 79.8f;
+double distance = 198654.77;
+var total1 = cupsOfCoffee + population;	// inferred type of total1 is long
+var total2 = distance + population;	// inferred type of total2  is double
+var total3 = weight + population;	// inferred type of total3 is float
+
+
+
+Switch Expressions
+---------------
+Preview in Java 12,13 and std in java 14
+Multiple constraints per case
+expression vs statement
+yeilding a value
+exhaustiveness cases
+
+ enum WeekDay {
+            MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+        }
+        WeekDay day = WeekDay.TUESDAY;
+        switch (day) {
+            case MONDAY:
+                System.out.println("Let's meet!");
+                break;
+            case TUESDAY:
+                System.out.println("no meeting!");
+                break;
+            case WEDNESDAY:
+                System.out.println("Let's meet!");
+                break;
+            case THURSDAY:
+                System.out.println("no meeting!");
+                break;
+            case FRIDAY:
+                System.out.println("Let's meet!");
+                break;
+            case SATURDAY:
+                System.out.println("no meeting!");
+                break;
+            case SUNDAY:
+                System.out.println("Let's meet (although Sunday should be a free day, man!)!");
+                break;
+            default:
+                System.out.println("Do I really need this?!");
+                break;
+	}
+
+
+Pattern Matching for instanceof
+------------------------------
+* gettting rid of typecasting
+* preview in java 14
+* variable scoping
+* Exmaples
+
+
+Text Blocks , New Methods in String Class for Text Blocks
+---------------------------------------------------------
+* Preview in Java 13 and 14
+* motivation better way to create long string
+* text bblock syntex is very similer to template literal es 6 
+
+
+
+* Helpful NullPointerExceptions
+---------------------------------
+* new feature in java 14
+* various common cases when NPE can happens, helpful in dev phase
+
+
+-XX:+ShowCodeDetailsInExceptionMessages
+
+Records
+---------
+https://www.digitalocean.com/community/tutorials/java-records-class
+Sealed Classes
+-----------------
+https://rollbar.com/blog/what-are-sealed-classes-in-java/
+
+
+
+
+

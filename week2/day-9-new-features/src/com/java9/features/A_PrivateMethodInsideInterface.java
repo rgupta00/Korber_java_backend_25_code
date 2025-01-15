@@ -1,16 +1,31 @@
 package com.java9.features;
+//private method inside an interface
 //interface Foof{
-//    void foo();
-//    default void foof(){
-//
-//    }
-//    static  void foof2(){
-//
-//    }
-//    private void fooPrivate(){
-//        System.out.println("used to cater the common code of default methods DRY");
-//    }
 //}
+ interface Java8DBLogging
+{
+    default void logInfo(String message)
+    {
+        System.out.println(" Step1: Connect to DataBase");
+        System.out.println(" Setp2: Log Info Message");
+        System.out.println("Setp3: Close the DataBase connection");
+    }
+
+    default void logWarn(String message)
+    {
+        System.out.println(" Step1: Connect to DataBase");
+        System.out.println(" Setp2: Log warn Message");
+        System.out.println("Setp3: Close the DataBase connection");
+    }
+
+    default void logError(String message)
+    {
+        System.out.println(" Step1: Connect to DataBase");
+        System.out.println(" Setp2: Log error Message");
+        System.out.println("Setp3: Close the DataBase connection");
+    }
+
+}
 interface MyLogging{
     default void logInfo(String message){
         log(message,"INFO");
