@@ -1,59 +1,155 @@
-Korber java backend 2025
+ java backend 2025
 ----------------------
 
-Agenda:
-Course overview
-Trainer introduction
-Trainee introduction
 
-Training stuff
-https://drive.google.com/drive/folders/1lm1li0PolVr6jJAIQdj7JmYAyJ_f6ful?usp=sharing
-
-course git repo
-https://github.com/rgupta00/Korber_java_backend_25_code
-
-
-JVM vs JRE
-
-java runtime env	java
-JRE					---->		JVM
-
-JDK:
-
-class ---> object
-
-Day -2
+Day -3
 ---------
-Oject orientation in java in details
-Understanding basic of oops solid design pattern lib 
-relationship bw object
-achiving loose coupling and high cohesion
-pillors of oops
-	abstraction encapsulation modularity and herirarchy
-inheritance 
-polymprphism
-overloading vs overriding
-visiblity modifier
-concept of packages
-
-
-
-
-Trainer ------------- Marker
-	raj					black color
+interface 
+abstract class
+when to use interface and when to use abstract class
+solid principles
+Wrapper classes in java
+String class, Stringbuider, Stringbuffer
+immutable classes in java
+Inner classes in java
+IO , char streams and byte streams
+serilization in details
 
 
 
 
 
+interface 
+abstract class
+when to use interface and when to use abstract class
+
+
+interface
+----------
+it is kb
+
+
+java 21
+-------
+
+
+java 7
+--------
+till java 7 interface was 100% abstraction
+
+1. u can only declare the method and that too public abstract
+2. u can only define the constant inside the interface u can not define instance variable
+
+3. as interface dont have instance varible
+		NO ctr inside interface
+		
+interface Foo{
+	//int i=0;
+	public static final int i=0;
+	public abstract void abc();
+}
+
+inteface can be extends by other interface
+
+interface can not be extend by a class?
+
+100% promose 
+
+
+interface A{
+    public static final int i=9;
+    public abstract void foo();
+}
+class M implements A{
+    @Override
+     void foo(){
+        System.out.println("hello to all");
+    }
+}
 
 
 
 
+abstract class?
+-----------------
+even if a class dont hv abstract method it can abs class
+
+asbstract class Shape{
+	
+	void foo(){
+	
+		}
+}
+
+Shape s=new Shape();
+
+
+asbstract class A{
+	int i;
+	
+	A(int i){
+		this.i=i;
+	}
+}
+
+class B extends A{
+
+	B(int i){
+	 super(i);
+	}
+}
+
+A a=new B(i);
 
 
 
 
+when to use interface and when to use abstract class?
+-------------------------------------------------------
 
 
+Employee payment system:
+---------------------------
 
+IS-A (Abstract class)
+
+			Employee
+			id
+			name
+			salary
+	
+FullTimeEmp				PartTimeEmp
+ppf						noOfDays
+						payPerDay
+
+SOLID
+S
+O 
+L
+I
+D
+
+
+Object class in java
+why string are immutable
+how to create our own immutable classes
+what is serilization
+
+Quick session 4:30 - 5:30
+-----------------------
+Wrapper classes in java
+
+String class, Stringbuider, Stringbuffer
+immutable classes in java
+Inner classes in java
+IO , char streams and byte streams
+serilization in details
+
+
+Wrapper classes in java?
+ is java is fully oo?
+	Not
+	also have primitive
+	
+	they wrap primitive so that they can be treated as object
+	

@@ -1,4 +1,4 @@
-package demo.java8.session2.ex3;
+package java8.session2.ex3;
 class AppleLogic{
 	public  static boolean isHeavy(Apple apple){
 		return apple.getWeight()>=250;

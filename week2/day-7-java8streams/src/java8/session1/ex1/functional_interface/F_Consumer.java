@@ -1,4 +1,4 @@
-package demo.java8.session1.ex1.functional_interface;
+package java8.session1.ex1.functional_interface;
 
 import java.util.Comparator;
 import java.util.HashMap;

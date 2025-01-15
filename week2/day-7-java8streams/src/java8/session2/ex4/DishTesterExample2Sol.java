@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 import static java.util.stream.Collectors.toList;
 
 import java.util.Arrays;

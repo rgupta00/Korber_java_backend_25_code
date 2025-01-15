@@ -1,4 +1,4 @@
-package demo.java8.session1.ex1.functional_interface;
+package java8.session1.ex1.functional_interface;
 
 import java.util.function.BiPredicate;
 import java.util.function.Predicate;
@@ -16,8 +16,8 @@ public class A_Predicate {
 		
     	//filter operation?
     	//if emp salary >500000 : rich poor
-    	Predicate<Employee> p3= e-> e.getSalary()>=500000;
-    	Employee e1=new Employee(1, "raja", 600000);
+    	Predicate<demo.java8.session1.ex1.functional_interface.Employee> p3= e-> e.getSalary()>=500000;
+    	demo.java8.session1.ex1.functional_interface.Employee e1=new demo.java8.session1.ex1.functional_interface.Employee(1, "raja", 600000);
     	System.out.println(p3.test(e1));
 		
     	

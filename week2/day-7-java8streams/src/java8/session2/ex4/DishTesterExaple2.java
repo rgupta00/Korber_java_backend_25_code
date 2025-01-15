@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 import static  java.util.stream.Collectors.*;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics;

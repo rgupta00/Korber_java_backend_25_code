@@ -1,4 +1,4 @@
-package demo.java8.session1.ex0.interface_evolutions;
+package java8.session1.ex0.interface_evolutions;
 
 //me java 7
 interface Stack{
@@ -50,11 +50,6 @@ class StackImpl2 implements Stack{
 
 public class A_Java8InterfaceImprovement{
     public static void main(String[] args) {
-        
-        Stack s=new StackImpl2();
-        Stack.fooStatic();
-        
-        s.push(3);
-        System.out.println(s.pop());
+        System.out.println("hello");
     }
 }

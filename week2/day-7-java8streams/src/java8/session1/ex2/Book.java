@@ -1,4 +1,4 @@
-package demo.java8.session1.ex2;
+package java8.session1.ex2;
 class BookDto{
 	private String title;
 	private double price;

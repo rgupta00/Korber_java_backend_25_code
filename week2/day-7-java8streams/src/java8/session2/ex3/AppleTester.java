@@ -1,4 +1,4 @@
-package demo.java8.session2.ex3;
+package java8.session2.ex3;
 
 import java.util.Arrays;
 import java.util.HashMap;

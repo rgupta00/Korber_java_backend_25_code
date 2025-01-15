@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 enum CaloricLevel {
 	DIET, NORMAL, FAT;
 }

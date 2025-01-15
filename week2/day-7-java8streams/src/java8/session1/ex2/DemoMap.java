@@ -1,4 +1,4 @@
-package demo.java8.session1.ex2;
+package java8.session1.ex2;
 import static  java.util.Comparator.*;
 import java.util.*;
 import java.util.Map.Entry;

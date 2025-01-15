@@ -1,4 +1,4 @@
-package demo.java8.session1.ex2;
+package java8.session1.ex2;
 
 import java.util.Optional;
 //Person-> may have a car --> car may have a insurence

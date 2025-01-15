@@ -1,0 +1,456 @@
+Annotations and Reflection
+##################################################
+
+	Agenda:
+	
+	# What are annotations
+
+	# Predefined Java Annotations
+
+	# Custom annotation
+
+	# An Quick intro to Java Reflection
+
+	# Example of Run time annotation processing
+
+
+	what are annotations?
+	%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	==> Annotation is aka meta data
+
+
+	==> We can create our custom annotation that define our processing rules
+		that can decide execution behaviour of program
+
+	==> We also need to write Annotation Processor
+		ie how will process our annotation
+
+
+
+
+
+
+	two most imp attribute of Annotation?
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+		1. Target Annotation
+		--------------------
+
+			Where annotation can be applied?
+
+		2. Retention Annotation
+		----------------------
+			
+			Upto Where annotation will travel?
+
+
+
+
+
+		Target Annotation
+		--------------------
+
+
+		@Target(ElementType.METHOD)
+		public @interface TestAnnotation
+		{
+			// Property Definitions here.
+		}
+
+
+
+
+		TYPE ?
+			 Applied only to Type. 
+			 A Type can be a Java class or interface 
+			or an Enum or even an Annotation
+
+		FIELD ?
+			 Applied only to Java Fields (Objects, Instance or Static, 			
+			declared at class level)
+
+		METHOD ?
+			 Applied only to methods
+
+		PARAMETER ?
+
+			 Applied only to method parameters in a method definition
+
+		CONSTRUCTOR ?
+
+			Can be applicable only to a constructor of a class
+
+		LOCAL_VARIABLE ?
+
+			 Can be applicable only to Local variables
+			 Variables that are declared within a method or a block of code
+
+
+		ANNOTATION_TYPE ?
+
+			  Applied only to Annotation Types.
+
+		PACKAGE ?
+			 Applicable only to a Package
+
+
+
+
+
+
+
+		Retention Annotation
+		-----------------------
+
+		@Target(ElementType.METHOD)
+		@Retention(RetentionPolicy.CLASS)
+
+		public @interface TestAnnotation
+		{
+			// Property Definitions here
+		}
+
+
+
+
+			==> Retain the Annotation in the Source Code only
+
+			==> Retain the Annotation in the Class file also
+
+			==> Retain the Annotation Definition during the 
+				Run-time so that JVM can make use of it
+
+
+
+
+
+
+
+
+	Predefined Java Annotations
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+	==> There are about an dozen of predefined annotations in Java SE
+
+	==> Defind in java.lang,java.lang.annotation,javax.annotation packages
+
+
+	==> Some of annotation used by compiler
+
+		@Override
+		@SuppressWarning
+		@Deprecated
+		@Target
+		@Retention
+		@Documented
+		@Inherited
+		@FunctionalInterface (Java 8)
+
+
+
+	==> Some are used by Java SE at run time
+		 or third party run time tool
+
+	==> Indicate methods that need to be invoked at a particular time
+
+	==> Example Annotation in EJB/Spring
+
+		@PostConstruct
+		@PreDestroy
+
+
+
+	Custom Annotations
+	%%%%%%%%%%%%%%%%%%%
+
+	==> User defind annotations
+
+	==> Example : to create an annotation that allow programmer to marks
+			methods with SQL statement to be executed at run time !
+
+
+
+	Steps To create custom annotations:
+	___________________________________
+
+		1. Declare your own annotation to be
+		 used by other Java classes.
+
+		2. Write the annotation processor
+		 that will read these Java classes,identify and parse annotations, 
+			and process them accordingly
+
+		Java  Reflection 
+
+
+	Hibernate: framework that is aka persistance tech
+	--------
+		new tech=concept + annotation
+
+	@Entity
+	class Emp{
+
+		@Id
+		private int id;
+
+	}
+
+	=> EQ jdbc code
+
+	Hiberate => jar file
+
+
+	A Sample Custom Annotation
+	____________________________
+
+	@Target({ElementType.METHOD,ElementType.CONSTRUCTOR})
+	@Retention(RetentionPolicy.SOURCE)
+	
+	public @interface MyJDBCExecutor {
+		String value();
+	}
+
+
+
+
+	client of Annotation
+	__________________________
+
+	public class EmployeeDao {
+
+		@MyJDBCExecutor(value="select * from Employee")
+
+		public List getAllEmployees(){
+			//Add call to some JDBC Executor engine here
+			//An annotation processor is needed here
+		return null;
+		}
+	}
+
+
+
+
+
+	An annotation with three argument
+	___________________________________
+
+
+	@Target({ElementType.METHOD,ElementType.CONSTRUCTOR})
+	@Retention(RetentionPolicy.SOURCE)	
+	
+	public @interface MyJDBCExecutor {
+		String value();
+		boolean transactionRequired() default false;
+		boolean notifyOnUpdate() default false;
+	
+	}
+
+
+	Now client:
+		@MyJDBCExecutor(value="select * from Employee", transactionRequired=false, 						notifyOnUpdate=true)
+
+
+
+	Note:
+		==>For runtime retentation policy annotation we should write our 
+		own annotation processor, which can "extract" the values from 
+		annotation at run time and invoke appropiate code
+
+		==> Annotation processing tool (APT) now added in Java 7 compiler
+
+
+
+
+	Java Reflection
+	%%%%%%%%%%%%%%%%%%%%%
+
+	==> Programmitically Quaries an class 
+
+		Who are you?
+		What method you support?
+		What ctr?
+		What class you inherited?
+		...so on
+
+
+	When we create instance of any class an class is loaded
+ 		(not created)that is: Class
+
+	Ex:
+	When we create 10 object of Employee class, 10 different memory 
+	allocated for object but only one class is loaded that is a type of Class!
+
+
+	==> During runtime we can quaries about the internals of an java 		
+	class and invoke the discovered methods or access public member variable
+
+	==> A special class called "Class" represents classes of our 
+		programs
+	
+	==> It can load a class in the memory, then you can explore the 		
+		content of that class by using java.lang.reflect packages
+
+
+
+	Example:
+
+	
+	abstract class Person{
+		abstract public void raisedSalary();
+	}
+
+
+	class Employee extends Person{
+
+		public void raisedSalary() {
+			System.out.println("Raising salary......");
+		}
+	
+	}
+
+
+	public class DemoJavaReflection {
+
+	public static void main(String[] args) {
+		try{
+			Class c=Class.forName("com.ref.Employee");
+			
+			//Getting information about all declared methods
+			Method methods[]=c.getDeclaredMethods();
+			
+			for(Method m:methods)
+				System.out.println(m.toString());
+			
+			//get name of super class
+			
+			Class superClass=c.getSuperclass();
+			System.out.println(superClass.getName());
+			
+			//Get all method information about super class
+			
+			Method methodSuper[]=superClass.getDeclaredMethods();
+			for(Method m:methods)
+				System.out.println(m.toString());
+			
+			
+			
+			
+		}
+		catch(Exception e){
+			System.out.println("ex");
+		}
+	  }
+	}
+
+
+	DemoJavaReflection class loads the class Employee print information about all 	methods
+	and print inforation about super class too
+
+	The process of Quaries an object at run time about its content is called "Introspection"
+
+
+
+	Using reflection to call an method
+	___________________________________
+
+	Consider adding an method in Employee class:
+
+		public void changeAddess(String address){
+			System.out.println("Changed address:"+address);
+		}
+
+	Now how to call it using reflection?
+	________________________________
+
+				
+		//Calling an method at run time using reflection
+			
+		Class parameterType[]=new Class[]{String.class};
+			
+		Method myMethod=c.getMethod("changeAddess", parameterType);
+		
+		Object arguments[]=new Object[1];
+		arguments[0]="new delhi";
+
+		myMethod.invoke(c.newInstance(), arguments);
+
+
+
+
+
+	Example of Run time annotation processing
+	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+			
+		MyJDBCAnnotationProcessor class will load the class EmployeeDao, introspect its
+		Content and , find the annotation and their values, and process then accordingly
+
+
+		Change Retention policy as run time:
+			@Retention(RetentionPolicy.RUNTIME)	
+
+
+
+
+
+
+			try{
+			Class c=Class.forName("com.demo.EmployeeDao");
+			
+			Method methods[]=c.getMethods();
+			
+			for(Method m:methods){
+				if(m.isAnnotationPresent(com.demo.MyJDBCExecutor.class)){
+					MyJDBCExecutor ann=m.getAnnotation									(com.demo.MyJDBCExecutor.class);
+					
+					System.out.println(m.getName());
+					System.out.println(ann.value());
+					System.out.println(ann.transactionRequired());
+					System.out.println(ann.notifyUpdate());
+				}
+			}
+			
+			
+			}catch (Exception e) {
+				// TODO: handle exception
+			}
+
+
+
+
+
+
+http://www.javabeat.net/annotations-in-java-5-0/
+
+
+
+U---> A.java	-> A.clss---> 
+	
+Source	<---->	class   <--->     Runtime
+
+
+@Override
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

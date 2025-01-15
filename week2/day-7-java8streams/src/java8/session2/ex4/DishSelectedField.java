@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 
 public class DishSelectedField {
 	private String name;

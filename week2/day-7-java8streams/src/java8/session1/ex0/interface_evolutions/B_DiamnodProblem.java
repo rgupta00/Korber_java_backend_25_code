@@ -1,4 +1,4 @@
-package demo.java8.session1.ex0.interface_evolutions;
+package java8.session1.ex0.interface_evolutions;
 
 interface A {
 	default void foo() {

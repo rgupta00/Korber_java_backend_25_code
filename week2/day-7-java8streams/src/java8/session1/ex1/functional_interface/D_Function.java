@@ -1,4 +1,4 @@
-package demo.java8.session1.ex1.functional_interface;
+package java8.session1.ex1.functional_interface;
 //A-> B
 
 import java.util.function.BiFunction;

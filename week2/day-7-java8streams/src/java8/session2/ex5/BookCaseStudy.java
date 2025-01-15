@@ -1,4 +1,4 @@
-package demo.java8.session2.ex5;
+package java8.session2.ex5;
 
 import java.util.*;
 import java.util.function.BiConsumer;

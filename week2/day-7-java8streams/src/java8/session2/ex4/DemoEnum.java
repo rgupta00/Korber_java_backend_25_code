@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 //what is enum? named constant in c/++
 //in java enum is a special class
 

@@ -1,0 +1,11 @@
+discussion day 5 java collections
+--------------------------------
+introduction to collections
+basics of List
+Comparable , Comparator
+basics of set
+basics of Map
+advance questions
+generics
+generics classes
+MCQ

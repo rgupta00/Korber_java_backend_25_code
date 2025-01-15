@@ -1,4 +1,4 @@
-package demo.java8.session2.ex4;
+package java8.session2.ex4;
 
 import java.util.*;
 import java.util.stream.Collectors;

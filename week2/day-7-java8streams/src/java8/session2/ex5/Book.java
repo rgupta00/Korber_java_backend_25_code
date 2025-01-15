@@ -1,4 +1,5 @@
-package demo.java8.session2.ex5;
+package java8.session2.ex5;
+
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ class Book implements Comparable<Book>{
 		this.isbn = isbn;
 	}
 	public Book(String title, List<Author> authors, int pages, Subject subject,
-			int year, String isbn) {
+				int year, String isbn) {
 		super();
 		this.title = title;
 		this.authors = authors;
