@@ -1,10 +1,12 @@
 package com.java8.session2.ex4;
+
 //what is enum? named constant in c/++
 //in java enum is a special class
-
+//
 enum ShirtSize{
     S, M, L, XL, XXL;
 }
+//Enum is called named constant
 class Shirt{
     private String color;
     private double price;
@@ -28,11 +30,13 @@ class Shirt{
 }
 public class DemoEnum {
     public static void main(String[] args) {
-        /*
-        enum ShirtSize{
-    S, M, L, XL, XXL;
+        Shirt s=new Shirt("red",2000, ShirtSize.XL);
+        System.out.println(s);
+    }
 }
 
+
+/*
 enum ShirtSize{
    private static final S=new ShirtSize();
    private static final M=new ShirtSize();
@@ -41,9 +45,4 @@ enum ShirtSize{
    private static final XXL=new ShirtSize();
 
 }
-
-         */
-        Shirt s=new Shirt("red",2000, ShirtSize.M);
-        System.out.println(s);
-    }
-}
+ */

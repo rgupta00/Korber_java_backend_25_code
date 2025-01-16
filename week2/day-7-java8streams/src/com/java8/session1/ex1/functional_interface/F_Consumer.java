@@ -6,25 +6,27 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 public class F_Consumer {
 	public static void main(String[] args) {
 
-//    	//Consumer : which take string
-//    	Consumer<String> c= s-> System.out.println(s);
-//		
-//    	c.accept("java");
+		//Consumer take the data dont return anything!
 
-//		BiConsumer<String, Integer> biConsumer
-//		=(name, age)-> System.out.println(name+" : "+age);
-//    	
-//		biConsumer.accept("raj", 50);
+		Consumer<String>consumer=s-> System.out.println(s);
+		consumer.accept("hello");
+		BiConsumer<String, Integer> biConsumer=(s, i)-> System.out.println(s+" "+i);
 
-		List<String> list = new LinkedList<>();
-		list.add("foo");
-		list.add(" bar");
-		list.add(" jar");
+
+
+
+
+//		List<String> list = new LinkedList<>();
+//		list.add("foo");
+//		list.add(" bar");
+//		list.add(" jar");
 //    	list.stream().forEach(name-> System.out.println(name));
 		// list.forEach(System.out::print);
 

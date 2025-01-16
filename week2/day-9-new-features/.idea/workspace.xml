@@ -5,64 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70422188-5f7a-405f-8b4e-b7cad0e60646" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/A_Predicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/B_BiPredicate.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoLambdaExpession2.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex3/AppleTester.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/demo/java8/session2/ex6/DemoOptional.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session3/DemoOptional.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex0/interface_evolutions/B_DiamnodProblem.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/B_DiamnodProblem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex0/interface_evolutions/D_LambdaExp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/D_LambdaExp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/A_Predicate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/B_BiPredicate.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/D_Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/D_Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/E_BiFunction.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/E_BiFunction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/Employee.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/Employee.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/F_Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/F_Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex1/functional_interface/G_Supplier.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/G_Supplier.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex2/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex2/DemoLambdaExpession2.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex2/DemoMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex2/DemoOptCarAndInsu.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoOptCarAndInsu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session1/ex2/NeedOfOptional.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/NeedOfOptional.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex3/Apple.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex3/Apple.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex3/AppleApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex3/AppleApp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex3/AppleTester.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex3/Function_MethodRef.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex3/Function_MethodRef.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/DemoEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/DemoEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/Dish.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/Dish.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/DishSelectedField.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/DishSelectedField.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/DishTesterExample2Sol.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/DishTesterExample2Sol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/DishTesterExaple2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/DishTesterExaple2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex4/StreamsProcessingPerformance.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/StreamsProcessingPerformance.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex5/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/Author.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex5/Book.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/Book.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex5/BookCaseStudy.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex5/BookCaseStudySol.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudySol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/java8/session2/ex5/Subject.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/Subject.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_BasicOfInterfaceEvolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_BasicOfInterfaceEvolution.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/A_Predicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/A_Predicate.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/D_Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/D_Function.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/F_Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/F_Consumer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoLambdaExpession2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoLambdaExpession2.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java17/features/E_SealedClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/E_SealedClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session1/classical_threads/A_CreatingUsingThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session1/classical_threads/A_CreatingUsingThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session1/classical_threads/D_HandingExInThreads.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/problem_classical/D_HandingExInThreads.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session1/classical_threads/E_RetuingValuesFromRunMethod.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/problem_classical/E_RetuingValuesFromRunMethod.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session2/classical_threads/A_NeedOfSyn.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session2/classical_threads/A_NeedOfSyn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/A_PCUsingBQ.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/blocking_queue/A_PCUsingBQ.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/A_PandC.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/p_c/A_PandC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/C_ThreadSafeDS.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/ds_java5/C_ThreadSafeDS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/D_CHM.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/ds_java5/D_CHM.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/E_Semaphore.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/semaphore_ex/E_Semaphore.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/MyThread.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/ds_java5/MyThread.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/Test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool/A_ThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool/A_ThreadPool.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool/B_DemoCallable.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool2/B_DemoCallable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool/C_ScheduleThreadPool.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day6_javathreads_concurrency/src/com/threads/session3/juc_examples/threadpool/C_ScheduleThreadPool.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/features/D_Records.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/D_Records.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/features/HelpfulNPEMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/HelpfulNPEMessages.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
@@ -80,6 +44,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.A_Java11StringNewMethods.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",

@@ -4,8 +4,6 @@ import java.util.Objects;
 
 //DTO: lombok small framewrok to autogen getter...
 
-
-
 //class Person{
 //    private String name;
 //    private String email;
@@ -57,6 +55,7 @@ import java.util.Objects;
 //1. immutable without boilerplate code
 //2. aka final class  can not be absttract
 //3. can imp new interface
+
 interface Employable{
     public double getNetSalary();
 }

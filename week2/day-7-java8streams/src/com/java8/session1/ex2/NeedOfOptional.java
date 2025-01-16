@@ -1,32 +1,39 @@
 package com.java8.session1.ex2;
 
 import java.util.Optional;
+import java.util.function.Supplier;
 
 class EmpNotFoundEx extends RuntimeException{
     public EmpNotFoundEx(String message) {
         super(message);
     }
+    public EmpNotFoundEx(){
+    }
 }
 
 public class NeedOfOptional {
-	
-	//Raj
     public static void main(String[] args) {
-    	String name=getById(1).map(e-> e.getName()).orElse("name is not found");
-    	System.out.println(name);
+//       Optional<String> name=getName(444);
+//
+//        System.out.println(name.orElse(" not found"));
+//        Emp emp=getById(333).orElse(new Emp(1,"raj",8000));
+//        Emp emp=getById(333).orElseThrow(()-> new EmpNotFoundEx("emp is not found"));
+        Emp emp=getById(333).orElseThrow(EmpNotFoundEx::new);
+        System.out.println(emp);
+
     	
     }
-
-    
-    
-    
-    
-    
+    //amit
+//    public static Optional<String> getName(int id){
+//        //...
+//      //  return Optional.ofNullable(null);
+//        //return Optional.empty();
+//        return Optional.ofNullable(null);
+//    }
     
    //ravi
     public static Optional<Emp> getById(int id) {
-    	//check for db and find the id otherwise he return null
-    	return Optional.ofNullable(new Emp(1, "ravi", 20000));
+        return Optional.ofNullable(null);
     }
 }
 

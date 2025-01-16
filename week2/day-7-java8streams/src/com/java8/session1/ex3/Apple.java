@@ -1,8 +1,20 @@
 package com.java8.session1.ex3;
 
+class AppleLogic{
+	public static   boolean isHeavy(Apple apple){
+		return apple.getWeight()>=400;
+	}
+}
 public class Apple {
 	private String color;
 	private int weight;
+	//this->Apple obj-> boolean
+	public boolean isHeavy(){
+		return weight>=400;
+	}
+	public boolean isGreen(){
+		return color.equals("green");
+	}
 
 
 	public String getColor() {

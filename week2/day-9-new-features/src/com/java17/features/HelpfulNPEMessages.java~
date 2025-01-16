@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 /**
  * A container for methods showing common cases where NPE happens.
+ * 
+ * @author <a href="mailto:tech.meshter@gmail.com">Chris T</a>
  *
  */
 public class HelpfulNPEMessages {

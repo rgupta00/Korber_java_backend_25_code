@@ -1,5 +1,6 @@
 package com.java8.session2.ex4;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -13,28 +14,30 @@ public class DishTesterExaple2 {
 	public static void main(String[] args) {
 
 		List<Dish> allDishes = getAllDishes();
-//		allDishes.forEach(dish-> System.out.println(dish));
+		allDishes.forEach(System.out::println);
+
+
+//		// Example: return the names of dishes that are low in calories (<400) sorted by number of calories
+//		List<String> namesOnly=allDishes.stream()
+//				.filter(d->d.getCalories()<=400)
+//				.sorted(( d1,  d2)-> Integer.compare(d1.getCalories(), d2.getCalories()))
+//				.map(d-> d.getName())
+//				.collect(Collectors.toList());
+//
+//		namesOnly.forEach(System.out::println);
+
 		// Example: return the names of dishes that are low in calories (<400) sorted by number of calories
-		// Getting all veg dishes
-//		allDishes.stream()
-//						.filter(dish-> dish.getCalories()<400)
-//						.map(dish->dish.getName())
-//						.forEach(name-> System.out.println(name));
+		List<String> namesOnly=allDishes.stream()
+				.filter(d->d.getCalories()<=400)
+				.sorted(Comparator.comparing(Dish::getCalories).reversed())
+				.map(Dish::getName)
+				.toList();
 
-
-//		List<String> names=  allDishes.stream()
-//				.filter(dish-> dish.getCalories()<400)
-//				.map(dish->dish.getName())
-//						.collect(toList());
+		namesOnly.forEach(System.out::println);
 
 		// Get list of All Dishes only containing name and calValue
 
 		//Dish->DishSelectedFiled
-//		Function<Dish, DishSelectedField> mapper=
-//				dish-> new DishSelectedField(dish.getName(), dish.getCalories());
-//
-//		List<DishSelectedField> list2=allDishes.stream().map(mapper)
-//				.collect(toList());
 
 
 		// create a List by names selecting the first three dishes that have more than 300 calories
@@ -190,15 +193,16 @@ public class DishTesterExaple2 {
 	
 
 	private static List<Dish> getAllDishes() {
-		List<Dish> disheds = Arrays.asList(new Dish("pork", false, 800,
-				Dish.Type.MEAT), new Dish("beef", false, 700, Dish.Type.MEAT),
-				new Dish("chicken", false, 400, Dish.Type.MEAT), new Dish(
-						"french fries", true, 530, Dish.Type.OTHER), new Dish(
-						"rice", true, 350, Dish.Type.OTHER), new Dish(
-						"season fruit", true, 120, Dish.Type.OTHER), new Dish(
-						"pizza", true, 550, Dish.Type.OTHER), new Dish(
-						"prawns", false, 300, Dish.Type.FISH), new Dish(
-						"salmon", false, 450, Dish.Type.FISH));
+		List<Dish> disheds = Arrays.asList(
+				new Dish("pork", false, 800, Dish.Type.MEAT),
+				new Dish("beef", false, 700, Dish.Type.MEAT),
+				new Dish("chicken", false, 400, Dish.Type.MEAT),
+				new Dish("french fries", true, 530, Dish.Type.OTHER),
+				new Dish("rice", true, 350, Dish.Type.OTHER),
+				new Dish("season fruit", true, 120, Dish.Type.OTHER),
+				new Dish("pizza", true, 550, Dish.Type.OTHER),
+				new Dish("prawns", false, 300, Dish.Type.FISH),
+				new Dish("salmon", false, 450, Dish.Type.FISH));
 		return disheds;
 	}
 

@@ -1,0 +1,11 @@
+
+Java 11 Features
+-------------------------
+String class new Methods
+Files class new Methods
+var in Lambda Expression
+Nest-Based Access Control
+HTTP Client
+Execute Java File without javac
+https://www.studytonight.com/java/
+https://www.studytonight.com/java-11/

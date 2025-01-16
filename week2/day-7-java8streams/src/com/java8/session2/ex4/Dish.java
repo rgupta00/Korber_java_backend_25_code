@@ -3,10 +3,15 @@ enum CaloricLevel {
 	DIET, NORMAL, FAT;
 }
 
-public class Dish {
+public class Dish implements Comparable<Dish>{
 	private String name;
 	private boolean vegetarian;
 	private int calories;
+
+	@Override
+	public int compareTo(Dish o) {
+		return this.name.compareTo(o.getName());
+	}
 
 	public enum Type {
 		MEAT, FISH, OTHER

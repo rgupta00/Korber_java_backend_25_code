@@ -1,7 +1,10 @@
 package com.java8.session1.ex1.functional_interface;
 //A-> B
 
+import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Predicate;
+
 class EmpData{
     private int id;
     private double salary;
@@ -87,12 +90,22 @@ public class D_Function {
     	
     	//Take one thing convert into other thing
     	//String -> int
+        Function<String,Integer> nameLength= name-> name.length();
+        System.out.println(nameLength.apply("rajat"));
+
+
 
         //Employee -> Salary
-    	
+    	Function<Employee, Double> function=e-> e.getSalary();
+
 
     	//Function emp object to EmpData object
-    	
+        Function<Employee, EmpData> function1= e -> new EmpData(e.getId(), e.getSalary());
+
+        //BiFunction
+       //S1=Java S2=Training
+        BiFunction<String, String, String> combineName=(s1, s2)-> s1.concat(s2);
+        System.out.println(combineName.apply("rajeev", " gupta"));
 
     	
     	
