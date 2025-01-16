@@ -104,20 +104,21 @@ public class BookCaseStudySol {
 	}
 
 	private static List<Book> loadAllBooks() {
-		List<Book> books = new ArrayList<Book>();
-		List<Author> authors1 = Arrays.asList(new Author("raj", "gupta", "in"),
-				new Author("ekta", "gupta", "in"));
-
-		List<Author> authors2 = Arrays.asList(new Author("raj", "gupta", "in"));
-
-		List<Author> authors3 = Arrays.asList(new Author("foo", "fee", "us"),
-				new Author("bar", "bee", "us"));
-
-		books.add(new Book("java", authors1, 400, Subject.JAVA, 2000, "1213"));
-		books.add(new Book("python", authors2, 479, Subject.JAVA, 2007, "1218"));
-		books.add(new Book("Mgt", authors3, 600, Subject.DOT_NET, 2000, "1293"));
-
-		return books;
+//		List<Book> books = new ArrayList<Book>();
+//		List<Author> authors1 = Arrays.asList(new Author("raj", "gupta", "in"),
+//				new Author("ekta", "gupta", "in"));
+//
+//		List<Author> authors2 = Arrays.asList(new Author("raj", "gupta", "in"));
+//
+//		List<Author> authors3 = Arrays.asList(new Author("foo", "fee", "us"),
+//				new Author("bar", "bee", "us"));
+//
+//		books.add(new Book("java", authors1, 400, Subject.JAVA, 2000, "1213"));
+//		books.add(new Book("python", authors2, 479, Subject.JAVA, 2007, "1218"));
+//		books.add(new Book("Mgt", authors3, 600, Subject.DOT_NET, 2000, "1293"));
+//
+//		return books;
+		return null;
 	}
 
 }

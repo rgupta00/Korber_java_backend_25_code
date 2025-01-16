@@ -5,16 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70422188-5f7a-405f-8b4e-b7cad0e60646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_BasicOfInterfaceEvolution.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_BasicOfInterfaceEvolution.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/A_Java8InterfaceImprovement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/interface_evolutions/C_DemoFuncationalInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/A_Predicate.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/A_Predicate.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/D_Function.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/D_Function.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/F_Consumer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex1/functional_interface/F_Consumer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoLambdaExpession2.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoLambdaExpession2.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/why_java8/WhyJava8.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex0/why_java8/WhyJava8.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session1/ex2/DemoMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/StreamsProcessingPerformance.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex4/StreamsProcessingPerformance.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/Author.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/Author.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudy.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudy.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudySol.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex5/BookCaseStudySol.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java17/features/D_Records.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/D_Records.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java17/features/HelpfulNPEMessages.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/HelpfulNPEMessages.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/features/A_instanceOfOpImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/A_instanceOfOpImprovement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/features/E_SealedClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/features/E_SealedClasses.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,7 +50,7 @@
     "com.codeium.enabled": "true",
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Korber_java_backend_25_code/week2/day-9-new-features/src/com/java9/features",
+    "last_opened_file_path": "C:/Korber_java_backend_25_code/week2/day-9-new-features",
     "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
 }]]></component>

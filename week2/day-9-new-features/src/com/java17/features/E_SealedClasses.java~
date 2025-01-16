@@ -2,15 +2,15 @@ package com.java17.features;
 
 //https://rollbar.com/blog/what-are-sealed-classes-in-java/
 
-sealed class  Animal permits Dog, Cat{
+sealed class  Animal {
     void sound(){
         System.out.println();
     }
 }
-non-sealed class Dog extends Animal{
+class Dog{
 
 }
-final class Cat extends Animal{
+class Cat{
 
 }
 class Human{

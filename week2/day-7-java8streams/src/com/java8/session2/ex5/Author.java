@@ -35,22 +35,27 @@ class Author {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-	public Author(String name, String lastname, String country) {
-		super();
+
+	public Author(String name, String lastname, String country, List<String> countryVisitors) {
 		this.name = name;
 		this.lastname = lastname;
 		this.country = country;
+		this.countryVisitors = countryVisitors;
 	}
+
 	public Author() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
 	@Override
 	public String toString() {
-		return "Author [name=" + name + ", lastname=" + lastname + ", country="
-				+ country + "]";
+		final StringBuilder sb = new StringBuilder("Author{");
+		sb.append("name='").append(name).append('\'');
+		sb.append(", lastname='").append(lastname).append('\'');
+		sb.append(", country='").append(country).append('\'');
+		sb.append(", countryVisitors=").append(countryVisitors);
+		sb.append('}');
+		return sb.toString();
 	}
-	
-	
-	
 }

@@ -1,5 +1,6 @@
 package com.java8.session1.ex2;
 import java.util.*;
+import java.util.function.Consumer;
 
 class EmpSalarySorter implements Comparator<Emp>{
     @Override
@@ -74,6 +75,19 @@ public class DemoMap {
         emps.add(new Emp(14,"ekta",6000));
         emps.add(new Emp(162,"sumit",7000));
 
+//        Map<String,Integer> studentRec=new HashMap<>();
+//        studentRec.put("raj",90);
+//        studentRec.put("ekta",80);
+//        studentRec.put("gunika",79);
+
+//        Set<Map.Entry<String, Integer>> entrySet = studentRec.entrySet();
+//        for(Map.Entry<String, Integer> entry: entrySet){
+//            System.out.println(entry.getKey()+": "+ entry.getValue());
+//        }
+
+//        studentRec.entrySet().stream()
+//                .forEach( entry -> System.out.println(entry.getKey()+" : "+ entry.getValue()));
+
 //        emps.stream().sequential()
 //                .map(e->e.getName())
 //                .sorted()
@@ -135,7 +149,8 @@ public class DemoMap {
         map.put(11,"kapil");
        
        // map.forEach(( id,  name) ->	System.out.println(id +": "+ name));
-        //map.entrySet().forEach(e ->System.out.println(e.getKey()+" :  "+ e.getValue()));
+        map.entrySet()
+                .forEach(e ->System.out.println(e.getKey()+" :  "+ e.getValue()));
        
 
 //        Set<Map.Entry<Integer, String>> entrySet=   map.entrySet();
@@ -158,23 +173,23 @@ public class DemoMap {
 
         //1
       //  map.forEach((k,v)-> System.out.println(k+": "+ v));
-
+//
 //        map.entrySet()
 //                .stream()
 //                .sorted(Map.Entry.comparingByValue())//comparingByValue vs comparingByKey
 //                .forEach( e-> System.out.println(e.getKey()+": "+ e.getValue()));
 
-//        Map<Emp, Double> map2=new HashMap<>();
-//        map2.put(new Emp(1,"raj",10000),10000.00);
-//        map2.put(new Emp(14,"ekta",6000),6000.00);
-//        map2.put(new Emp(162,"sumit",7000),7000.00);
+        Map<Emp, Double> map2=new HashMap<>();
+        map2.put(new Emp(1,"raj",10000),10000.00);
+        map2.put(new Emp(14,"ekta",6000),6000.00);
+        map2.put(new Emp(162,"sumit",7000),7000.00);
 
 
 
-//        map2.entrySet()
-//                .stream()
-//                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//comparingByValue vs comparingByKey
-//                .forEach( e-> System.out.println(e.getKey()+": "+e.getValue()));
+        map2.entrySet()
+                .stream()
+                .sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))//comparingByValue vs comparingByKey
+                .forEach( e-> System.out.println(e.getKey()+": "+e.getValue()));
 
         //?
         Comparator<Emp> comparator=( o1,  o2) ->

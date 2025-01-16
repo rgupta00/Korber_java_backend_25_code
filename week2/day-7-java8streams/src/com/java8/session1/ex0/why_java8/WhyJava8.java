@@ -14,8 +14,10 @@ class Prime {
 public class WhyJava8 {
     public static void main(String[] args) {
         //1 to 1_000_000
+        System.setProperty("java.util.concurrent.ForkJoinPool.common.parallelism", "1000");
+        //System.out.println(Runtime.getRuntime().availableProcessors());
         long start=System.currentTimeMillis();
-        long count= LongStream.rangeClosed(1,10000)
+        long count= LongStream.rangeClosed(1,100_00)
                 .parallel()
                 .filter(Prime::isPrime)
                 .count();

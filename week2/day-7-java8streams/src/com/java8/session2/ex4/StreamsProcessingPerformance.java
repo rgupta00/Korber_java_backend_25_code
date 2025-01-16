@@ -2,6 +2,7 @@ package com.java8.session2.ex4;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class StreamsProcessingPerformance {
 	
@@ -11,6 +12,7 @@ public class StreamsProcessingPerformance {
 		//a stream can not be consume twice
 //		Stream<Dish> stream1=allDishes.stream();
 //		stream1.forEach(d-> System.out.println(d));
+//
 //		stream1.forEach(d-> System.out.println(d));
 		
 		
@@ -31,8 +33,8 @@ public class StreamsProcessingPerformance {
 					System.out.println("map operation : "+d.getName());
 					return d.getName();
 				})
-				.limit(3)
-				.collect(Collectors.toList());
+				.limit(2)
+						.toList();
 		
 		//names.forEach(name-> System.out.println(name));
 		System.out.println("------------");
