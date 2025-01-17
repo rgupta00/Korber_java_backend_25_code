@@ -5,30 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70422188-5f7a-405f-8b4e-b7cad0e60646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex6/ParellelStreams.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-7-java8streams/src/com/java8/session2/ex6/ParellelStreams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/day-9-new-features.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java11/features/tut.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/A_instanceOfOpImprovement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/B_TextBlocks.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/C_SwitchEnhancement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/D_Records.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/E_SealedClasses.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/HelpfulNPEMessages.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java17/features/Java 10-17 discussion.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/A_PrivateMethodInsideInterface.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/B_TryWIthResouceImprovement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/C_DiamondOp.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/D_SafeVarargsDemo.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/E_FactoryMethodsInCollectionAPI.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/F_SteamEnhancement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/java9/features/java 9 enhancements.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../day-9-new-features/src/com/pojo/Book.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java11_17/features/F_SealedClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java11_17/features/F_SealedClasses.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/B_TryWIthResouceImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/B_TryWIthResouceImprovement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/C_DiamondOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/C_DiamondOp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/D_SafeVarargsDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/D_SafeVarargsDemo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/E_FactoryMethodsInCollectionAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/E_FactoryMethodsInCollectionAPI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/F_SteamEnhancement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/F_SteamEnhancement.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/G_HTTP2Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/G_HTTP2Client.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/I_ProcessAPIUpdates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/I_ProcessAPIUpdates.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java9/features/J_StreamAPIEnhancements.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +47,11 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.A_Java11StringNewMethods.executor": "Run",
+    "Application.B_TryWIthResouceImprovement.executor": "Run",
+    "Application.D_SafeVarargsDemo.executor": "Run",
+    "Application.E_FactoryMethodsInCollectionAPI.executor": "Run",
+    "Application.F_SteamEnhancement.executor": "Run",
+    "Application.G_HTTP2Client.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -66,6 +59,9 @@
     "git-widget-placeholder": "master",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Korber_java_backend_25_code/week2/day-9-17-new-features",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
   }
 }]]></component>
@@ -78,6 +74,82 @@
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Korber_java_backend_25_code\week2\day-9-new-features\src\com\java17\features" />
     </key>
+  </component>
+  <component name="RunManager" selected="Application.G_HTTP2Client">
+    <configuration name="B_TryWIthResouceImprovement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java9.features.B_TryWIthResouceImprovement" />
+      <module name="day-9-17-new-features" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="D_SafeVarargsDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java9.features.D_SafeVarargsDemo" />
+      <module name="day-9-17-new-features" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="E_FactoryMethodsInCollectionAPI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java9.features.E_FactoryMethodsInCollectionAPI" />
+      <module name="day-9-17-new-features" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="F_SteamEnhancement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java9.features.F_SteamEnhancement" />
+      <module name="day-9-17-new-features" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="G_HTTP2Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java9.features.G_HTTP2Client" />
+      <module name="day-9-17-new-features" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.G_HTTP2Client" />
+        <item itemvalue="Application.F_SteamEnhancement" />
+        <item itemvalue="Application.E_FactoryMethodsInCollectionAPI" />
+        <item itemvalue="Application.D_SafeVarargsDemo" />
+        <item itemvalue="Application.B_TryWIthResouceImprovement" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

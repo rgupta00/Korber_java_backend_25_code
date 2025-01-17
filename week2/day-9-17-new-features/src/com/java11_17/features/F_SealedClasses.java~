@@ -16,7 +16,7 @@ final class Cat extends Animal{
 class Human{
 
 }
-public class F_SealedClasses {
+public class E_SealedClasses {
     public static void main(String[] args) {
 
     }

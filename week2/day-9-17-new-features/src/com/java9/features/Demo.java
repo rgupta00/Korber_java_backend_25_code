@@ -1,7 +1,7 @@
 package com.java9.features;
 
-public class J_StreamAPIEnhancements {
+public class Demo {
     public static void main(String[] args) {
-
+        System.out.println("hello");
     }
 }

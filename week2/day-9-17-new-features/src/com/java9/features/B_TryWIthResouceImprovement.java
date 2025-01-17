@@ -30,5 +30,17 @@ class Work implements AutoCloseable{
 public class B_TryWIthResouceImprovement {
     public static void main(String[] args) {
 
+        try(DoSideWork doSideWork=new DoSideWork()){
+            doSideWork.doSideWork();
+        }catch (Exception e){
+        }
+
+
+//        Scanner scanner=new Scanner(System.in);
+//        try(scanner){
+//            //
+//        }catch (Exception e){
+//
+//        }
     }
 }

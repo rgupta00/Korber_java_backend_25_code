@@ -1,25 +1,25 @@
 package com.java9.features;
 import  java.util.*;
-class Foo{
-    @SafeVarargs
-    public Foo(int ...list){
-
-    }
-    @SafeVarargs
-   static public void foo1(int ...list){
-
-    }
-
-    @SafeVarargs        //why only final method?
-    final public void foo2(int ...list){
-
-    }
-    @SafeVarargs        //why only final method?
-     private void foo3(int ...list){
-
-    }
-
-}
+//class Foo{
+//    @SafeVarargs
+//    public Foo(int ...list){
+//
+//    }
+//    @SafeVarargs
+//   static public void foo1(int ...list){
+//
+//    }
+//
+//    @SafeVarargs        //why only final method?
+//    final public void foo2(int ...list){
+//
+//    }
+//    @SafeVarargs        //why only final method?
+//     private void foo3(int ...list){
+//
+//    }
+//
+//}
 public class D_SafeVarargsDemo {
     public static void main(String[] args) {
         List<String> l1=Arrays.asList("A","B");
@@ -27,7 +27,7 @@ public class D_SafeVarargsDemo {
         foo(l1, l2);
 
     }
-    @SafeVarargs
+    @SafeVarargs //java 7--> java 9
     private static void foo(List<String> ...list) {
         for(List<String> data: list){
             System.out.println(data);

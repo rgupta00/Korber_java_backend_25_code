@@ -27,14 +27,14 @@ public class D_SafeVarargsDemo {
         foo(l1, l2);
 
     }
-
+    //@SafeVarargs //java 7--> java 9
     private static void foo(List<String> ...list) {
-//        for(List<String> data: list){
-//            System.out.println(data);
-//        }
-        Object[] oList=list;
-        oList[0]=Arrays.asList(12,22);//heap polluation
-        String name=list[0].get(0);
-        System.out.println(name);
+        for(List<String> data: list){
+            System.out.println(data);
+        }
+//        Object[] oList=list;
+//        oList[0]=Arrays.asList(12,22);//heap polluation
+//        String name=list[0].get(0);
+//        System.out.println(name);
     }
 }

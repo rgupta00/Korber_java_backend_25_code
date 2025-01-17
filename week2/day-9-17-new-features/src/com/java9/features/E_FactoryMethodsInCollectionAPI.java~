@@ -27,7 +27,7 @@ public class E_FactoryMethodsInCollectionAPI {
         Map<String, Integer> map=
                 Map.of("amit",90,"ekta",88,"raj",77);
         map.forEach((name, marks)-> System.out.println(name+" : "+ marks));
-
+        
 
 
         //how to create unmodificatiale map in java 8
@@ -39,14 +39,11 @@ public class E_FactoryMethodsInCollectionAPI {
 
 //        Map<String, Integer> map=Map.of("amit",90,"ekta",88,"raj",77);
 //
-        Map.Entry<String, Integer> e1=Map.entry("amit",90);
-        Map.Entry<String, Integer> e2=Map.entry("sumit",97);
-        Map.Entry<String, Integer> e3=Map.entry("kapil",70);
+//        Map.Entry<String, Integer> e1=Map.entry("amit",90);
+//        Map.Entry<String, Integer> e2=Map.entry("sumit",97);
+//        Map.Entry<String, Integer> e3=Map.entry("kapil",70);
 
-        Map<String, Integer> map2=Map.ofEntries(e1, e2,e3);
-
-        Map<String, Integer> map3=
-                Map.ofEntries(Map.entry("raj",90), Map.entry("sumit",97));
+       // Map<String, Integer> map2=Map.ofEntries(e1, e2,e3);
 
       //  Map<String, Integer> map2=Map.ofEntries(Map.entry("amit",90), Map.entry("sumit",97),Map.entry("kapil",70));
 
