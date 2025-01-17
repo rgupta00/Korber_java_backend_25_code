@@ -5,18 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="70422188-5f7a-405f-8b4e-b7cad0e60646" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java11_17/features/F_SealedClasses.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java11_17/features/F_SealedClasses.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/A_PrivateMethodInsideInterface.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/B_TryWIthResouceImprovement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/B_TryWIthResouceImprovement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/C_DiamondOp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/C_DiamondOp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/D_SafeVarargsDemo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/D_SafeVarargsDemo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/E_FactoryMethodsInCollectionAPI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/E_FactoryMethodsInCollectionAPI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/F_SteamEnhancement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/F_SteamEnhancement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/G_HTTP2Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/G_HTTP2Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/I_ProcessAPIUpdates.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java9/features/I_ProcessAPIUpdates.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/com/java9/features/J_StreamAPIEnhancements.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/entities/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/entities/Invoice.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/service/InvoiceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/invoice/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,9 +42,14 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.A_Java11StringNewMethods.executor": "Run",
+    "Application.B_SwitchExpressions.executor": "Run",
     "Application.B_TryWIthResouceImprovement.executor": "Run",
     "Application.D_SafeVarargsDemo.executor": "Run",
+    "Application.D_Text_Block.executor": "Run",
     "Application.E_FactoryMethodsInCollectionAPI.executor": "Run",
+    "Application.E_Records (1).executor": "Run",
+    "Application.E_Records (2).executor": "Run",
+    "Application.E_Records.executor": "Run",
     "Application.F_SteamEnhancement.executor": "Run",
     "Application.G_HTTP2Client.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
@@ -75,13 +75,13 @@
       <recent name="C:\Korber_java_backend_25_code\week2\day-9-new-features\src\com\java17\features" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.G_HTTP2Client">
-    <configuration name="B_TryWIthResouceImprovement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.java9.features.B_TryWIthResouceImprovement" />
+  <component name="RunManager" selected="Application.E_Records (2)">
+    <configuration name="B_SwitchExpressions" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java17.B_SwitchExpressions" />
       <module name="day-9-17-new-features" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="PATTERN" value="com.java17.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -89,12 +89,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="D_SafeVarargsDemo" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.java9.features.D_SafeVarargsDemo" />
+    <configuration name="D_Text_Block" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java17.D_Text_Block" />
       <module name="day-9-17-new-features" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="PATTERN" value="com.java17.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -102,12 +102,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="E_FactoryMethodsInCollectionAPI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.java9.features.E_FactoryMethodsInCollectionAPI" />
+    <configuration name="E_Records (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java17.E_Records" />
       <module name="day-9-17-new-features" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="PATTERN" value="com.java17.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -115,12 +115,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="F_SteamEnhancement" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.java9.features.F_SteamEnhancement" />
+    <configuration name="E_Records (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java17.E_Records" />
       <module name="day-9-17-new-features" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="PATTERN" value="com.java17.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -128,12 +128,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="G_HTTP2Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.java9.features.G_HTTP2Client" />
+    <configuration name="E_Records" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.java17.E_Records" />
       <module name="day-9-17-new-features" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.java9.features.*" />
+          <option name="PATTERN" value="com.java17.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -143,11 +143,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.G_HTTP2Client" />
-        <item itemvalue="Application.F_SteamEnhancement" />
-        <item itemvalue="Application.E_FactoryMethodsInCollectionAPI" />
-        <item itemvalue="Application.D_SafeVarargsDemo" />
-        <item itemvalue="Application.B_TryWIthResouceImprovement" />
+        <item itemvalue="Application.E_Records (2)" />
+        <item itemvalue="Application.E_Records (1)" />
+        <item itemvalue="Application.E_Records" />
+        <item itemvalue="Application.D_Text_Block" />
+        <item itemvalue="Application.B_SwitchExpressions" />
       </list>
     </recent_temporary>
   </component>

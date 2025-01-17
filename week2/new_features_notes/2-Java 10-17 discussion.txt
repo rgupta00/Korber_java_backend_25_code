@@ -1,3 +1,12 @@
+
+
+Java 11 new features
+-------------------
+
+https://www.studytonight.com/java-11/java-11-string-new-methods
+
+
+
 Java 10-17:
 -------------
 * Time-Based Release Versioning 

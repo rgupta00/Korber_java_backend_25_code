@@ -2,9 +2,9 @@ package invoice.entities;
 
 public class Invoice {
     private int id;
-    private String price;
+    private double price;
 
-    public Invoice(int id, String price) {
+    public Invoice(int id, double price) {
         this.id = id;
         this.price = price;
     }
@@ -17,11 +17,11 @@ public class Invoice {
         this.id = id;
     }
 
-    public String getPrice() {
+    public double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
@@ -29,7 +29,7 @@ public class Invoice {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Invoice{");
         sb.append("id=").append(id);
-        sb.append(", price='").append(price).append('\'');
+        sb.append(", price=").append(price);
         sb.append('}');
         return sb.toString();
     }
