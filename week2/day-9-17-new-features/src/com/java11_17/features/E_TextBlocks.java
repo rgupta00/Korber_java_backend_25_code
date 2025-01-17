@@ -1,6 +1,6 @@
-package com.java17.features;
+package com.java11_17.features;
 
-public class B_TextBlocks {
+public class E_TextBlocks {
     public static void main(String[] args) {
         // ES6 `` ==> """" """"
         String sql = """

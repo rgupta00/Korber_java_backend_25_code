@@ -1,6 +1,4 @@
-package com.java17.features;
-
-import java.util.Objects;
+package com.java11_17.features;
 
 //DTO: lombok small framewrok to autogen getter...
 
@@ -59,36 +57,13 @@ import java.util.Objects;
 interface Employable{
     public double getNetSalary();
 }
-class Foo{
 
-}
- record Person(String name,String email, double salary) implements Employable{
-    //compack ctr
-    public Person{
-        if (name==null || email==null){
-            throw new IllegalStateException();
-        }
-    }
-     public Person(String name,String email){
-         this(name, email, 0.0);
-     }
 
-     @Override
-     public double getNetSalary() {
-         return salary*0.7;
-     }
- }
 
-public class D_Records {
+public class E_Records {
     public static void main(String[] args) {
 
-        var p=new Person("raj","raj@gmail.com",6465456);
-        System.out.println(p);
-        var p2=new Person("raj","raj@gmail.com",6465456);
-        if(p.equals(p2)){
-            System.out.println("same");
-        }else
-            System.out.println("not same");
+
     }
 }
 

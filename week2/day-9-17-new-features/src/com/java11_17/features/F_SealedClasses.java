@@ -1,4 +1,4 @@
-package com.java17.features;
+package com.java11_17.features;
 
 //https://rollbar.com/blog/what-are-sealed-classes-in-java/
 

@@ -1,0 +1,695 @@
+Java 9 Discussion
+=================
+						3.5 year
+	=> java 8 was introduced in March 2014 ======>  Java 9 Sept 2017
+	=> key motivation of Java 8: declerative data processing
+	=> key motivation of java 9: modularization of jdk
+
+List of improvement in java 9:
+-------------------------------
+ 	* Private Methods in Interfaces
+	* Try with Resources Enahancements
+	* Diamond <> Operator Enhancements
+	* SafeVarargs Annotation Enhancements
+	* Factory Methods for creating unmodifiable Collections
+	* Introduction to the JShell
+	* JPMS ( Java plateform module system)
+	* HTTP2/Client
+	* Process API Updates (JEP-102)
+	* Stream API Enhancements
+	* G1GC Garbage first garbage collector
+
+
+ Private Methods in Interfaces
+=============================
+	=> Since java 8 we can have default and static method inside interface
+	=> interface evoluation
+	=> If several default methods having same common functionality then there may be a
+		chance of duplicate code(Redundant Code)
+
+	=> If several static methods having some common functionality,
+	 we can seperate that common functionality into a private static method and we 
+		can call that private static method from public static
+	methods where ever it is required
+
+	=> JDK 7 vs JDK 8 vs JDK9
+
+Need of private method inside interface:
+-----------------------------------------
+	
+	interface Java8DBLogging {
+	
+    default void logInfo(String message) {
+        System.out.println("Step1: Connect to DataBase");
+        System.out.println("Setp2: Log Info Message");
+        System.out.println("Setp3: Close the DataBase connection");
+    }
+
+    default void logWarn(String message) {
+            System.out.println("Step1: Connect to DataBase");
+            System.out.println("Setp2: Log Info Message");
+            System.out.println("Setp3: Close the DataBase connection");
+       
+    }
+
+    default void logError(String message) {
+            System.out.println("Step1: Connect to DataBase");
+            System.out.println("Setp2: Log Info Message");
+            System.out.println("Setp3: Close the DataBase connection");
+    }
+}
+
+	With private method inside interface:
+	-----------------------------------
+	interface Java8DBLogging {
+    default void logInfo(String message) {
+        log("log message","info");
+    }
+
+    default void logWarn(String message) {
+        log("log message","warn");
+    }
+
+    default void logError(String message) {
+          log("log message","error");
+    }
+    private void log(String message, String logLevel){
+        System.out.println("Step1: Connect to DataBase");
+        System.out.println("Setp2: Log "+ logLevel +" message "+ message);
+        System.out.println("Setp3: Close the DataBase connection");
+    }
+}
+
+Try with Resources Enahancements
+=================================
+	=> Try with Resources is there in java since java 1.7
+
+	=> The resource reference variables which are created outside of
+	 try block cannot be used direclty in try with resources in java 1.7
+
+	=> Try with Resources Enahancements in java 9 is that now
+
+	Ex:
+	BufferedReader br=new BufferedReader(new FileReader("abc.txt"))
+	try(br){
+		// It is valid in JDK 9 but in valid until JDK 1.8V
+	} 
+
+
+
+
+Diamond Operator Enhancements
+==============================
+
+
+	=> Java 7 Diamond Operator '<>' was introduced in Java 7 under project Coin.
+
+	=> The main objective of Diamond Operator is to instantiate
+		 generic classes very easily.
+
+	Java 6:
+	=======
+		ArrayList<String> l = new ArrayList<String>();
+	Java 7:
+	=======
+		ArrayList<String> l = new ArrayList<>();
+
+	=> But until Java 8 version we cannot apply diamond operator 
+		for Anonymous Generic classes. But in Java 9, we can use
+
+	Java 9:
+	======	
+	ArrayList<String> l = new ArrayList<>(){
+
+			};
+	-> this syntex is invalid in java 8
+
+
+
+SafeVarargs Annotation Enhancements:
+=================================
+
+	=> Var arg introduce in java 5
+	    public static void m1(int... x){
+	     }
+
+	=> If we use var-arg methods with Generic Type then there 
+		may be a chance of Heap Pollution.
+
+	=> At runtime if one type variable trying to point to another type value,
+	 then there may be a chance of ClasssCastException. 
+
+	This problem is called Heap Pollution.
+
+	=> In our code, if there is any chance of heap pollution then compiler will generate warnings.
+
+	=> Java 9 introduce @SafeVarargs annotation
+	
+		@SafeVarargs
+		public static void m1(List<String>... l)
+		{
+		for(List<String> l1: l)
+		{
+
+		System.out.println(l1);
+
+		}
+		}
+
+Ex:
+
+
+public class Test {
+	public static void main(String[] args) {
+		List<String> l1 = Arrays.asList("A", "B");
+		List<String> l2 = Arrays.asList("C", "D");
+		m1(l1, l2);
+	}
+
+	public static void m1(List<String>... l)// argument will become List<String>[]
+	{
+		Object[] a = l;// we can assign List[] to Object[]
+
+		a[0] = Arrays.asList(10, 20);
+		String name = (String) l[0].get(0);// String type pointing to Integer type
+		System.out.println(name);
+	}
+}
+
+javac Test.java
+Note: Test.java uses unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+
+javac -Xlint:unchecked Test.java
+warning: [unchecked] unchecked generic array creation for varargs parameter of type
+List<String>[]
+m1(l1,l2);
+^
+warning: [unchecked] Possible heap pollution from parameterized vararg type List<String>
+public static void m1(List<String>... l)
+^
+2 warnings
+
+
+
+Factory Methods for creating unmodifiable Collections
+===================================================
+	=> creating unmodifiable Collections in java 8 is very verbose, we
+		have to write code like this :<
+
+
+	=> The Factroy Methods introduced in Java 9 are not to create general collections and
+		these are meant for creating immutable collections.
+
+	=> creating unmodifiable list and set in java 8
+		List<String> names = new ArrayList<String>();
+		beers.add("raj");
+		beers.add("ekta");
+		beers.add("gunika");
+		beers.add("keshav");
+		names = Collections.unmodifiableList(names);
+
+	=> creating unmodifiable map in java 8
+
+		Map<String,String> map=new HashMap<>();
+		map.put("A","Apple");
+		map.put("B","Banana");
+		map.put("C","Cat");
+		map.put("D","Dog");
+		map =Collections.unmodifiableMap(map);
+
+
+	=> This way of creating unmodifiable Collections is verbose and not convenient.
+	=> It increase the length of the code and reduces readability.
+	=> Java 9 addresses this problem and introduced several factory methods 
+	    for creating unmodifiable collections.
+
+
+	=> Creation of unmodifiable List (Immutable List) with Java 9 Factory Methods:
+
+	-> Java 9 List (Similer with Set) interface defines several factory methods for this.
+	----------------------------------------------------------------------------------
+	1. static <E> List<E>of()
+	2. static <E> List<E>of(E e1)
+	3. static <E> List<E>of(E e1, E e2)
+	4. static <E> List<E>of(E e1, E e2, E e3)
+	5. static <E> List<E>of(E e1, E e2, E e3, E e4)
+	6. static <E> List<E>of(E e1, E e2, E e3, E e4, E e5)
+	7. static <E> List<E>of(E e1, E e2, E e3, E e4, E e5, E e6)
+	8. static <E> List<E>of(E e1, E e2, E e3, E e4, E e5, E e6, E e7)
+	9. static <E> List<E>of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8)
+	10.static <E> List<E>of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9)
+	11.static <E> List<E>of(E e1, E e2, E e3, E e4, E e5, E e6, E e7, E e8, E e9, E e10)
+	12. static <E> List<E> of(E... elements)
+	
+	=> Upto 10 elements the matched method will be executed and for more than 10 elements
+	internally var-arg method will be called.
+
+	=>JDK Enginerrs identified List of upto 10 elements is
+	the common requirement and hence they provided the corresponding methods. For
+
+
+	=> To create unmodifiable List with Java 9 Factory Methods.
+		List<String> names = List.of("raj","ekta","gunika","keshav");
+
+		It is very simple and straight forward way!
+
+	Note:
+	-------
+		1. While using these factory methods if any element is null then we will get
+			NullPointerException.
+
+		List<String> fruits = List.of("Apple","Banana",null);// NullPointerException
+
+	2. After creating the List object,if we are trying to change the
+		content(add|remove|replace elements)then we will get UnsupportedOperationException b'z List is 		
+		immutable(unmodifiable).
+
+		List<String> fruits=List.of("Apple","Banana","Mango");
+			fruits.add("Orange"); 	//UnsupportedOperationException
+			fruits.remove(1);	//UnsupportedOperationException
+			fruits.set(1,"Orange"); //UnsupportedOperationException
+
+
+
+
+	=> Creation of unmodifiable Map (Immutable Map) with Java 9 Factory Methods:
+	-------------------------------------------------------------------------
+		Java 9 Map interface defines of() and ofEntries() Factory methods for this purpose.
+
+	1. static <K,V> Map<K,V> of()
+	2. static <K,V> Map<K,V> of(K k1,V v1)
+	3. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2)
+	4. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2,K k3,V v3)
+	5. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4)
+	6. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5)
+	7. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5,K k6,V v6)
+	8. static <K,V> Map<K,V> of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5,K k6,V v6,K k7,V v7)
+
+	9. static <K,V> Map<K,V> 
+		of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5,K k6,V v6,K k7,V v7,K k8,V v8)
+
+	10.static <K,V> Map<K,V> 
+		of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5,K k6,V v6,K k7,V v7,K k8,V v8,K k9,V v9)
+	
+	11.static <K,V> Map<K,V>
+		 of(K k1,V v1,K k2,V v2,K k3,V v3,K k4,V v4,K k5,V v5,K k6,V v6,K k7,
+		  V v7,K k8,V v8,K k9,V v9,K k10,V v10)
+
+	12.static <K,V> Map<K,V> ofEntries(Map.Entry<? extends K,? extends V>... entries)
+
+	Note:
+	=> Up to 10 entries,it is recommended to use of() methods and for more than 10 items we
+		should use ofEntries() method.
+
+	Eg:
+	Map<String,String> map=Map.of("A","Apple","B","Banana","C","Cat","D","Dog");
+
+	//How to use Map.ofEntries() method:
+	Map interface contains static Method entry() to create immutable Entry objects.
+	Map.Entry<String,String> e=Map.entry("A","Apple");
+
+
+	Note:
+	------
+	=>  Entry object is immutable and we cannot modify its content. 
+
+	=> If we are trying to change we will get RE: UnsupportedOperationException
+	  e.setValue("hello");// UnsupportedOperationException
+
+	=> By using these Entry objects we can create unmodifiable Map object
+	  with Map.ofEntries() method.
+
+
+	=> While using these Factory Methods if we are trying to add duplicate keys then we will
+		get IllegalArgumentException:duplicate key.But values can be duplicated.
+
+		Map<String,String> map=Map.of("A","Apple","A","Banana","C","Cat","D","Dog");
+		//RE: java.lang.IllegalArgumentException: duplicate key: A
+
+
+	=> While using these factory methods if any element is null(either key or value) then we
+		will get NullPointerException.
+
+		Map<String,String> map=Map.of("A",null,"B","Banana"); ==>NullPointerException
+		Map<String,String> map=Map.ofEntries(entry(null,"Apple"),entry("B","Banana"));//NullPointerException
+
+
+	=> The immutable collection objects are serializable iff all elements are serializable.
+
+
+
+
+
+Process API Updates (JEP-102)
+----------------------------
+	=> Till java 8, communicating with processor/os/machine is very difficult. 
+
+	=> We required to write very complex native code and we have to use 3rd party jar files.
+
+	=> The way of communication with processor is varied from system to system (i.e. os to os). 
+		For example, in windows one way, but in Mac other way. 
+
+	=> Being a programmer we have to write code based on operating system, 
+		which makes programming very complex.
+
+	=> To resolve this complexity, Java 9 introduced several enhancements to Process API. 
+
+	=> By using this Updated API, we can write java code to communicate with any processor very easily.
+
+
+	With this Enhanced API, we can perform the following activities very easily.
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	1. Get the Process ID (PID) of running process.
+	2. Create a new process
+	3. Destroy already running process
+	4. Get the process handles for processes
+	5. Get the parent and child processes of running process
+	6. Get the process information like owner, children,...
+	etc..
+
+	What's New in Java 9 Process API:
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	1. Added several new methods (like pid(),info() etc) to Process class.
+
+	2. Added several new methods (like startPipeline()) to ProcessBuilder class. We can use
+	ProcessBuilder class to create operating system processes.
+
+	3. Introduced a new powerful interface ProcessHandle. With this interface, we can access current
+	running process, we can access parent and child processes of a particular process etc
+
+	4. Introduced a new interface ProcessHandle.Info, by using this we can get complete information
+	of a particular process.
+
+	Note: All these classes and interfaces are part of java.lang package and hence we are not required
+	to use any import statement
+
+
+
+	How to get ProcessHandle object:
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	It is the most powerful and useful interface introduced in java 9.
+	We can get ProcessHandle object as follows
+
+	1. ProcessHandle handle=ProcessHandle.current();
+	Returns the ProcessHandle of current running Process
+
+	2. ProcessHandle handle=p.toHandle();
+	Returns the ProcessHandle of specified Process object.
+	3. Optional<ProcessHandle> handle=ProcessHandle.of(PID);
+
+	Returns the ProcessHandle of proccess with the specified pid.
+	Here, the return type is Optional, because PID may exist or may not exist.
+
+
+
+
+	Ex:
+	To get the process ID (PID) of current process
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	ProcessHandle p=ProcessHandle.current();
+	long pid=p.pid();
+	System.out.println("The PID of current running JVM instance :"+pid);
+	Thread.sleep(100000);
+
+
+	ProcessHandle p=ProcessHandle.current();
+	ProcessHandle.Info info=p.info();
+	System.out.println("Complete Process Inforamtion:\n"+info);
+	System.out.println("User: "+info.user().get());
+	System.out.println("Command: "+info.command().get());
+	System.out.println("Start Time: "+info.startInstant().get());
+	System.out.println("Total CPU Time Acquired: "+info.totalCpuDuration().get());
+
+
+
+
+Introduction to the JShell
+==========================
+	=> Jshell is also known as Interactive console.
+
+	=> JShell is Java's own REPL Tool.(Read,Evaluate,Print and Loop)
+
+	=> By using this we can execute java code snippets and we can get immediate results.
+
+
+	=> By using this jshell we can test and execute java expressions,statements,methods,classes etc.
+	It is useful for testing small code snippets very quickly,which can be plugged into our main coding
+		based on our requirement.
+
+
+	Ex: 
+	>jshell -v
+		| Welcome to JShell -- Version 9
+		| For an introduction type: /help intro
+
+	Note: If any information displaying on the jshell starts with '|', it is the information to the
+	programmer from the jshell
+
+	How to exit jshell:
+	> /exit
+	| Goodbye
+	
+	jshell> System.out.println("java 9 rock");
+
+	jshell> Math.sqrt(4);
+
+public void m1(){System.out.println("hi");}
+|  modified method m1()
+
+jshell> m1();
+hi
+                                                ^
+
+jshell> public int  m1(){System.out.println("hi"); return 3;}
+|  replaced method m1()
+
+
+/exit
+
+JPMS ( Java plateform module system)
+====================================
+	=> What is the need?
+
+	==> My internal classes of the project is misused ? what i should do? Unsafe?
+
+	==> JVM tell me if class not found at run time NoClassDefFoundError :(
+
+	==> classpath problem ==> Jar hell
+
+	==> rt.jar > 60MB ? What if we want small memory footprint
+
+	a.jar b.jar c.jar in classpath both a.jar and b.jar have class com.Foo 
+	which one will be considered by JVM class loader?
+	classloader will consider class from a.jar (classloader work from L--> R)
+	
+	==> problem comes to know at run time NoClassDefFoundError
+
+	==> jar is main unit of packing
+		jar is group of packages and each packages contain serveral
+		.class files
+
+	==> module is also group of packages and each package contain several .class files
+		+
+	   configuration infromation ( module-info.java)
+
+	module DemoModule{
+		require abcmodule;
+		require pqrmodule;
+	}
+
+	==> let say we have two classes with the same name com.Foo in two modules, 
+	will it be allowed?  NO, otherwise same problem ...jar hell
+
+
+	==> rt.jar
+
+	
+	public class Hello {
+
+		public static void main(String[] args) {
+			System.out.println("hello");
+		}
+	}
+	=> to run this code about ten classes req? but till java 8 rt.jar is used to run core java code (60 mb)
+	=> jdk monolithic vs microservice?
+	=> JDK 1.0 having 250+classes
+	=> JDK 1.1 having 500+classes
+	........
+	.........
+	=> JDK 1.8 having 4300+classes
+	=> JDK 40V having 25000+classes ? may be 4GB rt.jar ? what the hell
+
+	=> IOT devices | microservices ==> small app with small footprint
+
+	=> In java 9 ==> rt.jar is removed....
+	=> rt.jar divided into 92 peices==> each module called xx.jmod
+
+
+
+
+	Running hello world module:
+	----------------------------
+
+Stream API Enhancements:
+--------------------------
+
+	=> In Java 9 as the part of Stream API, the following new methods introduced.
+		1. takeWhile()
+		2. dropWhile()
+		3. Stream.iterate()
+		
+	=> Note: takeWhile() and dropWhile() methods are default methods 
+		and iterate() static methods of Stream interface.
+
+
+	default Stream takeWhile(Predicate p)
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	=> It returns the stream of elements that matches the given predicate.
+		It is similar to filter() method.
+
+	=> filter() method will process every element present in the stream and consider the element if
+		predicate is true.
+
+	=> But, in the case of takeWhile() method, there is no guarantee that it will process every
+	 element of the Stream. It will take elements from the Stream as long as predicate returns true. 
+	If predicate returns false, at that point onwards remaining elements won't be processed, 
+	 i.e rest of the Stream is discarded.
+
+
+	Ex:Take elements until we will get even numbers. Once we got odd number then stop and ignore
+		rest of the stream
+
+	lets consider and list with elements: 2,4,1,3,6,5,8
+	--------------------------------------------------
+	List<Integer> l2=l1.stream().filter(i->i%2==0).collect(Collectors.toList());
+	System.out.println("After Filtering:"+l2);
+
+	O/P: After Filtering:[2, 4, 6, 8]
+
+
+	List<Integer> l3=l1.stream().takeWhile(i->i%2==0).collect(Collectors.toList());
+	System.out.println("After takeWhile:"+l3);
+	
+	After takeWhile:[2, 4]
+
+
+	Ex2: Stream.of("A","AA","BBB","CCC","CC","C").takeWhile(s->s.length()<=2).forEach(System.out::println);
+
+
+
+	default Stream dropWhile(Predicate p)
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	=> It is the opposite of takeWhile() method.
+	=> It drops elements instead of taking them as long as predicate returns true.
+	  Once predicate returns false then rest of the Stream will be returned.
+
+	List<Integer> l2=l1.stream().dropWhile(i->i%2==0).collect(Collectors.toList());
+
+	Initial List:[2, 4, 1, 3, 6, 5, 8]
+	After dropWhile:[1, 3, 6, 5, 8]
+
+
+
+	Stream.iterate():
+	~~~~~~~~~~~~~~~~~
+	=> Stream.iterate() with 2 argument is there since java 8, but if we forget to apply
+		limit() method it will cause infinite loop	:(
+	=> To prevent infinite loops, in Java 9, another version of iterate() method introduced, 
+		which is nothing but 3-arg iterate() method
+
+
+	Java 8:Stream.iterate(1,x->x+1).limit(5).forEach(System.out::println);
+
+	Java 9:Stream.iterate(1,x->x<5,x->x+1).forEach(System.out::println);
+
+
+
+
+
+
+
+
+Java 9 HTTP/2 Client
+---------------------
+	=> By using this new HTTP/2 Client, from Java application, we can send HTTP Request and we can
+		process HTTP Response.
+
+	=> using this new HTTP/2 Client, from Java application, we can send HTTP Request and we can
+		process HTTP Response.
+
+					HTTP Request
+	Java Application       --------------------------------> Web server
+	(HTTP/2 Client API)		HTTP Response
+
+	=> Prior to Java 9, we are using HttpURLConnection class to send HTTP Request and to Process HTTP
+		Response. 
+
+	=> It is the legacy class which was introduced as the part of JDK 1.1 (1997).
+
+
+	=> There are several problems with this HttpURLConnection class
+	 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+		1. It is very difficult to use.
+		2. It supports only HTTP/1.1 protocol but not HTTP/2(2015) where
+			A. We can send only one request at a time per TCP Connection,
+			 which creates network traffic problems and performance problems.
+			B. It supports only Text data but not binary data
+		
+		3. It works only in Blocking Mode (Synchronous Mode), which creates performance problems.
+		
+		Because of these problems, slowly developers started using 3 rd party
+		 Http Clients like Apache Http client and Google Http client etc.
+
+	Java 9 addresses these issues and introduced a brand new HTTP/2 Client API
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	Advantages of Java 9 HTTP/2 Client:
+	1. It is Lightweight and very easy to use.
+	2. It supports both HTTP/1.1 and HTTP/2.
+	3. It supports both Text data and Binary Data (Streams)
+	4. It can work in both Blocking and Non-Blocking Modes (Synchronous Communication and
+	Asynchronous Communication)
+	5. It provides better performance and Scalability when compared with traditional
+	HttpURLConnection.
+
+	In Java 9, HTTP/2 Client provided as incubator module.
+	---------------------------------------
+	Module: jdk.incubator.httpclient
+	Package: jdk.incubator.http
+	Mainly 3 important classes are available:
+		1. HttpClient
+		2. HttpRequest
+		3. HttpResponse
+
+
+	=> Incubator module is by default not available to our java application. 
+	 Hence compulsory we should read explicitly by using requires directive.
+
+	module demoModule{
+		requires jdk.incubator.httpclient;
+	}
+
+
+	Steps to send Http Request from Java Application:
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+	
+        try(HttpClient httpClient = HttpClient.newHttpClient()) {
+			HttpRequest req = HttpRequest.newBuilder().uri(new URI("https://www.google.com"))
+							.GET().build();
+			HttpResponse<String> resp = httpClient.send(req, HttpResponse.BodyHandlers.ofString());
+			System.out.println("Response : "+resp.body());
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+
+
+
+
+
+
+
+

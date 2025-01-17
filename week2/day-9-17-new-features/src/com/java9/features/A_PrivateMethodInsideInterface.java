@@ -1,5 +1,22 @@
 package com.java9.features;
 //private method inside an interface
+
+interface Foo{
+    void foo1();
+    
+    default void fooX(){
+        myMethod();
+    }
+    default void fooY(){
+        myMethod();
+    }
+    private void myMethod(){
+        System.out.println("common code");
+    }
+    static  void foo2(){
+
+    }
+}
 //interface Foof{
 //}
  interface Java8DBLogging
@@ -26,27 +43,10 @@ package com.java9.features;
     }
 
 }
-interface MyLogging{
-    default void logInfo(String message){
-        log(message,"INFO");
-    }
-    default void logWarn(String message){
-        log(message,"WARN");
-    }
-    private void log(String message, String  levelLog){
-        System.out.println("step 1: connection to db");
-        System.out.println("step2: log the message  to level "+levelLog);
-        System.out.println("step 3 close the conn");
-    }
-}
-class MyLoggingImp implements MyLogging{
 
-}
 public class A_PrivateMethodInsideInterface {
     public static void main(String[] args) {
 
-        MyLogging myLogging=new MyLoggingImp();
-        myLogging.logWarn("some jdbc code");
     }
 }
 

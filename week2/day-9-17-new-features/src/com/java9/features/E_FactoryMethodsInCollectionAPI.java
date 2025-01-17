@@ -9,28 +9,26 @@ public class E_FactoryMethodsInCollectionAPI {
 //
 //        List<String> list2=Collections.unmodifiableList(list);
 
-        //List<String> list=List.of("foo","bar");
+    // java 9 way of creating immutable collection
 
-      //  Set<String> set=Set.of("foo","bar");
+//        Map<String, Integer> map=new HashMap<>();
+//        map.put("amit",90);
+//        map.put("ekta",88);
+//        map.put("raj", 77);
+//        Map<String, Integer> map2=Collections.unmodifiableMap(map);
 
-
-//        Map<String, String> map=new HashMap<>();
-//        map.put("india","delhi");
-//        map.put("usa","NY");
-//        Map<String, String> map2=Collections.unmodifiableMap(map);
-//
-//        map2.put("foo","abc");
-//        System.out.println(map2);
+        //how to create unmodificatiale map in java 8
 
 //        Map<String, Integer> map=Map.of("amit",90,"ekta",88,"raj",77);
 //        map.forEach((name, marks)-> System.out.println(name+" : "+ marks));
 
-        Map<String, Integer> map=Map.of("amit",90,"ekta",88,"raj",77);
-      //Map.of vs Map.ofEntries
+        //Map.of vs Map.ofEntries
 
-        Map.Entry<String, Integer> e1=Map.entry("amit",90);
-        Map.Entry<String, Integer> e2=Map.entry("sumit",97);
-        Map.Entry<String, Integer> e3=Map.entry("kapil",70);
+//        Map<String, Integer> map=Map.of("amit",90,"ekta",88,"raj",77);
+//
+//        Map.Entry<String, Integer> e1=Map.entry("amit",90);
+//        Map.Entry<String, Integer> e2=Map.entry("sumit",97);
+//        Map.Entry<String, Integer> e3=Map.entry("kapil",70);
 
        // Map<String, Integer> map2=Map.ofEntries(e1, e2,e3);
 
