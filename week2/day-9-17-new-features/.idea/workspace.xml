@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="70422188-5f7a-405f-8b4e-b7cad0e60646" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../modularitydemo/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../modularitydemo/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/entities/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/entities/Invoice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/invoice/service/InvoiceService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/../modularitydemo/invoice/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/invoice/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/E_Records.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/E_Records.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/com/java17/F_SealedClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/com/java17/F_SealedClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../modularitydemo/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../modularitydemo/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,32 +37,33 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.A_Java11StringNewMethods.executor": "Run",
-    "Application.B_SwitchExpressions.executor": "Run",
-    "Application.B_TryWIthResouceImprovement.executor": "Run",
-    "Application.D_SafeVarargsDemo.executor": "Run",
-    "Application.D_Text_Block.executor": "Run",
-    "Application.E_FactoryMethodsInCollectionAPI.executor": "Run",
-    "Application.E_Records (1).executor": "Run",
-    "Application.E_Records (2).executor": "Run",
-    "Application.E_Records.executor": "Run",
-    "Application.F_SteamEnhancement.executor": "Run",
-    "Application.G_HTTP2Client.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Korber_java_backend_25_code/week2/day-9-17-new-features",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.A_Java11StringNewMethods.executor&quot;: &quot;Run&quot;,
+    &quot;Application.B_SwitchExpressions.executor&quot;: &quot;Run&quot;,
+    &quot;Application.B_TryWIthResouceImprovement.executor&quot;: &quot;Run&quot;,
+    &quot;Application.D_SafeVarargsDemo.executor&quot;: &quot;Run&quot;,
+    &quot;Application.D_Text_Block.executor&quot;: &quot;Run&quot;,
+    &quot;Application.E_FactoryMethodsInCollectionAPI.executor&quot;: &quot;Run&quot;,
+    &quot;Application.E_Records (1).executor&quot;: &quot;Run&quot;,
+    &quot;Application.E_Records (2).executor&quot;: &quot;Run&quot;,
+    &quot;Application.E_Records.executor&quot;: &quot;Run&quot;,
+    &quot;Application.F_SteamEnhancement.executor&quot;: &quot;Run&quot;,
+    &quot;Application.G_HTTP2Client.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Korber_java_backend_25_code/week2/day-9-17-new-features&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Korber_java_backend_25_code\week2\day-9-new-features\src\com\java9\features" />

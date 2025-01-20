@@ -53,27 +53,38 @@ interface Payable{
 class Foo{
 
 }
-record Employee(String name, String email, double salary) {
+record Employee(String name, String email, double salary) implements Payable{
+    Employee(String name, String email) {this(name, email, 0.0);}
 
-    public Employee(String name,String email){
-        this(name, email, 0.0);
-    }
-    //compack ctr
-    public Employee{
-        if (name==null || email==null || salary<0){
+    Employee{
+        if(name==null || email==null || salary<0){
             throw new IllegalStateException();
         }
     }
+
+    @Override
+    public void pay() {
+
+    }
 }
+//record Employee(String name, String email, double salary) {
+//
+//    public Employee(String name,String email){
+//        this(name, email, 0.0);
+//    }
+//    //compack ctr
+//    public Employee{
+//        if (name==null || email==null || salary<0){
+//            throw new IllegalStateException();
+//        }
+//    }
+//}
 
 public class E_Records {
     public static void main(String[] args) {
-        Employee employee1=new Employee("abc", "xyz", 1000);
-        Employee employee2=new Employee("abc", "xyz", 1000);
-        System.out.println(employee1.name());
+//        Employee employee1=new Employee("abc", "xyz", 1000);
+//        Employee employee2=new Employee("abc", "xyz", 1000);
 
-        System.out.println(employee1.equals(employee2));
-        System.out.println(employee1.hashCode()==employee2.hashCode());
 
     }
 }

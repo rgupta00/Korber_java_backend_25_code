@@ -1,0 +1,19 @@
+Week 3:
+--------
+day 9: 
+	introduction to some imp tools
+	maven, log4j and junit
+	introduction to jdbc
+	
+day 10: 
+	jdbc crud application
+	adv jdbc
+	
+day 11: core spring framework
+
+day 12: Spring AOP and spring jdbc
+
+day 13: Introduction to J2EE servlet jsp
+		Spring mvc and spring rest
+		
+		

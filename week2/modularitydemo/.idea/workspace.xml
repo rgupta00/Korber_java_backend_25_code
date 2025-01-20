@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="dce43d0a-e71c-4736-9ee1-b1d371a1c9f9" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/../day-9-17-new-features/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../day-9-17-new-features/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice/src/invoice/entities/Invoice.java" beforeDir="false" afterPath="$PROJECT_DIR$/invoice/src/invoice/entities/Invoice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice/src/invoice/service/InvoiceService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/invoice/src/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/invoice/src/module-info.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-9-17-new-features/src/com/java17/E_Records.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-9-17-new-features/src/com/java17/E_Records.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../day-9-17-new-features/src/com/java17/F_SealedClass.java" beforeDir="false" afterPath="$PROJECT_DIR$/../day-9-17-new-features/src/com/java17/F_SealedClass.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../new_features_notes/2-Java 10-17 discussion.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,9 +27,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2rkinTWWxszVBs5IgSPGqpQwLfi" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -40,17 +38,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Tester.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "com.codeium.enabled": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "settings.editor.selected.configurable": "com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Tester.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.poratu.idea.plugins.tomcat.setting.TomcatServersConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Tester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="main.Tester" />
