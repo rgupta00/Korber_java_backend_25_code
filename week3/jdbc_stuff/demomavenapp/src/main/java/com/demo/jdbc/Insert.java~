@@ -11,6 +11,11 @@ public class Insert {
         Connection connection=null;
         try {
              connection= ConnectionFactory.getConnection();
+             /*
+                PreparedStatement vs Statement is sustable for sql injection
+                PreparedStatement: performance?
+                PreparedStatement: sql injection*
+              */
             PreparedStatement preparedStatement=connection
                     .prepareStatement("insert into emp(name, salary) values(?,?)");
 

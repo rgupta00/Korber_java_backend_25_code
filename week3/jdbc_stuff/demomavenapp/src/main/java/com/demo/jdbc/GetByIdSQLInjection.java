@@ -4,22 +4,27 @@ import com.demo.factory.ConnectionFactory;
 
 import java.sql.*;
 
-public class Insert {
+public class GetByIdSQLInjection {
 
     public static void main(String[] args) {
 
         Connection connection=null;
         try {
              connection= ConnectionFactory.getConnection();
+            Statement stmt=connection.createStatement();
+//            String name="1=1";
+//            ResultSet rs=stmt.executeQuery("select * from emp where name='"+name+"'");
+//
             PreparedStatement preparedStatement=connection
-                    .prepareStatement("insert into emp(name, salary) values(?,?)");
+                    .prepareStatement("select * from emp where name=?");
+            preparedStatement.setString(1,"raj or 1=1");
 
-            preparedStatement.setString(1,"pooja");
-            preparedStatement.setInt(2,50000);
+            ResultSet rs=preparedStatement.executeQuery();
+            while (rs.next()){
+                System.out.println(rs.getInt("id")+" "+
+                        rs.getString("name")+" "+rs.getInt("salary"));
+            }
 
-           int noOfRecordEffected= preparedStatement.executeUpdate();
-
-            System.out.println(noOfRecordEffected);
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
