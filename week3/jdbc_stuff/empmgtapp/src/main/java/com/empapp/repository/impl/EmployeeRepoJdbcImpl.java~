@@ -110,7 +110,7 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }finally {
             if (connection!=null){
                 try {
@@ -129,8 +129,8 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
 
             PreparedStatement preparedStatement=connection
                     .prepareStatement("update emp set salary=? where id=?");
-            preparedStatement.setInt(1,id);
-            preparedStatement.setInt(2,employee.getSalary());
+            preparedStatement.setInt(1,employee.getSalary());
+            preparedStatement.setInt(2,id);
 
             int noOfRecordEffected= preparedStatement.executeUpdate();
 

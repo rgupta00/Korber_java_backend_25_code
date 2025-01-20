@@ -10,6 +10,7 @@ import java.util.List;
 //DAO= crud op+ connection object
 public class EmployeeRepoJdbcImpl implements EmployeeRepo {
 
+    //we can use connection pool : spring framework
     private Connection connection;
 
     public EmployeeRepoJdbcImpl() {
@@ -20,7 +21,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
     public List<Employee> findAll() {
         List<Employee> employees=new ArrayList<>();
         try {
-            connection= ConnectionFactory.getConnection();
             Statement stmt=connection.createStatement();
             ResultSet rs=stmt.executeQuery("select * from emp");
             while (rs.next()){
@@ -31,14 +31,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
         return employees;
     }
@@ -47,8 +39,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
     public Employee findById(int id) {
         Employee employee=null;
         try {
-            connection= ConnectionFactory.getConnection();
-
             PreparedStatement preparedStatement=connection
                     .prepareStatement("select * from emp where id=?");
             preparedStatement.setInt(1,id);
@@ -63,14 +53,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
         return employee;
     }
@@ -78,8 +60,7 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
     @Override
     public Employee save(Employee employee) {
         try {
-            connection= ConnectionFactory.getConnection();
-            PreparedStatement preparedStatement=connection
+             PreparedStatement preparedStatement=connection
                     .prepareStatement("insert into emp(name, salary) values(?,?)");
 
             preparedStatement.setString(1,employee.getName());
@@ -87,14 +68,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
              preparedStatement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
         return employee;
     }
@@ -102,24 +75,15 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
     @Override
     public void deleteById(int id) {
         try {
-            connection= ConnectionFactory.getConnection();
-
             PreparedStatement preparedStatement=connection
                     .prepareStatement("delete from emp where id=?");
             preparedStatement.setInt(1,id);
             preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            e.printStackTrace();
         }
+
     }
 
     @Override
@@ -138,14 +102,6 @@ public class EmployeeRepoJdbcImpl implements EmployeeRepo {
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
-        }finally {
-            if (connection!=null){
-                try {
-                    connection.close();
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            }
         }
     }
 }
