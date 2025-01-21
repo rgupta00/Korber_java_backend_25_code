@@ -1,0 +1,473 @@
+Session 1: course outline discussion and pre requist:
+session 2: Introduction to to spring fundamentals
+session 3: spring di in depth
+session 4: AOP
+
+
+
+
+intro to spring framework:
+---------------------------
+Spring is java framework for simplification of sw development
+it have many modules
+
+Spring framework:
+
+spring DI
+spring AOP
+spring jdbc / spring hib/ spring mongo --->  jdbc template
+spring MVC
+spring security
+spring ... so many modules
+
+Why spring boot:
+	you have to configure a lots while interate many module with spring
+	
+Now we have spring boot:
+	spring boot = spring - extra config + embedded tomcat + actuator + cloud native support
+
+
+Agenda Session 3: Spring Dependency Injection 
+===============================================
+
+doubts about containers
+
+web server vs application server vs db server vs web container 
+spring is also container
+
+Need of Dependency Injection?
+
+loose coupling and high cohesion?
+
+A passanger is traveling using a car
+
+
+
+Spring DI using XML
+	done
+Spring DI using annotation
+
+	they do the same job
+	aka meta data for srping to tell what to do
+	
+	
+@Component
+@Autowire 
+replace lots of xml
+
+spring xml----> annotation
+how to force spring to go for annotations?
+
+@Bean vs @Component
+these are 2 ways to create bean using annotation
+are they same... not
+
+
+NoUniqueBeanDefinitionException: No qualifying bean of type
+ 'com.busycoder.demo4.Vehicle' available: expected single matching bean but found 2: car,bike
+
+
+Spring DI using java configuration
+done
+spring dependency injection important annotation
+done
+
+spring profile:
+it allow you to swap the bean impl at run time without changing the code :)
+devops: dev, test, pre-prod , prod
+
+NoSuchBeanDefinitionException
+
+spring bean life cycle basics
+spring core interview questions
+
+Spring DI bankapplication
+
+3 tier app:
+
+						@Component
+						   |
+	----------------------------------------------------
+	|						|							|
+@controller					@Service				@Repository
+@RestController
+
+						
+web ---------------------- service --------------- dao layer -------------db
+
+
+transfer the fund
+deposit
+withdraw
+
+Dto vs entity
+used to transfer the data
+entity is a object that intact with hib/jpa to fetch data with database
+
+
+
+interview questions:
+https://github.com/altafjava/spring-interview-questions-answers
+https://stackoverflow.com/questions/11316688/inversion-of-control-vs-dependency-injection-with-selected-quotes-is-my-unders
+https://stackoverflow.com/questions/6550700/inversion-of-control-vs-dependency-injection
+
+
+
+Session 4: Spring AOP 
+---------------
+Doubts
+spring bean life cycle in brief
+spring jdbc
+spring AOP
+
+
+
+
+
+Session 5: Creating application from scratch, Spring jdbc, JdbcTemplate
+--------------------------------------------------------------------
+* Spring bank application step by step
+* Qucick recap
+* Spring JDBC
+* Spring jdbcTemplate and tx concept
+
+
+
+Spring DI AOP bank application step by step:
+----------------------------------------
+Step 1: create maven project , put dependencies and log4j2 file
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>5.3.27</spring.version>
+    </properties>
+
+    <dependencies>
+        <!--aop-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+        </dependency>
+    </dependencies>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-framework-bom</artifactId>
+                <version>${spring.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+
+
+
+log4j2.xml
+------------
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration xmlns="http://logging.apache.org/log4j/2.0/config">
+
+    <Appenders>
+        <File name="FILE" fileName="logfile.log" append="true">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/>
+        </File>
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout pattern="%-5p | %d{yyyy-MM-dd HH:mm:ss} | [%t] %C{2} (%F:%L) - %m%n"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+<!--        <Logger name="com.demo" level="info"/>-->
+
+        <Root level="info">
+            <AppenderRef ref="STDOUT"/>
+            <AppenderRef ref="FILE"/>
+        </Root>
+    </Loggers>
+
+</Configuration>
+
+
+
+step 2: create dao layer
+--------------------------
+
+class Account{
+	private int id;
+	private String name;
+	private double amount;
+}
+public interface AccountDao {
+    public List<Account> getAll();
+    public Account getById(int id);
+    public void updateAccount(Account account);
+}
+
+public class AccountDaoImplMap implements AccountDao{
+
+    private Map<Integer, Account> map=new HashMap<>();
+    public AccountDaoImplMap(){
+        map.put(1, new Account(1,"raj",1000));
+        map.put(2, new Account(1,"ekta",1000));
+    }
+    @Override
+    public List<Account> getAll() {
+        return new ArrayList<>(map.values());
+    }
+
+    @Override
+    public Account getById(int id) {
+        return map.get(id);
+    }
+
+    @Override
+    public void updateAccount(Account account) {
+        map.put(account.getId(), account);
+    }
+}
+
+Step 3: create service layer and implementation
+-------------------------
+public interface AccountService {
+    public List<Account> getAll();
+    public Account getById(int id);
+    public void transfer(int fromId, int toId, double amount);
+    public void deposit(int fromId, double amount);
+    public void withdraw(int fromId, double amount);
+}
+
+
+@Service
+public class AccountServiceImpl implements AccountService{
+
+    private AccountDao accountDao;
+
+    @Autowired
+    public AccountServiceImpl(AccountDao accountDao) {
+        this.accountDao = accountDao;
+    }
+
+    @Override
+    public List<Account> getAll() {
+        return accountDao.getAll();
+    }
+
+    @Override
+    public Account getById(int id) {
+      return accountDao.getById(id).orElseThrow(()->new BankAccountNotFoundException("bank account with id "+id +" is not found"));
+    }
+
+    @Override
+    public void transfer(int fromId, int toId, double amount) {
+        Account fromAcc=getById(fromId);//load both the acc in memory
+        Account toAcc=getById(toId);
+        fromAcc.setAmount(fromAcc.getAmount()-amount);
+        toAcc.setAmount(toAcc.getAmount()+amount);
+        accountDao.updateAccount(fromAcc);
+        accountDao.updateAccount(toAcc);
+    }
+
+    @Override
+    public void deposit(int fromId, double amount) {
+        Account acc=getById(fromId);
+        acc.setAmount(acc.getAmount()+amount);
+        accountDao.updateAccount(acc);
+    }
+
+    @Override
+    public void withdraw(int fromId, double amount) {
+        Account acc=getById(fromId);
+        acc.setAmount(acc.getAmount()-amount);
+        accountDao.updateAccount(acc);
+    }
+}
+
+
+
+
+
+Step 4: write configuration class
+----------------------------------
+@Configuration //hey spring this is a config class
+@ComponentScan(basePackages = "com.busycoder.bankapp")
+public class AppConfig {
+}
+
+step 5: write a main to to test this
+-----------------------------------
+public class Main {
+    public static void main(String[] args) {
+
+        ApplicationContext ctx=
+                new AnnotationConfigApplicationContext(AppConfig.class);
+
+        AccountService accountService=ctx.getBean("accountServiceImpl",
+                AccountService.class);
+        List<Account> accounts=accountService.getAll();
+        accounts.forEach(acc-> System.out.println(acc));
+    }
+}
+
+
+AOP:
+
+step 5: write LoggingAspect class
+------------------------------------
+first you need to apply 
+@EnableAspectJAutoProxy on the AppConfig class
+hey spring i want to use aop
+
+
+
+@Service
+@Aspect //Aspect =advice +pointcut
+public class LoggingAspect {
+    private Logger logger= LoggerFactory.getLogger(LoggingAspect.class);
+
+    @Around("execution( * com.busycoder.bankapp.service.*Impl.*(..))")
+    public Object applyLogging(ProceedingJoinPoint proceedingJoinPoint)throws Throwable{
+        String methodName=proceedingJoinPoint.getSignature().getName();
+        long startTime=System.currentTimeMillis();
+
+        Object retValue=proceedingJoinPoint.proceed();
+
+        long endTime=System.currentTimeMillis();
+        logger.info("time taken to execute "+ methodName+" is "+(endTime-startTime)+" ms");
+        return retValue;
+    }
+    //we have to handle BankAccNo... AfterThrowing
+    @AfterThrowing(pointcut = "execution( * com.busycoder.bankapp.service.*Impl.*(..))", throwing = "ex")
+    public void afterThrowing(JoinPoint joinPoint, Exception ex){
+        logger.error("Exception -------------- "+ ex.getMessage());
+    }
+}
+
+
+
+Jdbc:API to talk to the database
+DriverManger --> get connection
+statement , preparedStatement, CallableStatement
+
+statement: performance issues, SQL injection project (?)
+preparedStatement: it cache the quaries faster, No prob of SQL injection
+CallableStatement: store procedure
+
+step 6: replace HashMap implementation of dao layer with jdbc
+------------------------------------------------------------
+db.properties
+--------------------
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/busybank
+jdbc.username=root
+jdbc.password=root
+
+now i will define infrastructre bean?
+infrastructre vs business 
+@Bean			@Component
+
+
+
+step 7: understand why we need to use jdbcTemplate
+---------------------------------------------------
+
+DriverManager.getConnection() vs DataSource (connection factory)
+
+
+
+
+Change configuration class:
+-----------------------
+@Configuration //hey spring this is a config class
+@ComponentScan(basePackages = "com.busycoder.bankapp")
+@EnableAspectJAutoProxy
+@PropertySource("classpath:db.properties")
+public class AppConfig {
+
+    //datasouce: aka connection pool that help me to get the jdbc conn
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.driver}")
+    private String driverName;
+
+    @Value("${jdbc.username}")
+    private String username;
+
+    @Value("${jdbc.password}")
+    private String password;
+
+    @Bean
+    public DataSource getDataSource(){
+        DriverManagerDataSource ds=new DriverManagerDataSource();
+        ds.setUrl(url);
+        ds.setPassword(password);
+        ds.setUsername(username);
+        ds.setDriverClassName(driverName);
+        return ds;
+    }
+}
+
+
+I wnat to use jdbc template :
+it is uesd to simply the code
+
+
+step 8: apply decleartive transaction management
+---------------------------------------------------
+
+
+database configuration:
+-------------------------
+jdbc.driver=com.mysql.cj.jdbc.Driver
+jdbc.url=jdbc:mysql://localhost:3306/busybank
+jdbc.username=root
+jdbc.password=root
+pool.initialSize=10
+
+
+
+

@@ -1,0 +1,86 @@
+introduction to logging:
+--------------------------
+why logging?
+Here are some of the reasons why you should use Log4j in Java:
+Flexibility:
+
+Log4j is highly flexible, and you can set it to monitor 
+various levels of log event severity, such as all (all messages), 
+debug, info (important/informative messages), warn, error, off, and fatal.
+ Log4j can manage Java exceptions in your code.
+ 
+Performance:
+Log4j is fast and efficient, making it ideal for use in high-performance applications.
+
+Ease of use:
+Log4j is easy to use and configure. It provides a simple API that 
+makes it easy to log messages to different destinations, such as the console, files, and databases.
+
+Open source:
+Log4j is an open-source project, which means that it is free to use and distribute.
+ It is also actively developed and maintained by a large community of contributors.
+ 
+Widely used:
+Log4j is one of the most popular logging frameworks for Java. 
+It is used by a wide range of applications, including web applications, 
+enterprise applications, and mobile applications.
+Here are some specific examples of how Log4j can be used in Java:
+
+Debugging:
+Log4j can be used to debug applications by logging messages that indicate 
+the state of the application at different points in time. This information can be used to identify and fix bugs.
+
+Auditing:
+Log4j can be used to audit applications by logging messages that indicate 
+what actions are being performed by users. This information can be used to track down 
+unauthorized activity or to troubleshoot problems.
+
+Performance monitoring:
+Log4j can be used to monitor the performance of applications 
+by logging messages that indicate how long different operations are taking. 
+This information can be used to identify performance bottlenecks and to optimize the application.
+
+Overall, Log4j is a powerful and flexible logging framework that can be used to improve the quality, 
+performance, and security of Java applications.
+
+
+
+			logback
+slf4j-------log4j2
+			common logging
+			
+
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+
+Dependency :
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.7</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j-impl</artifactId>
+            <version>2.7</version>
+        </dependency>
+		
+		
+		<dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+		
+		
