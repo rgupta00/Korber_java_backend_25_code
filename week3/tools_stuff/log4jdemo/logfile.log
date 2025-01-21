@@ -1,0 +1,8 @@
+INFO  | 2025-01-21 12:31:24 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:11) - code is working till line no 11
+INFO  | 2025-01-21 12:31:24 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:16) - code is working till line no 16
+INFO  | 2025-01-21 12:31:24 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:20) - code is working till line no 20
+INFO  | 2025-01-21 12:33:13 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:11) - code is working till line no 11
+ERROR | 2025-01-21 12:33:13 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:17) - For input string: "123A"
+INFO  | 2025-01-21 12:33:13 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:22) - code is working till line no 16
+INFO  | 2025-01-21 12:33:13 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:26) - code is working till line no 20
+ERROR | 2025-01-21 12:34:01 | [main] empapp.WhyNeedLog4j2 (WhyNeedLog4j2.java:17) - For input string: "123A"

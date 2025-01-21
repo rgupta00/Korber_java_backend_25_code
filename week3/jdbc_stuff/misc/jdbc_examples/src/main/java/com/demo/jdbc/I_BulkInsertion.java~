@@ -1,0 +1,7 @@
+package com.demo.jdbc;
+
+public class I_BulkInsertion {
+    public static void main(String[] args) {
+
+    }
+}

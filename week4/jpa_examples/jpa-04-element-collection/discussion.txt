@@ -1,0 +1,9 @@
+jpa is a specification and hibernate is a vendor product
+
+hib                     jpa
+sessionfactory          entitymangerfactory
+session                 entitymanager
+HQL                     JPQL
+save                    persist
+...
+....
