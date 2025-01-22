@@ -1,0 +1,47 @@
+Day 11:
+-------
+22-jan
+Spring fundamentals
+
+23-jan : Spring aop and jdbc
+
+24-jan:
+	spring mvc and rest
+	getting started with spring boot
+	
+	
+	
+Spring fundamentals:
+--------------------
+Understanding spring framework
+Loose coupling and high cohesion
+Introduction to DI
+Implementing DI application using xml, annotation and java code
+setter/contructor injection, Scopes
+xml configuration
+Spring bean life cycle, understanding Factory Post Processors
+Spring annotation in details, Idea about JSR 250, 330 annotations
+Using Environment to retrieve properties
+What are Profiles? ,Activating profiles
+
+
+
+      <spring.version>5.3.27</spring.version>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+        </dependency>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 				
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 				
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+		
+</beans>
