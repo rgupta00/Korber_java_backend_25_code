@@ -6,12 +6,8 @@ import org.springframework.stereotype.Component;
 @Component(value = "m")
 public class Magician {
 
-    public String doMagic(){
+    public void doMagic(){
         System.out.println("abara ka dabra...");
-        if(1==2){
-            throw new MagicianHeartAttack("call Dr now!");
-        }
-        return "rabbit from the hat";
     }
     public void f1(){
         System.out.println("f1 method of magician");

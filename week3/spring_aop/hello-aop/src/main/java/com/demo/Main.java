@@ -11,10 +11,7 @@ public class Main {
 
         Magician magician = applicationContext
                 .getBean("m",Magician.class);
-
-
-       String result =   magician.doMagic();
-        System.out.println(result);
+       magician.doMagic();
 
 
 
