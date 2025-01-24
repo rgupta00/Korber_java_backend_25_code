@@ -1,13 +1,51 @@
 Week 3:
 --------
+core java
+-----------
+tools : maven, log4j, junit
+
+maven?
+	project mgt tool, life cycle of our project
+	to download the dep... transtive dep :)
+	
+	cmd vs ide
+	mvn clean package
+	jar: core java app, spring boot
+		foo.jar
+		
+	war: servlet jsp container: tomcat
+		foo.war
+	
+	ear: X ejb
+	
+	how to create maven project in ide
+	
+	
+	Jdbc?
+		jsr ..oracle jsr 221
+		jar file: maven
+		
+		
+	how to run hello world of jdbc:
+	---------------------------------
+	1. mvn project with dep
+	2. u need to create db and table
+		trainingdb			emp
+	3. hello world
+		
+		
 day 9: 
 	introduction to some imp tools
-	maven, log4j and junit
+	maven, log4j and junit mockito
 	introduction to jdbc
 	
 day 10: 
 	jdbc crud application
 	adv jdbc
+	
+------------------------------
+framework
+---------------------------
 	
 day 11: core spring framework
 
@@ -16,4 +54,115 @@ day 12: Spring AOP and spring jdbc
 day 13: Introduction to J2EE servlet jsp
 		Spring mvc and spring rest
 		
+----------------------------
 		
+		
+Day 12:
+intro to spring bean life cycle
+AOP and its application
+Spring jdbc
+
+class Foo{
+	private Bar bar;
+	
+	///
+	public Bar getBar(){
+	}
+
+}
+
+Circular dep
+
+class A{
+	B b;
+
+}
+class B{
+	A a;
+}
+
+
+
+Agenda for 24th Jan:
+---------------------
+1. Recap of AOP and applying aop to bank application
+2. Spring Jdbc and JdbcTemplate
+3. Introduction to Spring MVC arch and REST api
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!--aop-->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.5</version>
+        </dependency>
+
+
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+        </dependency>
+
+
+
+@Configuration //hey spring this is a config class
+@ComponentScan(basePackages = "com.busycoder.bankapp")
+@EnableAspectJAutoProxy
+@PropertySource("classpath:db.properties")
+public class AppConfig {
+
+    //datasouce: aka connection pool that help me to get the jdbc conn
+    @Value("${jdbc.url}")
+    private String url;
+    @Value("${jdbc.driver}")
+    private String driverName;
+
+    @Value("${jdbc.username}")
+    private String username;
+
+    @Value("${jdbc.password}")
+    private String password;
+
+   // @Scope("singleton")
+    @Bean
+    public DataSource getDataSource(){
+        //assignment: try to replace it with some conn pooling *
+        DriverManagerDataSource ds=new DriverManagerDataSource();
+        ds.setUrl(url);
+        ds.setPassword(password);
+        ds.setUsername(username);
+        ds.setDriverClassName(driverName);
+        return ds;
+    }
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource){
+        return  new JdbcTemplate(dataSource);
+    }
+}

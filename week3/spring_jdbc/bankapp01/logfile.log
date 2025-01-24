@@ -24,3 +24,17 @@ INFO  | 2025-01-24 10:18:58 | [main] aspect.LoggingAspect (LoggingAspect.java:30
 INFO  | 2025-01-24 10:18:58 | [main] aspect.LoggingAspect (LoggingAspect.java:30) - Time taken 1 com.bankapp.service.AccountService.transfer
 INFO  | 2025-01-24 10:18:58 | [main] aspect.LoggingAspect (LoggingAspect.java:30) - Time taken 0 com.bankapp.service.AccountService.getAllAccounts
 INFO  | 2025-01-24 10:25:05 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 1 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 11:01:54 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 527 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 11:37:38 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 623 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 11:38:39 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 84 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:01:57 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 79 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:02:13 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 74 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:02:53 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 78 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:02:53 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 80 com.bankapp.service.AccountService.transfer
+INFO  | 2025-01-24 12:02:53 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 12 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:04:16 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 79 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:05:34 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 26 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:21:25 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 29 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:24:58 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 50 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:27:27 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 36 com.bankapp.service.AccountService.getAllAccounts
+INFO  | 2025-01-24 12:28:41 | [main] aspect.LoggingAspect (LoggingAspect.java:32) - Time taken 25 com.bankapp.service.AccountService.getAllAccounts

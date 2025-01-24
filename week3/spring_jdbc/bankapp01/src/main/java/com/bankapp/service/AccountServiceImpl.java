@@ -2,22 +2,22 @@ package com.bankapp.service;
 
 import com.bankapp.dao.Account;
 import com.bankapp.dao.AccountDao;
-import com.bankapp.dao.impl.AccountDaoImplJdbc;
-import com.bankapp.dao.impl.AccountDaoImplMap;
+import com.bankapp.exceptions.AEx;
 import com.bankapp.exceptions.AccountNotFoundException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.bankapp.exceptions.BEx;
+import com.bankapp.service.aspect.Loggable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 @Service(value = "as")
+//Service layer = BL + ccc(cross cutting concerns) NFR
+@Transactional(readOnly = true, timeout = 1000)
 public class AccountServiceImpl implements AccountService{
-
-    private Logger logger= LoggerFactory.getLogger(AccountServiceImpl.class);
-
     private AccountDao accountDao;
-
     @Autowired
     public AccountServiceImpl(AccountDao accountDao) {
         this.accountDao = accountDao;
@@ -33,30 +33,27 @@ public class AccountServiceImpl implements AccountService{
 
     }
 
+    @Loggable
     @Override
     public List<Account> getAllAccounts() {
-        long start=System.currentTimeMillis();
-
         List<Account> accounts= accountDao.getAllAccounts();
-
-        long end=System.currentTimeMillis();
-        logger.info("Time taken to get account "+(end-start));
-        return  accounts;
+        return accounts;
     }
 
+    @Loggable
     @Override
-    public void transfer(int from, int to, double amount) {
-        long start=System.currentTimeMillis();
-            Account fromAccount=accountDao.getById(from);
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void transfer(int from, int to, double amount) throws BEx{
+           Account fromAccount=accountDao.getById(from);
             Account toAccount=accountDao.getById(to);
             fromAccount.setBalance(fromAccount.getBalance()-amount);
             toAccount.setBalance(toAccount.getBalance()+amount);
             accountDao.update(fromAccount);
             accountDao.update(toAccount);
-        long end=System.currentTimeMillis();
-        logger.info("Time taken to get account "+(end-start));
+            foo();
     }
 
+    @Transactional
     @Override
     public void deposit(int id, double amount) {
         Account account=accountDao.getById(id);
@@ -64,10 +61,23 @@ public class AccountServiceImpl implements AccountService{
         accountDao.update(account);
     }
 
+    @Transactional
     @Override
     public void withdraw(int id, double amount) {
         Account account=accountDao.getById(id);
         account.setBalance(account.getBalance()-amount);
         accountDao.update(account);
+    }
+
+    @Transactional
+    @Override
+    public void delete(int id) {
+        accountDao.delete(id);
+    }
+
+    @Transactional
+    @Override
+    public void addAccount(Account account) {
+        accountDao.addAccount(account);
     }
 }
