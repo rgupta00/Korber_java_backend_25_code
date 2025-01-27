@@ -4,7 +4,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-
+//only give u SF by reading hibernate.cfg.xml
 public class SessionFactoryUtil {
 
     private static  SessionFactory sf=null;

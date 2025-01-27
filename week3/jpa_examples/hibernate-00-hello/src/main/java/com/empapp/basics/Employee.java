@@ -12,9 +12,9 @@ import lombok.ToString;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-
+// default assumption
 @Entity
-@Table(name = "employee_table")
+@Table(name = "emp_table")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +26,7 @@ public class Employee {
     private double salary;
     @Column(name = "emp_dept", nullable = false, length = 100)
     private String dept;
+
 
 
     public Employee(String name, double salary, String dept) {

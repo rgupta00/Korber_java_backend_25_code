@@ -14,18 +14,10 @@ public class B_GetAll {
         EntityManagerFactory emf= Persistence.createEntityManagerFactory("busycoder");
         EntityManager em=emf.createEntityManager();
 
-        EntityTransaction tx=em.getTransaction();
-
         List<Employee> employees=em.createQuery("select e from Employee e", Employee.class).getResultList();
 
         em.close();
         emf.close();
-
-
-
-
-        //close the session
-        //close the session factory
 
 
     }

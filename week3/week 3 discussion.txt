@@ -90,6 +90,14 @@ Agenda for 24th Jan:
 3. Introduction to Spring MVC arch and REST api
 
 
+I can write a custom anotation?
+
+Loggable
+
+
+
+
+
 
 
 
@@ -132,6 +140,15 @@ Agenda for 24th Jan:
 
 
 
+spring : connection factory
+
+:(
+1. dev is opening the conn... closing too 
+2. dev is starting the tx
+
+Spring jdbc: jdbcTemplate
+
+
 @Configuration //hey spring this is a config class
 @ComponentScan(basePackages = "com.busycoder.bankapp")
 @EnableAspectJAutoProxy
@@ -166,3 +183,15 @@ public class AppConfig {
         return  new JdbcTemplate(dataSource);
     }
 }
+
+Day-14 
+Week 3: day 3:
+---------------
+Agenda :
+Introduction to Hibernate  and JPA
+	pg 92,150
+Introduction to JEE, servlet jsp
+	Spring MVC
+	Spring REST
+
+Getting started with Spring boot
