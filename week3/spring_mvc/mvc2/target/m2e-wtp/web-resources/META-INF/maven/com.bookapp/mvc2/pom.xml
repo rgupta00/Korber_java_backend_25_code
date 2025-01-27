@@ -30,6 +30,7 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- i am saying to maven hey maven tomcat will provider servlet dep -->
 		<dependency>
 			<groupId>javax</groupId>
 			<artifactId>javaee-web-api</artifactId>
@@ -37,12 +38,23 @@
 			<scope>provided</scope>
 		</dependency>
 
+		<!-- json : java object to json it is parser -->
+		<!-- <dependency> <groupId>com.fasterxml.jackson.core</groupId> <artifactId>jackson-databind</artifactId> 
+			<version>2.9.4</version> </dependency> -->
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>2.9.4</version>
+		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>2.9.4</version>
 		</dependency>
 	</dependencies>
+
+	<!-- mavnen and tomcat plugin -->
 	<build>
 		<finalName>mvc2</finalName>
 		<plugins>

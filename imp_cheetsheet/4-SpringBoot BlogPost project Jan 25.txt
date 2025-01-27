@@ -1,0 +1,410 @@
+Blogpost application:
+======================
+
+POJO:
+------
+public class Blog {
+
+	private Long id;
+	private String title;
+	private String author;
+	private String content;
+	
+	List<Comment>comments=new ArrayList<Comment>();
+	
+	public void addComment(Comment comment){
+		comments.add(comment);
+		comment.setBlog(this);
+	}
+	
+	public void removeComment(Comment comment){
+		comments.remove(comment);
+		comment.setBlog(null);
+	}
+}	
+	
+	
+
+
+public class Comment {
+	
+	private Long id;
+	private String comment;
+	private LocalDateTime createdAt;
+	
+	private Blog blog;
+	
+	public Blog getBlog() {
+		return blog;
+	}
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Comment(String comment) {
+		this.comment = comment;
+		this.createdAt = LocalDateTime.now();
+	}
+	
+	public Comment(Blog blog, String comment) {
+		this.blog=blog;
+		this.comment = comment;
+		this.createdAt = LocalDateTime.now();
+	}
+	
+
+.......
+}
+entities:
+----------
+
+
+@Entity
+@Table(name="blog_table")
+public class Blog {
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	private String title;
+	private String author;
+	private String content;
+	
+	
+	@OneToMany(mappedBy="blog", cascade=CascadeType.ALL)
+	@JsonIgnore
+	List<Comment>comments=new ArrayList<Comment>();
+	
+	public void addComment(Comment comment){
+		comments.add(comment);
+		comment.setBlog(this);
+	}
+	
+	public void removeComment(Comment comment){
+		comments.remove(comment);
+		comment.setBlog(null);
+	}
+	
+	
+	
+
+
+
+@Entity
+@Table(name="comment_table")
+public class Comment {
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Long id;
+	private String comment;
+	private LocalDateTime createdAt;
+	
+	@JoinColumn(name="bid_fk")
+	@ManyToOne(fetch=FetchType.LAZY, optional=false)
+	
+	@JsonIgnore
+	private Blog blog;
+	
+	
+	public Blog getBlog() {
+		return blog;
+	}
+	public void setBlog(Blog blog) {
+		this.blog = blog;
+	}
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
+	public Comment(String comment) {
+		this.comment = comment;
+		this.createdAt = LocalDateTime.now();
+	}
+	
+	public Comment(Blog blog, String comment) {
+		this.blog=blog;
+		this.comment = comment;
+		this.createdAt = LocalDateTime.now();
+	}
+	
+
+.......
+}
+
+
+
+repositoriies:
+---------------
+
+
+public interface CommentRepo extends JpaRepository<Comment, Long>{
+	List<Comment> findByBlogId(Long blogId);
+	Optional<Comment> findByIdAndBlogId(Long id, Long postId);
+}
+
+
+
+public interface BlogRepo extends JpaRepository<Blog, Long>{
+}
+
+
+
+
+data insertion:
+----------------
+
+//blogRepo.delete(blogRepo.getOne(1L));
+		
+		/*Blog blog=new Blog("spring5", "amit", "spring 5 is lastest form spring.io");
+		Blog blog2=new Blog("java8", "raj", "java 8 is morden java");
+		
+		Comment comment1=new Comment(blog, "good blog on spring 5");
+		Comment comment2=new Comment(blog, "spring 5 rock");
+		Comment comment3=new Comment(blog, "i need basic into to spring first");
+		
+		Comment comment4=new Comment(blog2, "good blog on spring 8");
+		Comment comment5=new Comment(blog2, "need more details");
+		Comment comment6=new Comment(blog2, "i need basic of collection");
+		
+		blogRepo.save(blog);
+		commentRepo.save(comment1);
+		commentRepo.save(comment2);
+		commentRepo.save(comment3);
+		
+		blogRepo.save(blog2);
+		commentRepo.save(comment4);
+		commentRepo.save(comment5);
+		commentRepo.save(comment6);
+		*/
+
+
+
+
+
+
+
+
+controllers:
+------------
+
+
+
+@RestController
+@RequestMapping(path = "api")
+public class BlogController {
+
+	@Autowired
+	private BlogRepo blogRepo;
+
+	@GetMapping(path = "blog")
+	public ResponseEntity<List<Blog>> getAllBlogs() {
+		return ResponseEntity.ok().body(blogRepo.findAll());
+	}
+
+	@PostMapping(path = "blog")
+	public ResponseEntity<Blog> postBlogs(@RequestBody Blog blog) {
+		blogRepo.save(blog);
+		return ResponseEntity.status(HttpStatus.CREATED).body(blog);
+	}
+
+	// update blog
+	@PutMapping(path = "blog/{id}")
+	public ResponseEntity<Blog> upddateBlog(@PathVariable(name = "id") Long id,
+			@RequestBody Blog blogReq) {
+		
+		return blogRepo.findById(id).map(blog-> {
+			blog.setContent(blogReq.getContent());
+			blog.setTitle(blogReq.getTitle());
+			return ResponseEntity.ok().body(blogRepo.save(blog));
+		}).orElseThrow(() -> new ResourceNotFoundException("blog with id " + id
+				+ " not found"));
+	}
+
+	//delete blog
+	@DeleteMapping(path = "blog/{id}")
+	public ResponseEntity<?>deleteBlog(@PathVariable(name = "id") Long id){
+		return blogRepo.findById(id).map(blog->{
+			blogRepo.delete(blog);
+			return ResponseEntity.noContent().build();
+		}).orElseThrow(() -> new ResourceNotFoundException("blog with id " + id
+				+ " not found"));
+	}
+	//get blog by id
+	@GetMapping(path = "blog/{id}")
+	public ResponseEntity<Blog>getByIdBlog(@PathVariable(name = "id") Long id){
+		return blogRepo.findById(id).map(blog->{
+			return ResponseEntity.ok().body(blog);
+		}).orElseThrow(() -> new ResourceNotFoundException("blog with id " + id
+				+ " not found"));
+	}
+}
+
+
+
+
+
+
+@RestController
+@RequestMapping(path = "api")
+public class CommentController {
+
+	@Autowired
+	private BlogRepo blogRepo;
+
+	@Autowired
+	private CommentRepo commentRepo;
+
+	// get all comments for given blog
+	@GetMapping(path = "/blog/{blogId}/comment")
+	public ResponseEntity<List<Comment>> getAllCommentByPostId(
+			@PathVariable(name = "blogId") Long blogId) {
+		List<Comment> comments = commentRepo.findByBlogId(blogId);
+		return ResponseEntity.ok().body(comments);
+
+	}
+	
+	
+
+	@PostMapping("/blog/{blogId}/comment")
+	public ResponseEntity<Comment> createComment(
+			@PathVariable(value = "blogId") Long blogId,
+			@RequestBody Comment comment) {
+
+		Blog blog = blogRepo.findById(blogId).orElseThrow(
+				() -> new ResourceNotFoundException("PostId " + blogId
+						+ " not found"));
+
+		blog.addComment(comment);
+		blogRepo.save(blog);
+		commentRepo.save(comment);
+
+		return ResponseEntity.ok().body(comment);
+
+	}
+
+	@PutMapping("/blog/{blogId}/comment/{commentId}")
+	public ResponseEntity<Comment> updateComment(@PathVariable(value = "blogId") Long blogId,
+			@PathVariable(value = "commentId") Long commentId,
+			@RequestBody Comment commentRequest) {
+
+		if (!blogRepo.existsById(blogId)) {
+			throw new ResourceNotFoundException("blogId " + blogId
+					+ " not found");
+		}
+
+		Comment comment = commentRepo.findById(commentId).orElseThrow(
+				() -> new ResourceNotFoundException("CommentId " + commentId
+						+ "not found"));
+
+		comment.setComment(commentRequest.getComment());
+		commentRepo.save(comment);
+		return ResponseEntity.ok().body(comment);
+	}
+	
+	@DeleteMapping("/blog/{blogId}/comment/{commentId}")
+    public ResponseEntity<?> deleteComment(@PathVariable (value = "blogId") Long blogId,
+                              @PathVariable (value = "commentId") Long commentId) {
+        return commentRepo.findByIdAndBlogId(commentId, blogId).map(comment -> {
+            commentRepo.delete(comment);
+            return ResponseEntity.noContent().build();
+        }).orElseThrow(() -> new ResourceNotFoundException
+        		("Comment not found with id " + commentId + " and blogId " + blogId));
+    }
+}
+
+
+
+
+Exception handling:
+------------------
+
+
+
+public class ErrorDetails {
+	private String message;
+	private LocalDateTime timeStamp;
+	private String detail;
+	private String contactTo;
+}
+
+
+
+@ControllerAdvice
+@RestController
+public class ExceptionHandlerRestController {
+	@ExceptionHandler(ResourceNotFoundException.class)
+	public ResponseEntity<ErrorDetails> handleBookNotFoundEx(
+			
+			ResourceNotFoundException ex, WebRequest request) {
+		ErrorDetails details = new ErrorDetails("Resource not found",
+				LocalDateTime.now(), request.getDescription(false),
+				"https://www.rgupta.com/support");
+
+		return new ResponseEntity<ErrorDetails>(details, HttpStatus.NOT_FOUND);
+	}
+	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorDetails> handleOtherEx(
+			
+			Exception ex, WebRequest request) {
+		ErrorDetails details = new ErrorDetails("some server side error",
+				LocalDateTime.now(), request.getDescription(false),
+				"https://www.rgupta.com/support");
+
+		return new ResponseEntity<ErrorDetails>(details, HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+}
+
+
+
+@ResponseStatus(HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+    public ResourceNotFoundException(String message) {
+        super(message);
+    }
+}
+
+
+
+#spring.security.user.name=raja
+#spring.security.user.password=raja123
+server.port=8090
+server.servlet.context-path=/blogapp
+spring.jpa.hibernate.ddl-auto=update
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/boot_demo2?useSSL=false
+spring.jpa.show-sql=true
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+

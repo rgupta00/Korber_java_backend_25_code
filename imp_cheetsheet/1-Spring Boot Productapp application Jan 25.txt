@@ -1,0 +1,2129 @@
+Spring with Spring boot workshop:
+___________________________
+
+Key topics:
+==================
+=> Understand Depdendency Injection
+=> bean wiring :xml, annoation, java configuraton
+=> Spring boot aop
+=> spring mvc basics
+=> REST basics
+=> Spring boot REST application
+=> Spring AOP
+=> Spring JDBCTemplate
+=> Spring data
+=> Spring boot web application, Spring MVC arch
+=>Spring boot Monotring and Logging
+=> Spring boot security
+=> spring boot profile
+=> spring boot actuator
+=> spring boot jdbcTemplate
+=> Spring Boot microservice architecture
+=> spring boot openfeign
+
+
+Day 1: session 1:
+____________________
+
+Understand Depdendency Injection
+_________________________________
+
+What is the need of spring framework?
+-----------------------------------
+
+
+Lets take a example:
+
+Rest 
+Controller <------------ Service layer <---------- persistance layer <------ SessionFactory
+
+ravi team		sumit team			kapil team
+
+what sping does it produce loose coupling between the layer 
+Take example lets say ravi team creating controller layer, sumit team is creating service layer and kapil team is
+creating persitance layer... now controller layer need service and service layer need persistance layer
+
+as we have design our application as per interface and we have use DI therefore kapil team can change implemenation
+of service layer ( let earlier they are using Jdbc now wnat to use hibernate ) without effectiving even a single line
+of code in Service layer (sumit team) do you not think it is great...
+
+beside that spring DI help to manage dependency of our project and make our project flexiable
+
+
+						---------- ProductDaoImplHib
+						|
+	ProductService <---------------- ProductDao-------ProductDaoImplJdbc
+						|
+						---------- ProductDaoImplUtil
+		
+public class Product {
+		private Integer id;
+		private String name;
+		private BigDecimal price;	
+}
+					
+
+
+public interface ProductDao {
+	public List<Product>getProducts();
+}
+
+
+public interface ProductDaoImplUtil implements ProductDao {
+	public List<Product>getProducts(){
+		//collection implementation ....
+	}
+}
+
+public interface ProductDaoImplJdbc implements ProductDao {
+	public List<Product>getProducts(){
+		//jdbc implementation ....
+	}
+}
+
+
+
+public interface ProductService {
+	public List<Product>getProducts();
+}
+
+
+
+public interface ProductServiceImpl  implements ProductService{
+
+	private ProductDao productDao;
+
+	public ProductServiceImpl(){
+		productDao=new ProductDaoImplUtil();   // or ProductDaoImplJdbc()
+	}
+
+
+	public List<Product>getProducts(){
+	// business logic
+	}
+}
+
+
+=> we have to change the implementation ...whenever we swap dao layer :(
+
+
+Spring BeanFactory vs ApplicationContext
+______________________________________
+
+ * BeanFactory:
+ 	 - light weight container , dont support many featues
+ 	  - dont use it
+ BeanFactory applicationContext=new XmlBeanFactory(new ClassPathResource("demo.xml"));
+ 
+ *  ApplicationContext 
+  	- more powerful
+    	ApplicationContext applicationContext=
+				new ClassPathXmlApplicationContext("demo.xml");
+				
+	ApplicationContext
+		-ClassPathXmlApplicationContext
+		-FileSystemXmlApplicationContext
+		-AnnotationConfigApplicationContext
+		-XMLWebApplicationContext
+
+
+spring bean configuration:
+________________________
+1. xml configuration
+2. annotation configuration
+3. java configuration
+
+
+Understand Aspect Oriented Programming
+______________________________________
+	* If i need to take training at some client location, infra is provided by that client
+		i need to only carray my laptop
+
+	* help to achive high cohesion
+
+
+ consider: we need to find how much time it take to execute code of service layer and do logging into a log file
+
+
+public interface ProductServiceImpl  implements ProductService{
+
+	private ProductDao productDao;
+
+	public ProductServiceImpl(){
+		productDao=new ProductDaoImplUtil();   // or ProductDaoImplJdbc()
+	}
+
+
+	public List<String>getProducts(){
+	//how much it take to execute and do logging too ....
+	// business logic
+	}
+}
+ 
+
+
+
+
+session 2:
+___________
+MVC design pattern
+
+
+
+History Spring boot : Summarized:
+_________________________________
+
+1.0.0: Support from Java 6 - 8
+1.3.0: Support from Java 7 - 8, additional configuration for Java 6 required
+2.0.0: Support from Java 8 - ...
+
+
+	Advantage of spring boot , configuration spring boot
+	~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 	Advantage of spring boot
+	_____________________
+
+	=> Auto-Configuration 
+
+	=> Dependency Management
+
+	=> Externalized Configuration
+		bean can be configured through application.properties file 
+		without touching java or xml config
+
+	=> Production support
+		We get health checking, application and jvm metrics, 
+		jmx via http and a few more things for free
+
+	=> Runnable Jars
+		 We can package your application as a runnable jar with embedded tomcat
+		 included so it presents a self-contained deployment unit
+
+	=> Microservice
+
+
+	configuration spring boot
+	____________________
+
+	create spring boot project: choose web, jpa, derby....
+
+	//Configuration, @EnableAutoConfiguration and @ComponentScan
+
+
+
+	@SpringBootApplication
+	public class Application {
+	
+	  public static void main(String[] args) {
+	    ApplicationContext ctx = SpringApplication.run(Application.class, args);
+	
+	    System.out.println("Let's inspect the beans provided by Spring Boot:");
+	
+	    String[] beanNames = ctx.getBeanDefinitionNames();
+	    Arrays.sort(beanNames);
+	    for (String beanName : beanNames) {
+	        System.out.println(beanName);
+	    }
+	  }
+	
+	}
+
+	spring-boot:run
+
+
+	Spring boot ApplicationRunner and CommandLineRunner:
+	----------------------------------------
+
+	@Component
+	public class ApplicationRunnerBean implements ApplicationRunner {
+	@Override
+	public void run(ApplicationArguments args) throws Exception {
+		String collectStr = Arrays.stream(args.getSourceArgs()).collect(Collectors.joining(","));
+		System.out.println(collectStr);
+	}
+
+	}
+https://www.concretepage.com/spring-boot/spring-boot-commandlinerunner-and-applicationrunner-example#:~:text=The%20difference%20between%20CommandLineRunner%20and,spring%20ApplicationArguments%20as%20an%20argument.&text=To%20execute%20them%20in%20an,Order%20annotation%20or%20Ordered%20interface.
+	Hello world:
+	-----------
+
+	
+	@RestController
+	public class HelloRestController {
+		
+		@RequestMapping("/hello")
+		public String hello(){
+			return "spring boot";
+		}
+           }  
+	
+	public class Product {
+		private Integer id;
+		private String name;
+		private BigDecimal price;	
+         }
+
+	
+	
+	@GetMapping("products/{id}")
+	public Book getProductById(@PathVariable(name = "id")int id) {
+		return new Product(id, "java basics book", new BigDecimal(300));
+	}
+
+
+
+
+
+	application.properties
+	---------------------------
+	server.servlet.context-path=/productapp
+	server.port=8080
+
+
+
+Running spring boot :
+____________________
+
+	eclipse plugin
+	spring initilizer
+	spring cli
+
+	https://www.journaldev.com/8195/spring-boot-cli-setup-and-helloworld-example
+
+	spring init -n=jpa-one-to-one-demo -d=web,jpa,mysql --package-name=com.example.jpa demoproj
+
+
+bannner:
+________________
+spring.banner.location=classpath:banner.txt
+
+https://devops.datenkollektiv.de/banner.txt/index.html
+
+
+
+java -jar  jpa_demo2-0.0.1-SNAPSHOT.jar --server.port=8050
+
+https://docs.spring.io/spring-boot/docs/1.1.2.RELEASE/reference/html/common-application-properties.html
+
+
+
+Note:Spring boot config: EnableAutoConfiguration
+________________________________________________
+
+disable all database related auto configuration in spring-boot
+__________________________________________________________
+
+@Configuration
+@EnableAutoConfiguration(exclude = {DataSourceAutoConfiguration.class,
+ DataSourceTransactionManagerAutoConfiguration.class, HibernateJpaAutoConfiguration.class})
+@Profile ("client_app_profile_name")
+public class ClientAppConfiguration {
+    //it can be left blank
+}
+
+
+
+
+Day 2: 
+
+session 1: spring boot rest crud application 
+___________________________________________
+
+Rest 
+Controller <------------ Service layer <---------- persistance layer <------ SessionFactory
+
+
+
+
+step 1: application.properties
+_______________________
+server.servlet.context-path=/productapp
+server.port=8082
+
+spring.datasource.url=jdbc:mysql://localhost:3306/demoms?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+
+spring.jpa.hibernate.ddl-auto=update
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
+
+UserInterface.PRODUCT_ADD_SUCCESS=product added successfully
+UserInterface.PRODUCT_UPDATE_SUCCESS=product added successfully
+UserInterface.PRODUCT_DELETE_SUCCESS=product added successfully
+
+Service.PRODUCT_NOT_EXISTS=Product not exist
+
+
+in case of h2 database :
+---------------------
+
+server.port=8090
+server.servlet.context-path=/productapp
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+
+spring.jpa.show-sql=true 
+
+
+
+
+
+Step 2: dao layer
+_______________________
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@ToString
+@Entity
+@Table(name = "product_table")
+public class Product {
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+	private String name;
+	private BigDecimal price;
+	public Product(String name, BigDecimal price) {
+		super();
+		this.name = name;
+		this.price = price;
+	}
+		
+}
+
+@Repository
+public interface ProductDao extends JpaRepository<Product, Integer>{
+	public Product findByName(String name);
+}
+
+Step 3: service layer
+_______________________
+
+public interface ProductService {
+	public List<Product> findAll();
+	public Product getById(int id);
+	public Product addProduct(Product product);
+	public Product updateProduct(int id, Product product);
+	public Product deleteProduct(int id);
+	
+}
+
+
+
+public class ProductNotFoundException extends RuntimeException{
+	public ProductNotFoundException(String message) {
+		super(message);
+	}
+}
+
+
+
+
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	private ProductDao productDao;
+
+	@Autowired
+	public ProductServiceImpl(ProductDao productDao) {
+		this.productDao = productDao;
+	}
+
+	@Override
+	public List<Product> findAll() {
+		return productDao.findAll();
+	}
+
+	@Override
+	public Product getById(int id) {
+		return productDao.findById(id)
+				.orElseThrow(() -> new ProductNotFoundException("product with id" + id + " is not found"));
+	}
+
+	@Override
+	public Product addProduct(Product product) {
+		productDao.save(product);
+		return product;
+	}
+
+	@Override
+	public Product updateProduct(int id, Product product) {
+		Product productToUpdate= getById(id);
+		productToUpdate.setPrice(product.getPrice());
+		productDao.save(productToUpdate);
+		return productToUpdate;
+	}
+
+	@Override
+	public Product deleteProduct(int id) {
+		Product productToDelete= getById(id);
+		productDao.delete(productToDelete);
+		return productToDelete;
+	}
+
+}
+
+
+Step 4: rest controller
+_______________________
+@RestController
+public class ProductController {
+
+	private ProductService productService;
+
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
+	@GetMapping(path = "products")
+	public List<Product>findAll(){
+		return productService.findAll();
+	}
+	
+	@GetMapping(path = "products/{id}")
+	public Product findById(@PathVariable(name = "id") int id){
+		return productService.getById(id);
+	}
+	
+	@PostMapping(path = "products")
+	public Product addProduct( @RequestBody Product product){
+		return productService.addProduct(product);
+	}
+	
+	@DeleteMapping(path = "products/{id}")
+	public Product deleteProduct(@PathVariable(name = "id") int id){
+		return productService.deleteProduct(id);
+	}
+	
+	@PutMapping(path = "products/{id}")
+	public Product updateProduct(@PathVariable(name = "id") int id, @RequestBody Product product){
+		return productService.updateProduct(id, product);
+	}
+}
+
+
+
+Let
+
+
+
+
+Step 5: rest controller: ResponseEntity
+_______________________________________
+
+@RestController
+public class ProductController {
+
+	private ProductService productService;
+
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
+	
+	@GetMapping(path = "products")
+	public ResponseEntity<List<Product>> findAll(){
+		return ResponseEntity.status(HttpStatus.OK).body(productService.findAll());
+	}
+	
+	@GetMapping(path = "products/{id}")
+	public ResponseEntity<Product> findById(@PathVariable(name = "id") int id){
+		return ResponseEntity.ok(productService.getById(id));
+	}
+	
+	@PostMapping(path = "products")
+	public ResponseEntity<Product> addProduct( @RequestBody Product product){
+		return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
+	}
+	
+	@DeleteMapping(path = "products/{id}")
+	public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") int id){
+		 productService.deleteProduct(id);
+		 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
+	
+	@PutMapping(path = "products/{id}")
+	public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") int id, @RequestBody Product product){
+		return ResponseEntity.status(HttpStatus.CREATED).body(productService.updateProduct(id, product));
+	}
+}
+
+
+
+
+Step 6: rest controller exception handling
+_______________________________________
+@ResponseStatus(code =HS.NotFound)
+ProductNotFoundException extends RuntimeExcetion{
+}
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorDetails {
+	private String message;
+	private String statusCode;
+	
+	private String name;
+    private LocalDateTime localDateTime;
+	
+}
+
+
+
+@RestControllerAdvice
+public class ExHandlerController {
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorDetails> handle404(ProductNotFoundException ex){
+        ErrorDetails details=new ErrorDetails();
+        details.setLocalDateTime(LocalDateTime.now());
+        details.setMessage(ex.getMessage());
+        details.setName("rgupta.mtech@gmail.com");
+        details.setStatusCode(HttpStatus.NOT_FOUND.toString());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(details);
+    }
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetails> handle500(Exception ex){
+        ErrorDetails details=new ErrorDetails();
+        details.setMessage(ex.getMessage());
+        details.setLocalDateTime(LocalDateTime.now());
+        details.setName("rgupta.mtech@gmail.com");
+        details.setStatusCode(HttpStatus.INTERNAL_SERVER_ERROR.toString());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(details);
+    }
+}
+
+
+Step 7: JSR 303 validation api , exception handling
+__________________________________________________
+
+1. add validation api
+
+2. apply @valid in post and update method 
+
+3. 
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductDto {
+
+	private int id;
+	
+	@NotNull(message = "{product.name.absent}")
+	@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{product.name.invalid}")
+	private String name;
+
+	@NotNull(message = "{product.price.absent}")
+	@Range(min = 100, max = 100000, message = "{product.price.invalid}")
+	private BigDecimal price;
+
+}
+
+
+4. create exception handler
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
+
+		Map<String, String> errorMap = new HashMap<>();
+		ex.getBindingResult().getFieldErrors().forEach(error -> {
+			errorMap.put(error.getField(), error.getDefaultMessage());
+		});
+		return errorMap;
+	}
+
+
+ValidationMessages.properties
+-----------------------------
+
+product.name.absent=Please provide product name
+product.name.invalid=product Name should contain only alphabets and space
+
+product.price.absent=Please provide product price 
+account.price.invalid=Please provide correct price bw 100 to 100000
+
+
+	Other validation example:
+	-------------------------
+
+	@Email(message = "{account.email.invalid}")
+	@NotNull(message = "{account.email.absent}")
+	private String email;
+	
+	@NotNull(message = "{account.phone.absent}")
+	@Pattern(regexp = "[789][0-9]{9}", message = "{account.phone.invalid}")
+	private String phone;
+
+
+
+	private String category;
+	
+		EL BOOKS FMCG
+	
+	
+Implementation of custom valiation logic:
+-------------------------------------------
+
+setp 1: create ProductTypeValidator need to be used by custom annotation
+
+public class ProductTypeValidator implements ConstraintValidator<ValidateProductType, String> {
+    @Override
+    public boolean isValid(String productType, ConstraintValidatorContext constraintValidatorContext) {
+        List<String> productTypes = Arrays.asList("EL", "BOOK","FMCG);
+        return productTypes.contains(productType);
+    }
+}
+
+
+
+setp 2: create Custom annotation
+
+@Target({ElementType.FIELD,ElementType.PARAMETER})
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@Constraint(validatedBy = ProductTypeValidator.class)
+public @interface ValidateProductType {
+
+    public String message() default "Invalid productType: It should be either EL, BOOK,FMCG;
+
+    Class<?>[] groups() default {};
+
+    Class<? extends Payload>[] payload() default {};
+}
+
+
+
+//custom annotation
+    @ValidateProductType
+    private String productType; //Electronic or Books
+    
+
+    
+
+Supporting both xml and json:
+	_______________________________
+
+	Step 1: put parser for xml
+
+	     <dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-xml</artifactId>
+	     </dependency>
+
+	Step 2:
+	@GetMapping(path = "products", produces = {MediaType.APPLICATION_JSON_VALUE, 
+			MediaType.APPLICATION_XML_VALUE})
+
+
+
+spring boot reading property files:
+---------------------------------
+
+1. @Value annotation
+2. Enviornment
+3. @ConfigrationProperties
+
+
+@EnableConfigurationProperties(InfoDto.class)
+
+@ConfigrationProperties(prefix="db")
+
+Example:
+--------
+account:
+  message: "welcome to productapp account manager"
+  contactDetails:
+    name: "raj"
+    email: "rgupta.mtech@gmail.com"
+  onCallSupport:
+    -54645464556
+    -75765777677
+	
+	
+
+@ConfigurationProperties(prefix = "account")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class InfoDto {
+    private String message;
+    private Map<String, String>contactDetails;
+    private List<String>onCallSupport;
+}
+
+
+
+
+
+
+
+Spring boot loging customization:
+_____________________________________
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
+
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-log4j2</artifactId>
+</dependency>
+
+
+spring boot logging:
+-------------------
+ 	     
+Disable logging :
+---------------
+logging.level.root=OFF
+logging.level.org.springframework.boot=OFF
+spring.main.banner-mode=OFF   
+
+	     
+     
+Customizing logging :
+---------------	     
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+
+logging.level.com.productapp=info
+
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+
+
+# Logging pattern for the console
+logging.pattern.console= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+#logging pattern for file
+logging.pattern.file= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+
+logging.file.name=/home/raj/Desktop/logs/server.log
+	     
+	     
+ 
+	     
+	     
+
+   
+
+
+
+richardson maturity model
+_________________________
+
+Step 8: hateoas: Hypermedia as the Engine of Application State (HATEOAS)
+__________________
+
+ 1: put hateoas dependencies
+
+ 2: enable static improt:
+
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
+
+ 3: change POJO class:
+
+public class Product extends RepresentationModel<Product> {
+} 
+
+
+
+@GetMapping(path = "productsV2/{id}")
+	public EntityModel<Product>  findByIdLink(@PathVariable(name = "id") int id){
+		Link link=linkTo(methodOn(ProductController.class).findByIdLink(id)).withSelfRel();
+		Product product=productService.getById(id);
+		product.add(link);
+		return EntityModel.of(product);
+}
+
+@GetMapping(path = "productsV2")
+	public CollectionModel<Product> findAllV2(){
+		List<Product> products=productService.findAll();
+		for(Product product: products) {
+			Link link=linkTo(methodOn(ProductController.class).findByIdLink(product.getId())).withSelfRel();
+			product.add(link);
+		}
+		return CollectionModel.of(products);
+}
+
+
+
+9. Using OpenAPI 3.0
+_____________________
+https://www.bezkoder.com/spring-boot-swagger-3/
+https://www.baeldung.com/spring-rest-openapi-documentation
+
+https://editor.swagger.io/
+
+=> Documenting a Spring REST API Using OpenAPI 3.0
+=>Swagger is almost equivalent to SOAP formate, used for documentation of REST api
+
+		Step 1:
+
+	<dependency>
+		<groupId>org.springdoc</groupId>
+		<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+		<version>2.2.0</version>
+	</dependency>
+
+	Step 2:
+
+	http://localhost:8090/bookapp/v3/api-docs
+	
+	http://localhost:8090/bookapp/swagger-ui/index.html
+
+	http://localhost:8090/bookapp/v3/api-docs.yaml
+
+	Step 3:
+	Customization location
+	springdoc.swagger-ui.path=/swagger-ui-bookapp.html
+
+	@OpenAPIDefinition(info = @Info(title = "bookapp API", version = "2.0" , description = "YMSLI bookapp API"))
+	public class BookappApplication implements CommandLineRunner {
+	}
+
+
+	
+	@OpenAPIDefinition(
+			info = @Info(
+					title = "",
+					description = "",
+					version = "v1",
+					contact = @Contact(
+							name = "",
+							email = "",
+							url = ""
+					),
+					license = @License(
+							name = "Apache 2.0",
+							url = "https://www.cbre.com"
+					)
+			),
+			externalDocs = @ExternalDocumentation(
+					description =  "",
+					url = "https://www.cbre.com/swagger-ui.html"
+			)
+	)
+
+10. caching
+_____________
+1. In memory cache
+-------------------
+
+step 1: configuration of cache
+
+@Configuration
+@EnableCaching
+public class CachingConfig {
+	@Bean
+	public CacheManager cacheManager(){
+		ConcurrentMapCacheManager cacheManager=new ConcurrentMapCacheManager("products");
+		return cacheManager;
+		
+	}
+}
+
+
+Step 2: applying cache annotations on service layer
+
+@Slf4j
+@Service
+@Transactional
+public class ProductServiceImpl implements ProductService {
+
+	
+	@Cacheable(value="products")
+	@Override
+	public List<Product> findAll() {
+		//
+	}
+
+	@Cacheable(value="products", key = "#id")
+	@Override
+	public Product getById(int id) {
+		//
+	}
+
+	@CachePut(value="products", key="#result.id")
+	@Override
+	public Product addProduct(Product product) {
+		//
+	}
+
+	@CachePut(value="products", key="#result.id")
+	@Override
+	public Product updateProduct(int id, Product product) {
+		//
+	}
+
+	@CacheEvict(value="products", key="#id")
+	@Override
+	public Product deleteProduct(int id) {
+		//
+	}
+
+	@CacheEvict(value="products", allEntries=true)
+	@Override
+	public void evictCache() {
+		log.info("cache is cleared...");
+	}
+
+}
+
+
+
+Step 11: schedule processes
+____________________________
+
+	Note:
+	The simple rules that we need to follow to annotate a method with @Scheduled are:
+
+			a method should have the void return type
+			a method should not accept any parameters
+
+	step 1: put @EnableScheduling on bootstrap class
+
+	step 2: create an component with @Scheduled annotation
+
+				
+		@Service
+		public class ScheduledJob {
+			private Logger logger = LoggerFactory.getLogger(ScheduledJob.class);
+		
+			@Autowired
+			private ProductService service;
+		
+			@Scheduled(cron = "0,30 * * * * *")
+			public void cronJob() {
+				logger.info("> cronJob");
+		
+				List<Product> products = service.findAll();
+				logger.info("There are {} products in the data store.", products.size());
+		
+				logger.info("< cronJob");
+			}
+		
+			// after application startup delay of 5 sec, schedule to run each after 15
+			
+			@Scheduled(initialDelay = 5000, fixedRate = 15000)
+			public void fixedRateJob() {
+				logger.info("> fixedRateJob");
+		
+				// Add scheduled logic here
+		
+				List<Product> products = service.findAll();
+				
+				logger.info("There are {} books in the data store.", products.size());
+		
+				logger.info("< fixedRateJob");
+			}
+		
+		}
+
+
+ref:
+https://www.baeldung.com/spring-scheduled-tasks
+https://www.tutorialspoint.com/unix_commands/crontab.htm
+
+Spring boot Actuator:
+-------------------------
+
+server.port=8080
+spring.devtools.restart.enabled=true
+#management.endpoints.web.exposure.exclude=*
+management.endpoints.web.exposure.include=health, custom-endpoint
+management.endpoint.health.show-details=always
+management.health.disk.enabled=true
+management.health.livenessstate.enabled=true
+management.health.readinessstate.enabled=true
+management.server.port=9090
+
+
+#/actuator/info endpoint will show the information given here, keys
+# that are started with info
+info.app.encoding=UTF-8
+info.app.java.source=11
+info.app.java.target=11
+info.app.name=spring booot actuator
+
+
+Custom end points
+
+@Configuration
+@Endpoint(id = "custom-endpoint")
+public class CustomEndpoints {
+    @ReadOperation
+    public String getCustomData(){
+        return "This is custom Data";
+    }
+}
+
+
+
+
+
+Step 12: web application with boot
+____________________________
+
+1. We need to put dependency:
+
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+		</dependency>
+
+
+2. We need to configure view resolver
+
+spring.mvc.view.prefix:/WEB-INF/views/
+spring.mvc.view.suffix:.jsp
+
+
+3. define controller 
+
+@Controller
+public class ProductController {
+	
+	private ProductService productService;
+
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
+	}
+	
+	@GetMapping("products")
+	public ModelAndView allProducts(ModelAndView mv) {
+		mv.setViewName("products");
+		mv.addObject("products", productService.findAll());
+		
+		return mv;
+	}
+}
+
+put jsp in /bootapp/src/main/webapp/WEB-INF/views
+
+
+4. define jsp view 
+
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+ <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>Insert title here</title>
+</head>
+<body>
+	 <table>
+	<thead>
+		<tr>
+			<th>product id</th>
+			<th>product name</th>
+			<th>product price</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${products}" var="product">
+			<tr>
+				<td>${product.id }</td>
+				<td>${product.name }</td>
+				<td>${product.price }</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+
+</body>
+</html>
+
+
+
+
+
+Step 11: deployment spring boot as war file to tomcat
+___________________________________________________
+
+
+
+Step 12: Spring boot mongodb integration:
+______________________________________________
+https://roytuts.com/installing-zip-version-of-mongodb-in-windows/
+
+RDBMS 	MongoDB
+______________
+
+Table 	<--->	Collection
+Column 	<--->	Key
+Value 	<--->	Value
+Records/Rows<--->Document/Object
+
+
+Creating collections, document, storing data etc:
+__________________________________________
+
+show dbs 		// List all databases
+use rajdb 		//Switches to inventory
+show collections  	//List all tables in the current selected database
+
+Creating collections, document, storing data etc
+__________________________________________
+
+	use rajdb;	// create as well switch to rajdb
+
+
+
+choose dependencies: web, devtools, mongo
+step 1: Dao layer
+____________________
+
+@Document(collection = "products")
+public class Product {
+    @Id
+    private String id;
+    private String name;
+    private BigDecimal price;
+    private String category;
+    
+}
+
+
+@Repository
+public interface ProductRepo extends MongoRepository<Product, Integer> {
+    public List<Product> findByName(String name);
+}
+
+
+step 5: application.properties
+___________________
+server.servlet.context-path=/empapp
+server.port=8080
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=mongodb
+spring.data.mongodb.repositories.enabled=true
+
+
+
+
+Spring boot js
+----------------
+  <script>
+        let data = fetch('http://localhost:8080/empapp/employee')
+        data.then((item) => {
+            return item.json();
+        }).then((result) => {
+            console.log(result);
+        })
+
+    </script>
+
+
+2. Cache using Ehcahce
+---------------------------
+	Java’s most widely used cache
+	Open source
+	Commercial support by Terracota Inc.
+	it's robust, proven, full-featured, and integrates with other popular libraries and frameworks
+
+It can be used with hibernate as 
+	General purpose
+	2nd level cache
+	Integrates with – spring, google app engine and others
+
+Key terms
+----------
+Cache hit
+Cache miss
+System of record
+
+Why caching??
+---------------
+	Locality of reference
+	Speed
+	Cost saving
+
+Factors that affect the efficiency of a cache
+-------------------------------------------
+	Liveliness
+	Proportion of data cached
+	Shape of usage distribution – 80/20
+	Read/write ratio
+
+topology
+-----------
+	Standalone
+	Distributed
+	Replicated 
+
+Storage tiers
+--------------
+Memory store – subject to GC
+offHeap store – available upto RAM
+Disk store 
+
+Configuration:
+----------------
+spring-boot-starter-cache
+spring-boot-starter-web
+spring-boot-starter-data-jpa
+'net.sf.ehcache', name: 'ehcache', version: '2.10.6'
+
+
+@Configuration
+public class EhcacheConfig {
+
+    @Bean
+    CacheManager cacheManager(){
+        return new EhCacheCacheManager(ehCacheManager());
+    }
+
+    private net.sf.ehcache.CacheManager ehCacheManager() {
+        EhCacheManagerFactoryBean factoryBean = new EhCacheManagerFactoryBean();
+        factoryBean.setConfigLocation(new ClassPathResource("ehcache.xml"));
+        factoryBean.setShared(true);
+        return factoryBean.getObject();
+    }
+}
+
+ehcache.xml
+----------------
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="ehcache.xsd"
+         updateCheck="true"
+         monitoring="autodetect"
+         dynamicConfig="true"
+         diskPersistent="true">
+
+<!--    <diskStore path="java.io.tmpdir" />-->
+    <diskStore path="user.dir" />
+
+    <cache name="books"
+           maxEntriesLocalHeap="5"
+           maxEntriesLocalDisk="10"
+           eternal="false"
+           diskSpoolBufferSizeMB="20"
+           timeToIdleSeconds="3000"
+           timeToLiveSeconds="6000"
+           memoryStoreEvictionPolicy="LFU"
+           transactionalMode="off"
+
+           >
+        <persistence strategy="localTempSwap" />
+<!--        <persistence strategy="LOCALRESTARTABLE" />-->
+    </cache>
+
+</ehcache>
+
+
+redis introduction:
+-----------------
+What is redis?
+
+Redis means REmote DIctionary Server
+Open source
+Written in “ANSI C”
+In-memory data structure store
+Strings, Hashes, List, Set and Sorted set etc
+Built-in replication, LRU eviction, transactions, disk-level persistence
+
+https://www.javatpoint.com/redis-tutorial
+
+What is redis Usage ?
+-----------------
+	Database
+	Cache
+	Message broker
+	
+Can be used with different languages
+
+https://redis.io/clients
+
+https://github.com/tporadowski/redis/releases
+
+Redis as database?
+------------------
+step 1: add dependencies
+        <dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+		</dependency>
+		
+
+step 2: put annotation on the config class
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash
+
+@RedisHash("Product")
+public class Product implements Serializable {
+    @Id
+    private int id;
+    private String name;
+    private int qty;
+    private long price;
+}
+
+step 3: redis configuration
+@Configuration
+@EnableRedisRepositories
+public class RedisConfig {
+
+    @Bean
+    public JedisConnectionFactory connectionFactory() {
+        RedisStandaloneConfiguration configuration = new RedisStandaloneConfiguration();
+        configuration.setHostName("localhost");
+        configuration.setPort(6379);
+        return new JedisConnectionFactory(configuration);
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> template() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashKeySerializer(new JdkSerializationRedisSerializer());
+        template.setValueSerializer(new JdkSerializationRedisSerializer());
+        template.setEnableTransactionSupport(true);
+        template.afterPropertiesSet();
+        return template;
+    }
+}
+
+step 3: redis Dao Configuration
+
+@Repository
+public class ProductDao {
+
+    public static final String HASH_KEY = "Product";
+	
+    @Autowired
+    private RedisTemplate template;
+
+    public Product save(Product product){
+        template.opsForHash().put(HASH_KEY,product.getId(),product);
+        return product;
+    }
+
+    public List<Product> findAll(){
+        return template.opsForHash().values(HASH_KEY);
+    }
+
+    public Product findProductById(int id){
+        return (Product) template.opsForHash().get(HASH_KEY,id);
+    }
+
+
+    public String deleteProduct(int id){
+         template.opsForHash().delete(HASH_KEY,id);
+        return "product removed !!";
+    }
+}
+   
+
+
+
+
+Redis as Cache?
+------------------
+spring-boot-starter-data-redis
+spring-boot-starter-web
+spring-boot-starter-data-jpa
+spring-boot-starter-data-jpa
+
+spring.redis.host=localhost
+spring.redis.port=6379
+spring.redis.timeout=10000
+spring.cache.type=REDIS
+spring.redis.cache-null-values=false
+spring.redis.use-key-prefix: true
+spring.redis.key-prefix: library
+spring.redis.time-to-live: 60000
+
+
+https://github.com/tporadowski/redis/releases
+6379
+set the env variable
+
+
+-----------imp property file configurations------------------
+
+server.port=8090
+server.servlet.context-path=/bankapp
+spring.datasource.driver-class-name= com.mysql.jdbc.Driver
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto= update
+spring.datasource.url=jdbc:mysql://localhost:3306/edu123?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+
+
+spring.jpa.hibernate.ddl-auto=update
+
+# if u want to disable logging
+#logging.level.root=OFF
+#logging.level.org.springframework.boot=OFF
+#spring.main.banner-mode=OFF
+
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+logging.level.com.productapp: INFO
+logging.level.com.productapp.service: INFO
+
+logging.pattern.console= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+#logging pattern for file
+logging.pattern.file= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+#i wnat to send logs to a specific file?
+
+spring.jpa.show-sql=true 
+spring.banner.location=	
+
+spring.jmx.enabled=true
+management.endpoints.web.exposure.include=*
+management.endpoints.jmx.exposure.include=*
+
+management.info.env.enabled=true
+info.app.encoding=UTF-8
+info.app.java.source=21
+info.app.java.target=21
+info.app.name=productapp
+info.app.dev=amit ku
+
+management.endpoint.health.show-details=always
+management.endpoint.health.probes.enabled=true
+# livenessstate readinessstate
+#management.health.livenessstate.enabled=true
+#management.health.readinessstate.enabled=true
+
+UserInterface.INTERNAL_SERVER_ERROR=some internal server error
+#UserInterface.PRODUCT_ADD_SUCCESS=product added successfully
+#UserInterface.PRODUCT_UPDATE_SUCCESS=product added successfully
+#UserInterface.PRODUCT_DELETE_SUCCESS=product added successfully
+#
+#Service.PRODUCT_NOT_EXISTS=Product not exist
+#
+#
+#product.name.absent=Please provide product name
+#product.name.invalid=product Name should contain only alphabets and space
+#
+#product.price.absent=Please provide product price
+#account.price.invalid=Please provide correct price bw 100 to 100000
+
+info.key=default
+spring.profiles.active=test
+
+
+
+
+server.port=8090
+server.servlet.context-path=/productapp
+spring.h2.console.enabled=true
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=foo
+spring.datasource.password=foo
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+
+
+
+Spring boot testing
+---------------------
+* Junit mockito intro
+* Spring boot testing
+* Communication bw spring boot applications
+
+
+repo
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+mvn clean verify sonar:sonar -Dsonar.projectKey=project1 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_c728475131a378fa2c93963c688a9450b3563b6d
+
+service
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
+
+
+
+
+controller
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+
+integration layer
+--------------
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.repo.ProductRepo;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+
+Spring boot testing:
+---------------------
+server.port=8080
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=foo
+spring.datasource.password=foo
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+
+testing dao layer:
+---------------------
+
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+@DataJpaTest
+class ProductRepoTest {
+
+    @Autowired
+    private ProductRepo productRepo;
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product=new Product("laptop", 120000);
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void givenProductObjectWhenSaveReturnProductObject(){
+        Product productSaved=productRepo.save(product);
+        assertThat(productSaved).isNotNull();
+        assertThat(productSaved.getId()).isGreaterThan(0);
+    }
+    @DisplayName("JUnit test for get all employees operation")
+    @Test
+    public void givenProductList_whenFindAll_thenProductList(){
+        //given
+        Product p1=new Product("laptop",120000);
+        Product p2=new Product("laptop cover",1200);
+        productRepo.save(p1);
+        productRepo.save(p2);
+        // when -  action or the behaviour that we are going test
+        List<Product> productList=productRepo.findAll();
+        // then - verify the output
+        assertThat(productList).isNotNull();
+        assertThat(productList.size()).isEqualTo(2);
+    }
+    @DisplayName("JUnit test for get product by id operation")
+    @Test
+    public void givenProductObject_whenFindById_thenReturnProductObject(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+
+        // when -  action or the behaviour that we are going test
+        Product productDB = productRepo.findById(p1.getId()).get();
+        // then - verify the output
+        assertThat(productDB).isNotNull();
+    }
+    @DisplayName("JUnit test for update product operation")
+    @Test
+    public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+        // when -  action or the behaviour that we are going test
+        Product savedProduct = productRepo.findById(p1.getId()).get();
+        savedProduct.setPrice(130000);
+        Product updatedProduct =  productRepo.save(savedProduct);
+
+        assertThat(updatedProduct.getPrice()).isEqualTo(130000);
+    }
+
+    @DisplayName("JUnit test for delete product operation")
+    @Test
+    public void givenProductObject_whenDelete_thenRemoveProduct(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+
+        // when -  action or the behaviour that we are going test
+        productRepo.deleteById(p1.getId());
+        Optional<Product> employeeOptional = productRepo.findById(product.getId());
+
+        // then - verify the output
+        assertThat(employeeOptional).isEmpty();
+    }
+
+
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+service layer testing:
+---------------------
+
+import com.productapp.repo.Product;
+import com.productapp.repo.ProductRepo;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
+@ExtendWith(MockitoExtension.class)
+class ProductServiceImplTest {
+
+    @Mock
+    private ProductRepo productRepo;
+
+    @InjectMocks
+    private ProductServiceImpl productService;
+
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product=new Product("laptop", 120000);
+    }
+
+    @DisplayName("JUnit test for save Product method")
+    @Test
+    public void givenProductObject_whenSaveProduct_thenReturnProductObject(){
+        // given - precondition or setup
+        given(productRepo.save(product)).willReturn(product);
+        Product savedProduct = productService.addProduct(product);
+        assertThat(savedProduct).isNotNull();
+    }
+
+
+    @DisplayName("JUnit test for getAll Product method")
+    @Test
+    public void givenProductList_whenGetAllProduct_thenReturnProductList(){
+        // given - precondition or setup
+        Product  product2=new Product("laptop cover", 1200);
+
+        given(productRepo.findAll()).willReturn(List.of(product,product2));
+
+        // when -  action or the behaviour that we are going test
+        List<Product> productList = productService.getAll();
+
+        // then - verify the output
+        Assertions.assertThat(productList).isNotNull();
+        Assertions.assertThat(productList.size()).isEqualTo(2);
+    }
+
+
+    @DisplayName("JUnit test for getAll Product method (negative scenario)")
+    @Test
+    public void givenEmptyEmployeesList_whenGetAllEmployees_thenReturnEmptyEmployeesList(){
+        // given - precondition or setup
+        given(productRepo.findAll()).willReturn(Collections.emptyList());
+
+        // when -  action or the behaviour that we are going test
+        List<Product> employeeList = productService.getAll();
+        // then - verify the output
+        Assertions.assertThat(employeeList).isEmpty();
+        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+
+
+controller layer testing:
+---------------------------
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+@WebMvcTest
+class ProductRestControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ProductService productService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void givenProductObject_whenCreateProduct_thenReturnSavedProduct() throws Exception{
+
+        // given - precondition or setup
+        Product product=new Product("laptop", 120000);
+        given(productService.addProduct(any(Product.class)))
+                .willAnswer((invocation)-> invocation.getArgument(0));
+
+        // when - action or behaviour that we are going test
+        ResultActions response = mockMvc.perform(post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(product)));
+
+        // then - verify the result or output using assert statements
+        response.andDo(print()).
+                andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name",
+                        is(product.getName())))
+                .andExpect(jsonPath("$.price",
+                        is(product.getPrice())));
+    }
+    @Test
+    public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception{
+        // given - precondition or setup
+        List<Product> listOfProducts = new ArrayList<>();
+        listOfProducts.add(Product.builder().name("a").price(6000).build());
+        listOfProducts.add(Product.builder().name("b").price(6000).build());
+        given(productService.getAll()).willReturn(listOfProducts);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products"));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",
+                        is(listOfProducts.size())));
+
+    }
+
+    // positive scenario - valid employee id
+    @Test
+    public void givenProductId_whenGetProductById_thenReturnProductObject() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        Product product=new Product(1,"laptop", 120000);
+        given(productService.getById(productId)).willReturn(product);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(product.getName())))
+                .andExpect(jsonPath("$.price", is(product.getPrice())));
+
+    }
+
+
+    // @Test
+    public void givenInvalidProductId_whenGetProductById_thenReturnEmpty() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        Product product=new Product(1,"laptop", 120000);
+        given(productService.getById(productId)).willReturn(null);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+
+    // JUnit test for delete employee REST API
+    @Test
+    public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        willDoNothing().given(productService).deleteProduct(productId);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
+    }
+    @BeforeEach
+    void setUp() {
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+
+integration testing:
+-------------------
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.repo.ProductRepo;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+public class ProductAppIntegrationTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ProductRepo productRepo;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setup(){
+        productRepo.deleteAll();
+    }
+
+    @Test
+    public void givenProductObject_whenCreateProduct_thenReturnSavedProduct() throws Exception{
+
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+
+        // when - action or behaviour that we are going test
+        ResultActions response = mockMvc.perform(post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(product)));
+
+        // then - verify the result or output using assert statements
+        response.andDo(print()).
+                andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name",
+                        is(product.getName())))
+                .andExpect(jsonPath("$.price",
+                        is(product.getPrice())));
+
+
+    }
+
+    @Test
+    public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception{
+        // given - precondition or setup
+        List<Product> listOfProducts = new ArrayList<>();
+        listOfProducts.add(Product.builder().name("foo").price(7000).build());
+        listOfProducts.add(Product.builder().name("bar").price(7000).build());
+        productRepo.saveAll(listOfProducts);
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products"));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",
+                        is(listOfProducts.size())));
+
+    }
+
+    // positive scenario - valid employee id
+    // JUnit test for GET employee by id REST API
+    @Test
+    public void givenProductId_whenGetProductById_thenReturnProducteObject() throws Exception{
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+        productRepo.save(product);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", product.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(product.getName())))
+                .andExpect(jsonPath("$.price", is(product.getPrice())));
+
+    }
+
+
+
+    // JUnit test for delete employee REST API
+    @Test
+    public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception{
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+        productRepo.save(product);
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/products/{id}", product.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
+    }
+}

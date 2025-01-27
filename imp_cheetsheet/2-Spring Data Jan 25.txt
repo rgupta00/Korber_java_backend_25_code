@@ -1,0 +1,752 @@
+
+Spring data quaries:
+---------------------
+
+	@Query("select p from Product p")
+	List<Product> getListOfAllProducts();
+	
+	
+	@Query("select p from Product p where p.name=?1")
+	List<Product> getListOfAllProductsBasedOnName(String name);
+	
+	@Query("select p from Product p where p.name=:name")
+	List<Product> getListOfAllProductsBasedOnNameV2(@Param("name")  String name);
+	
+
+	@Query("select p from Product p where p.name=?1 and p.price=?2")
+	List<Product> getListOfAllProductsBasedOnNameAndPrice(String name, BigDecimal price);
+	
+	@Query("select p from Product p where p.name=?1 or p.price=?2")
+	List<Product> getListOfAllProductsBasedOnNameOrPrice(String name, BigDecimal price);
+	
+	
+	List<Product> findByName(String name);
+	
+	List<Product> findByNameContaining(String name);
+	List<Product> findByNameLike(String name);
+	List<Product> findByNameStartingWith(String name);
+	
+	List<Product> findByNameEndingWith(String name);
+	
+	List<Product> findByNameIgnoreCase(String name);
+	
+	
+	List<Product> findByMfgDateAfter(LocalDate date);
+	List<Product> findByMfgDateBefore(LocalDate date);
+	List<Product> findByMfgDateBetween(LocalDate date1, LocalDate date);
+	
+	
+
+
+
+Spring data pagination:
+----------------------
+
+
+
+adding multiple products
+-----------------------------
+
+		List<Product>products=IntStream.rangeClosed(1, 2000)
+				.mapToObj(i-> new Product("product "+i, new Random().nextDouble(5000)))
+				.toList();
+		
+		//productRepo.saveAll(products);
+		
+		
+		
+	
+service layer:
+-------------------
+	public List<Product> getAllProductSorted(String field);
+	public Page<Product> getAllProductPage(int offset, int pageSize);
+	public Page<Product> getAllProductPageSorted(String field,int offset, int pageSize);
+	
+	
+	
+	
+service layer implementation
+--------------------------
+
+	@Override
+	public List<Product> getAllProductSorted(String field) {
+		return productRepo.findAll(Sort.by(Sort.Direction.DESC, field));
+	}
+
+	@Override
+	public Page<Product> getAllProductPage(int offset, int pageSize) {
+		return productRepo.findAll(PageRequest.of(offset, pageSize));
+	}
+
+	@Override
+	public Page<Product> getAllProductPageSorted(String field, int offset, int pageSize) {
+		return productRepo.findAll(PageRequest.of(offset, pageSize).withSort(Sort.by(field)));
+	}
+	
+	
+	
+controller layer:
+---------------
+	
+	@GetMapping(path = "productsorted")
+	public List<Product> getAllProductSorted(@RequestParam(name="field")  String field) {
+		return productService.getAllProductSorted(field);
+	}
+
+	//productpage?offset=4&pageSize=20
+	@GetMapping(path = "productpage")
+	public Page<Product> getAllProductPage(@RequestParam(name="offset") int offset,@RequestParam(name="pageSize") int pageSize) {
+		return productService.getAllProductPage(offset, pageSize);
+	}
+
+	//productpagesorted?offset=4&pageSize=20&field=id
+	@GetMapping(path = "productpagesorted")
+	public Page<Product> getAllProductPageSorted(int offset, int pageSize,String field) {
+		return productService.getAllProductPageSorted(field, offset, pageSize);
+	}
+		
+		
+
+Joins:
+---------
+
+one to one:
+-------------
+Employee ------------<>-------- Parking
+
+
+
+
+POJO:
+------
+
+public class Employee {
+	private int eid;
+	private String name;
+	private double salary;
+
+	private Parking parking;
+}
+
+
+public class Parking {
+	private int pid;
+	private String loc;
+	private Employee employee;
+}
+
+
+
+Entities:
+-----------
+
+@Entity
+@Table(name = "emp_table")
+public class Employee {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int eid;
+	private String name;
+	private double salary;
+
+	@OneToOne(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private Parking parking;
+
+}
+
+
+@Entity
+@Table(name = "parking_table")
+public class Parking {
+	
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int pid;
+	private String loc;
+	
+	@JoinColumn(name = "eid_fk")
+	@OneToOne
+	private Employee employee;
+}
+
+
+
+Repository:
+------------
+@Repository
+public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
+
+}
+
+@Repository
+public interface ParkingRepo extends JpaRepository<Parking, Integer>{
+}
+
+
+
+
+populate some data:
+--------------------
+		Parking parking1=new Parking("A34");
+		Parking parking2=new Parking("Mw6");
+		Parking parking3=new Parking("F40");
+		
+		
+		Employee emp1=new Employee("ekta", 4000.00, parking1);
+		Employee emp2=new Employee("keshav", 7000.00, parking2);
+		Employee emp3=new Employee("gunika", 3400.00, parking3);
+		
+		parking1.setEmployee(emp1);
+		parking2.setEmployee(emp2);
+		parking3.setEmployee(emp3);
+		
+		empRepo.save(emp1);
+		empRepo.save(emp2);
+		empRepo.save(emp3);
+		
+		parkingRepo.save(parking1);
+		parkingRepo.save(parking2);
+		parkingRepo.save(parking3);
+
+
+
+
+
+one to many:
+-------------
+Department <>-------- Employee
+
+Pojo:
+--------
+
+public class Department {
+	private int did;
+	private String dname;
+
+	private List<Employee>employees=new ArrayList<>();
+}
+
+
+public class Employee {
+	private int eid;
+	private String name;
+	private double salary;
+
+	private Department department;
+}
+
+
+
+
+
+Entities:
+--------
+
+@Entity
+@Table(name = "dept_table")
+public class Department {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int did;
+	
+	private String dname;
+	
+	
+	@OneToMany(mappedBy = "department", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Employee>employees=new ArrayList<>();
+}
+
+
+@Entity
+@Table(name = "empdept_table")
+public class Employee {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int eid;
+	private String name;
+
+	private double salary;
+
+	@JoinColumn(name = "did_fk")
+	@ManyToOne
+	private Department department;
+
+}
+
+
+Initilizing data:
+-----------------
+
+		Department d1=new Department("fin");
+		Department d2=new Department("IT");
+		Department d3=new Department("sales");
+		
+		Employee emp1=new Employee("ravi", 6000.00, d1);
+		Employee emp2=new Employee("ekta", 4000.00, d1);
+		
+		Employee emp3=new Employee("keshav", 7000.00, d2);
+		Employee emp4=new Employee("gunika", 3400.00, d2);
+		
+		Employee emp5=new Employee("raj", 7800.00, d3);
+		
+		//dept 1 have 1,2 emps
+		d1.getEmployees().add(emp1);
+		d1.getEmployees().add(emp2);
+		
+		
+		d2.getEmployees().add(emp3);
+		d2.getEmployees().add(emp4);
+		
+		d3.getEmployees().add(emp5);
+		
+		deptRepo.save(d1);
+		deptRepo.save(d2);
+		deptRepo.save(d3);
+		
+		empRepo.save(emp1);
+		empRepo.save(emp2);
+		empRepo.save(emp3);
+		empRepo.save(emp4);
+		empRepo.save(emp5);
+
+
+
+
+
+Repositories:
+-------------
+
+dname ename salary
+
+
+@Repository
+public interface DepartmentRepo extends JpaRepository<Department, Integer>{
+	@Query("SELECT new com.demo.dto.DeptEmpResponse(d.dname, e.name, e.salary) FROM Department d INNER JOIN d.employees e")
+	List<DeptEmpResponse> deptEmployeeInformation();
+}
+
+
+
+
+@Query("SELECT new com.demo.dto.DeptEmpResponse(d.dname, e.name, e.salary) 
+		FROM Department d INNER JOIN d.employees e")
+	List<DeptEmpResponse> deptEmployeeInformation();
+
+@Repository
+public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
+	@Query("SELECT e FROM Employee e WHERE e.eid IN (:eid)")
+	public List<Employee> findEmployeessByIds(@Param("eid") List<Integer> eid);
+}
+
+
+
+Requst/response DTO:
+----------------------
+
+
+@JsonIgnoreProperties({"rank","location"})
+public class DeptEmpResponse {
+	private String dname;
+	private String name;
+	private double salary;
+	//@JsonIgnore
+	private int rank;
+	//@JsonIgnore
+	private String location;
+}
+
+
+public class EmployeeRequest {
+	private List<Integer> ids;
+}
+
+
+{
+  "ids":  [1,5]
+}
+
+Exception:
+---------
+public class ResourceNotFoundException extends RuntimeException{
+}
+
+
+Controllers:
+------------
+
+
+@RestController
+public class DeptartmentRestController {
+
+	private DepartmentRepo deptRepo;
+
+	@Autowired
+	public DeptartmentRestController(DepartmentRepo deptRepo) {
+		this.deptRepo = deptRepo;
+	}
+	
+	@GetMapping(path = "department", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Department> getAllDepartments(){
+		List<Department> departments=deptRepo.findAll();
+		return departments;
+	}
+	
+	
+	@GetMapping(path = "department/{did}", produces = MediaType.APPLICATION_JSON_VALUE)
+	public Department getAnDepartment(@PathVariable(name="did") int did){
+		 Department department=deptRepo.findById(did).orElseThrow(ResourceNotFoundException::new);
+		return department;
+	}
+}
+
+
+
+
+@RestController
+public class EmployeeRestController {
+
+	@Autowired
+	private DepartmentRepo deptRepo;
+
+	@Autowired
+	private EmployeeRepo empRepo;
+
+	@GetMapping(path = "employee", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Employee> getAllEmp() {
+		List<Employee>employees=empRepo.findAll();
+		return employees;
+	}
+
+	@GetMapping(path = "selectedemployee", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<Employee> getSelectedEmp(@RequestBody EmployeeRequest employeeRequest) {
+		List<Employee>employees=empRepo.findEmployeessByIds(employeeRequest.getIds());
+		return employees;
+	}
+	
+	@GetMapping(path = "empinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+	public List<DeptEmpResponse> getAllEmployeesWithDeptName() {
+		List<DeptEmpResponse> empsWithDeptNames = deptRepo.deptEmployeeInformation();
+		return empsWithDeptNames;
+	}
+
+}
+
+
+Problem: recursion :
+---------------------
+	one to one
+
+	one to many
+
+	many to many
+
+
+Solving Infinite Recursion using @JsonManagedReference and @JsonBackReference
+---------------------------------------------------------------------
+
+@JsonIgnore
+
+	 @JsonManagedReference:
+			 is used on the OneToMany side 
+			 it is the forward part of the mapping/reference and the data gets serialized normally.
+
+	@JsonBackReference :
+			is used at the @ManyToOne side
+			@JsonBackReference is is the backward side of the mapping and the data  does not get serialized
+ 
+
+	Steps:
+	 Add @JsonManagedReference to the getPosts method in the User entity
+	 Add @JsonBackReference to the getUser method of the Post entity
+	Add @JsonManagedReference to the getUsers method of the Location entity
+	@JsonBackReference to the getLocation method of the User entity
+
+
+
+
+ @JsonIdentifyInfo and @JsonIgnore
+-------------------------------------
+
+	@JsonIgnore 
+		it is an alternative  for the @JsonBackReference. 
+		So we can used @JsonIgnore in place of @JsonBackReference
+
+	@JsonIdentityInfo 
+		it can be used in place of the both @JsonManagedReference and @JsonBackReference. 
+		@JsonIdentityInfo annotation is added to the class and NOT to the methods. 
+	
+	Also, the @JsonIdentityInfo requires some attributes as shown in the code below:
+
+	@JsonIdentityInfo(
+	generator = ObjectIdGenerators.PropertyGenerator.class, 
+	property = "id")
+
+
+
+public interface DepartmentRepository extends JpaRepository<Department, Integer> {
+
+	@Query("SELECT new new demo.EmpDataResponse(d.name, e.name, e.salary) FROM Department d INNER JOIN d.employees e")
+	List<EmpDataResponse> deptEmployeeInformation();
+
+}
+
+
+EmpDataResponse{
+private String dname;
+private String name;
+private double salary;
+}
+
+dname enam ,salary
+
+public class Department {
+	//
+	private String dname;
+	private List<Employee>employees=new ArrayList<>();
+
+
+public class Employee {
+	
+	private int eid;
+	private String name;
+	private double salary;
+
+	private Department department;
+
+
+
+Ref:
+-----
+https://www.appsdeveloperblog.com/infinite-recursion-in-objects-with-bidirectional-relationships/
+
+
+
+Spring boot join: many to many
+---------------------------------
+	N		M
+Employee--------- <>------- Project
+
+
+POJO:
+------
+public class Employee {
+	private int eid;
+	private String name;
+	private double salary;
+
+	private List<Project> projects=new ArrayList<>();
+}
+
+public class Project {
+	private int pid;
+	private String pname;
+	private String manager;
+	private LocalDate startDate;
+	
+	private List<Employee> employees=new ArrayList<>();
+}
+
+
+
+
+Entities:
+--------
+@Entity
+@Table(name = "emp_proj_table")
+public class Employee {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int eid;
+	private String name;
+	private double salary;
+
+	@ManyToMany(mappedBy = "employees", cascade = CascadeType.ALL)
+	private List<Project> projects=new ArrayList<>();
+}
+
+
+
+@Entity
+@Table(name = "project_table")
+public class Project {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int pid;
+	private String pname;
+	private String manager;
+	private LocalDate startDate;
+	
+	
+	@JoinTable(name="emp_project_join", joinColumns = @JoinColumn(name="pid_fk"), 
+			inverseJoinColumns = @JoinColumn(name="eid_fk"))
+	@ManyToMany(cascade = CascadeType.ALL)
+	private List<Employee> employees=new ArrayList<>();
+}
+
+
+
+Data init:
+-------
+Employee emp1 = new Employee("sunita", 4000.00);
+		Employee emp2 = new Employee("keshav", 7000.00);
+		Employee emp3 = new Employee("gunika", 3400.00);
+		
+		
+		Employee emp4 = new Employee("anil", 3400.00);
+		Employee emp5 = new Employee("sumit", 7900.00);
+		Employee emp6 = new Employee("umesh", 5600.00);
+		
+		
+		
+		Employee emp7 = new Employee("vikas", 4000.00);
+		Employee emp8 = new Employee("neetu", 7000.00);
+		Employee emp9 = new Employee("kapil", 3400.00);
+		
+	
+		Project project1=new Project("shopping cart", "raj", LocalDate.of(2021, Month.JANUARY, 2));
+		Project project2=new Project("bank app", "ekta", LocalDate.of(2020, Month.NOVEMBER, 22));
+		Project project3=new Project("bookstore", "indu", LocalDate.of(2020, Month.DECEMBER, 12));
+		
+		project1.getEmployees().add(emp1);
+		project1.getEmployees().add(emp2);
+		project1.getEmployees().add(emp3);
+		
+		project2.getEmployees().add(emp4);
+		project2.getEmployees().add(emp5);
+		project2.getEmployees().add(emp6);
+		
+		project3.getEmployees().add(emp7);
+		project3.getEmployees().add(emp8);
+		project3.getEmployees().add(emp9);
+		
+
+		emp1.getProjects().add(project1);
+		emp2.getProjects().add(project1);
+		emp3.getProjects().add(project1);
+		
+		
+		emp4.getProjects().add(project2);
+		emp5.getProjects().add(project2);
+		emp6.getProjects().add(project2);
+		
+		emp7.getProjects().add(project3);
+		emp8.getProjects().add(project3);
+		emp9.getProjects().add(project3);
+
+		projectRepo.save(project1);
+		projectRepo.save(project2);
+		projectRepo.save(project3);
+		
+		
+		
+		empRepo.save(emp1);
+		empRepo.save(emp2);
+		empRepo.save(emp3);
+		
+		empRepo.save(emp4);
+		empRepo.save(emp5);
+		empRepo.save(emp6);
+		
+		
+		empRepo.save(emp7);
+		empRepo.save(emp8);
+		empRepo.save(emp9);
+		
+
+
+
+Repo:
+-----
+@Repository
+public interface EmployeeRepo extends JpaRepository<Employee, Integer>{
+
+}
+
+@Repository
+public interface ProjectRepo extends JpaRepository<Project, Integer>{
+
+}
+
+
+
+
+
+
+
+
+
+Spring boot data configuration:
+---------------------------------
+
+step 1:
+-----------
+spring.datasource.url=jdbc:mysql://localhost:3306/cris1?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+spring.datasource.username=root
+spring.datasource.password=root
+spring.datasource.driver-class-name= com.mysql.jdbc.Driver
+#spring.jpa.hibernate.ddl-auto=create-drop
+
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto= update
+
+step 2:
+-------------
+@Configuration
+@PropertySource("classpath:db.properties")
+public class DbConfig {
+
+	@Autowired
+	private Environment environment;
+	
+	
+	@Bean
+	public DriverManagerDataSource getDriverManagerDataSource() {
+		DriverManagerDataSource ds=new DriverManagerDataSource();
+		ds.setUsername(environment.getProperty("jdbc.username"));
+		ds.setPassword(environment.getProperty("jdbc.password"));
+		ds.setDriverClassName(environment.getProperty("jdbc.drivername"));
+		ds.setUrl(environment.getProperty("jdbc.url"));
+		
+		return ds;
+	}
+	
+}
+
+
+@Configuration
+@ComponentScan(basePackages = {"com.productapp"})
+@EnableTransactionManagement
+@Import(DbConfig.class)
+@EnableJpaRepositories(basePackages = "com.productapp.repo", 
+entityManagerFactoryRef = "emf1", transactionManagerRef = "tx1")
+public class AppConfig {
+
+	
+	@Bean
+	public LocalContainerEntityManagerFactoryBean emf1(DataSource dataSource) {
+		LocalContainerEntityManagerFactoryBean factoryBean=new LocalContainerEntityManagerFactoryBean();
+		factoryBean.setDataSource(dataSource);
+		factoryBean.setPackagesToScan(new String[] {"com.productapp.entity"});
+		
+		factoryBean.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
+		
+		factoryBean.setJpaProperties(jpaProperites());
+		return factoryBean;
+	}
+	
+	private Properties jpaProperites() {
+		Properties properties=new Properties();
+		properties.setProperty("hibernate.hbm2ddl.auto", "update");
+		properties.setProperty("hibernate.show_sql", "true");
+		properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL57Dialect");
+		
+		return properties;
+	}
+
+	@Bean
+	public JpaTransactionManager tx1(EntityManagerFactory emf) {
+		return new JpaTransactionManager(emf);
+	}
+}
+
+
+

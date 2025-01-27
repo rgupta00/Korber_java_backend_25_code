@@ -1,0 +1,350 @@
+Bankapplication applicatation
+---------------------------
+	* Spring vs Spring boot, Spring boot introduction 
+	* Spring DI Qucick recap
+	* AOP how to handle cross cutting concerns
+	* Spring boot rest
+	* spring boot data jpa
+	* Excpetion handling
+	* Validation
+	* Actuator
+	* logging
+	* Security
+
+
+Advantage of spring boot , configuration spring boot
+---------------------------------------------------
+
+	=> Auto-Configuration 
+
+	=> Dependency Management
+
+	=> Externalized Configuration
+		bean can be configured through application.properties file 
+		without touching java or xml config
+
+	=> Production support
+		We get health checking, application and jvm metrics, 
+		jmx via http and a few more things for free
+
+	=> Runnable Jars
+		 We can package your application as a runnable jar with embedded tomcat
+		 included so it presents a self-contained deployment unit
+
+	=> Microservice
+
+
+Getting started with spring boot:
+--------------------------------
+
+bank application 3 tier
+controller layer -------------------- service layer ------------------- dao layer --------------db
+																	repository layer
+																	
+Step 1: understading why we need DI?
+------------------------------------
+
+Dao layer:
+--------------															
+public class Account {
+    private int id;
+    private String name;
+    private double balance;
+}
+	
+public interface AccountDao {
+	public List<Account> getAll();
+	public Account getById(int id);
+	public void updateAccount(Account account);
+	public void addAccount(Account account);
+	public void deleteAccount(int id);
+}
+
+
+public class AccountDaoCollectionImpl implements AccountDao{
+	private Map<Integer, Account> accounts=new HashMap<>();
+	
+	public AccountDaoCollectionImpl() {
+		accounts.put(1, new Account(1, "raj", 560000.00));
+		accounts.put(2, new Account(2, "ekta", 760000.00));
+	}
+	@Override
+	public List<Account> getAll() {
+		System.out.println("getAll using hard coded collection...");
+		return new ArrayList<Account>(accounts.values());
+	}
+
+	@Override
+	public Account getById(int id) {
+		return accounts.get(id);
+	}
+
+	@Override
+	public void updateAccount(Account account) {
+		accounts.put(account.getId(), account);
+	}
+
+}
+
+Service layer:
+-----------------
+public interface AccountService {
+    public List<Account> getAll();
+    public Account getById(int id);
+	
+    public void addAccount(Account account);
+    public void deleteAccount(int id);
+
+    public void transfer(int fromAccId, int toAccId, BigDecimal amount);
+    public void deposit(int accId, BigDecimal amount);
+    public void withdraw(int accId, BigDecimal amount);
+}
+
+
+
+
+
+
+
+
+Step 6: using validation api
+--------------------------------
+
+4. using validation api
+_____________________
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Account {
+
+	private int id;
+	
+	@NotNull(message = "{account.name.absent}")
+	@Pattern(regexp = "[A-Za-z]+( [A-Za-z]+)*", message = "{account.name.invalid}")
+	private String name;
+	
+	@NotNull(message = "{account.balance.absent}")
+	@Range(min = 100, max = 100000, message = "{account.balance.invalid}")
+	private BigDecimal balance;
+
+	@Email(message = "{account.email.invalid}")
+	@NotNull(message = "{account.email.absent}")
+	private String email;
+	
+	@NotNull(message = "{account.phone.absent}")
+	@Pattern(regexp = "[789][0-9]{9}", message = "{account.phone.invalid}")
+	private String phone;
+	
+	public AccountDto(String name, BigDecimal balance, String email, String phone) {
+		this.name = name;
+		this.balance = balance;
+		this.email = email;
+		this.phone = phone;
+	}
+}
+
+
+@RestControllerAdvice
+public class AccountExceptionRestController {
+
+	@Autowired
+	private Environment environment;
+
+	// ---------handling 404 error------
+	@ExceptionHandler(AccountNotFoundException.class)
+	public ResponseEntity<ErrorInfo> handleAccountNotFound(AccountNotFoundException accountNotFoundException) {
+		ErrorInfo errorInfo = new ErrorInfo().builder().dateTime(LocalDateTime.now()).toContact("masterbank@bank.com")
+				.errorCode(404).errorMessage(environment.getProperty(accountNotFoundException.getMessage())).build();
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorInfo);
+	}
+
+	// ---------handling 500 error------
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<ErrorInfo> handle500(Exception exception) {
+		ErrorInfo errorInfo = new ErrorInfo().builder().dateTime(LocalDateTime.now()).toContact("masterbank@bank.com")
+				.errorCode(500).errorMessage(environment.getProperty(exception.getMessage())).build();
+		return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorInfo);
+	}
+
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public Map<String, String> handleInvalidArgument(MethodArgumentNotValidException ex) {
+
+		Map<String, String> errorMap = new HashMap<>();
+		ex.getBindingResult().getFieldErrors().forEach(error -> {
+			errorMap.put(error.getField(), error.getDefaultMessage());
+		});
+		return errorMap;
+	}
+}
+
+
+ValidationMessages.properties
+-------------------------------
+account.email.absent=Please provide email address
+account.email.invalid=Please provide valid email address
+
+account.name.absent=Please provide customer name
+account.name.invalid=Name should contain only alphabets and space
+
+account.phone.absent=Please provide phone 
+account.phone.invalid=Please provide correct phone number of 10 digits
+
+account.balance.absent=Please provide initial balance 
+account.balance.invalid=Please provide correct initial balance bw 100 to 100000
+
+
+spring boot reading property files:
+---------------------------------
+
+1. @Value annotation
+2. Enviornment
+3. @ConfigrationProperties
+
+
+@EnableConfigurationProperties(Config.class)
+@ConfigurationProperties(prefix = "msg")
+
+
+
+
+
+
+
+
+
+
+
+Step 7: Aspect Oriented Programming, how it helps, configuration, examples
+------------------------------------------------------------------
+
+	Applying logging advice to fund transfer application:
+
+<aop:aspectj-autoproxy />
+
+
+           <dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+	    </dependency>
+
+
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.METHOD)
+public @interface Loggable {
+
+}
+
+
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
+@Component
+@Aspect
+public class MethodLogger {
+	private static final Logger logger=LoggerFactory.getLogger(MethodLogger.class); 
+	
+  @Around("@annotation(Loggable)")
+  public Object around(ProceedingJoinPoint point) throws Throwable {
+    long start = System.currentTimeMillis();
+    Object result = point.proceed();
+    logger.info("Method call takes" +(System.currentTimeMillis() - start));
+    return result;
+  }
+}
+
+
+// logger.info("start "+MethodSignature.class.cast(point.getSignature()).getMethod().getName()+" is called"+" takes+(System.currentTimeMillis() - start));
+
+
+
+
+Property file sample:
+-------------------
+server.port=8090
+server.servlet.context-path=/bankapp
+
+spring.datasource.driver-class-name= com.mysql.jdbc.Driver
+spring.jpa.properties.hibernate.dialect= org.hibernate.dialect.MySQL5InnoDBDialect
+spring.jpa.hibernate.ddl-auto= update
+spring.datasource.url=jdbc:mysql://localhost:3306/busycoder?useSSL=false
+spring.datasource.username=root
+spring.datasource.password=root
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+spring.jpa.hibernate.ddl-auto=update
+
+# if u want to disable logging
+#logging.level.root=OFF
+#logging.level.org.springframework.boot=OFF
+#spring.main.banner-mode=OFF
+
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+logging.level.com.productapp: INFO
+logging.level.com.productapp.service: INFO
+
+logging.pattern.console= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+#logging pattern for file
+logging.pattern.file= "%d{yyyy-MM-dd } [%thread] %-5level %logger{36} - %msg%n"
+#i wnat to send logs to a specific file?
+
+spring.jpa.show-sql=true 
+spring.banner.location=	
+spring.jmx.enabled=true
+management.endpoints.web.exposure.include=*
+management.endpoints.jmx.exposure.include=*
+management.info.env.enabled=true
+info.app.encoding=UTF-8
+info.app.java.source=21
+info.app.java.target=21
+info.app.name=productapp
+info.app.dev=amit ku
+
+management.endpoint.health.show-details=always
+management.endpoint.health.probes.enabled=true
+# livenessstate readinessstate
+#management.health.livenessstate.enabled=true
+#management.health.readinessstate.enabled=true
+
+
+info.key=default
+spring.profiles.active=test
+
+UserInterface.TRANSFER_SUCCESS=transfer done successfully
+UserInterface.DEPOSIT_SUCCESS=amount deposit successfully
+UserInterface.WITHDRAW_SUCCESS=amount withdraw successfully
+
+Service.ACCOUNT_NOT_EXISTS=Account not exist
+
+Service.FROM_ACCOUNT_NOT_EXISTS=From Account not exist
+
+Service.TO_ACCOUNT_NOT_EXISTS=To Account not exist
+
+Service.NOT_SUFFICIENT_BALANCE=Account dont have sufficient balance
+
+
+
+
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=foo
+spring.datasource.password=foo
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+spring.h2.console.enabled=true
+
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+
+
+
