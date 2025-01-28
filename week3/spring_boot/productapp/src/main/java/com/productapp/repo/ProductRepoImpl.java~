@@ -46,8 +46,6 @@ public class ProductRepoImpl implements ProductRepo{
 
     @Override
     public Product removeProduct(int id) {
-        Product productToRemove=getById(id);
-        productMap.remove(id);
-        return productToRemove;
+        return null;
     }
 }
