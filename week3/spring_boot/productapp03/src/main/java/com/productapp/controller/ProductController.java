@@ -14,6 +14,7 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
+
     //@Autowired is optional to write on single ctr
     public ProductController(ProductService productService) {
         this.productService = productService;

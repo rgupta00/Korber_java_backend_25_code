@@ -24,16 +24,17 @@ public class AppExHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorDetails);
     }
 
-//    @ExceptionHandler(Exception.class)
-//    public ResponseEntity<ErrorDetails> handle500(Exception ex){
-//        ErrorDetails errorDetails=
-//                ErrorDetails.builder().errorCode(500)
-//                        .timestamp(java.time.LocalDateTime.now())
-//                        .toContact("naveen@ora.com")
-//                        .errorMessage("pls try after some time").build();
-//
-//        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
-//    }
+    //Any other ex
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorDetails> handle500(Exception ex){
+        ErrorDetails errorDetails=
+                ErrorDetails.builder().errorCode(500)
+                        .timestamp(java.time.LocalDateTime.now())
+                        .toContact("naveen@ora.com")
+                        .errorMessage("pls try after some time").build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorDetails);
+    }
 
     //MethodArgumentNotValidException
     @ExceptionHandler(MethodArgumentNotValidException.class)
