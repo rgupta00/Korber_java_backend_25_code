@@ -2,7 +2,6 @@ package com.bookapp;
 
 import com.bookapp.entities.Book;
 import com.bookapp.repo.BookRepo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,7 +11,6 @@ import java.math.BigDecimal;
 @SpringBootApplication
 public class Bookapp01Application implements CommandLineRunner {
 
-	@Autowired
 	private BookRepo bookRepo;
 
 	public static void main(String[] args) {

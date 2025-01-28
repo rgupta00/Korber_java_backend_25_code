@@ -34,4 +34,11 @@ public class Book {
     @Column(name="book_price", nullable = false)
     private BigDecimal price;
 
+    public Book(String isbn, String title, String category, String author, BigDecimal price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.category = category;
+        this.author = author;
+        this.price = price;
+    }
 }
