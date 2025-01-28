@@ -1,6 +1,5 @@
 package com.productapp.repo;
 
-import com.productapp.exceptions.ProductNotFoundException;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -26,10 +25,7 @@ public class ProductRepoImpl implements ProductRepo{
 
     @Override
     public Product getById(int id) {
-        Product product= productMap.get(id);
-        if(product==null)
-            throw  new ProductNotFoundException("product with id "+ id +" is not found");
-        return product;
+        return productMap.get(id);
     }
 
     @Override
