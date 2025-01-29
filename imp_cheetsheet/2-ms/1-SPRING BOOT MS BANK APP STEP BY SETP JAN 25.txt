@@ -1,0 +1,1015 @@
+Microservice cheetsheet step by step:
+--------------------------------------
+Microservices Architecture?
+
+	=> Microservices architecture allows to avoid monolith application for 
+	large system. 
+
+	=> It provide loose coupling between collaborating processes which running
+	 independently in different environments with tight cohesion.
+
+Adv MS?	:)
+	=> Smaller code base is easy to maintain.
+	=> Easy to scale as individual component.
+	=> Technology diversity i.e. we can mix libraries, databases, frameworks etc.
+	=> Fault isolation i.e. a process failure should not bring whole system down.
+	=> Better support for smaller and parallel team.
+	=> Independent deployment
+	=> Deployment time reduce
+
+Microservices Challenges	:(
+
+	=> Difficult to achieve strong consistency across services
+	=> ACID transactions do not span multiple processes.
+	=> Distributed System so hard to debug and trace the issues
+	=> Greater need for end to end testing
+	=> Required cultural changes in across teams like Dev and Ops
+
+What is Spring Cloud?
+	=> building blocks for Cloud and Microservices
+	=> provides microservices infrastructure like provide use services
+		 such as Service Discovery, Configuration server and Monitoring.
+	=>  provides several other open source projects like Netflix OSS.
+	=>  provides PaaS like Cloud Foundry, AWS and Heroku.
+	=>  uses Spring Boot style starters
+
+
+
+Port Numbers for microservice:
+------------------------------
+card	:9090
+loan	:8090
+account	: 8080
+configserver: 8071
+Eureka server: 8070
+api gateway: 8072
+Zipkin: 9411
+
+
+Card:
+http://localhost:9090/api/contact-info
+http://localhost:9090/api/fetch?mobile=7088993300
+
+
+loans:
+http://localhost:8090/api/fetch?mobile=7088993300
+http://localhost:8090/api/contact-info
+
+
+
+account:
+http://localhost:8080/api/fetch?mobile=7088993300
+http://localhost:8080/api/contact-info
+http://localhost:8080/api/accountsdetails?mobile=7088993300
+
+
+
+http://localhost:8070/
+
+
+step 1: create loan ms
+step 2: create card ms
+step 3: create account ms
+
+
+step 4: create config server:
+--------------------------
+Choose : lombok,config server,actuator
+
+apply 
+-----
+@EnableConfigServer to the bootstrap class
+
+application.yml
+----------------
+server:
+  port: 8071
+spring:
+  application:
+    name: configserver
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:/configfiles
+          clone-on-start: true
+          default-label: master
+
+
+now try:
+---------
+http://localhost:8071/accounts/default
+http://localhost:8071/loans/default
+http://localhost:8071/cards/default
+
+
+
+Step 5: read property files from config server
+-----------------------------------------------
+1. change in every project add: config client dependency
+
+2. now add configuration
+spring:
+  config:
+    import: optional:configserver:http://localhost:8071
+	
+http://localhost:8080/api/contact-info
+
+
+3. what if config property changes?
+
+@RefreshScope on top of the restcontroller
+
+in client application use refresh endpoint
+
+http://localhost:8080/actuator/refresh
+
+
+
+
+
+
+
+Step 6: Configure eureka server:
+-------------------------------
+create new project with: eureka server, config client, actuator
+
+
+1. apply annotation on bootstrap class
+@EnableEurekaServer
+
+2. url pattern
+http://localhost:8070/
+
+3. application.yml configuration for eureka server
+--------------------------
+server:
+  port: 8070
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+
+spring:
+  application:
+    name: "eurekaserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+
+4. configure eureka client in all  the projects accounts, cards and loans
+--------------------------------------------------------------------------
+ add eureka client dep to all projects
+ 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+	  
+
+5. now check all service must be registed with eureka server
+
+6. now replace hard coded url in Openfeign service to logical names and run the examples
+	give logical name of service 
+@FeignClient("loans")
+
+
+
+step 7.gateway routing and cross cutting concern in 
+microservicve using "spring cloud gateway"
+-----------------------------------------------
+step 1:
+
+choose eureka client, config server client, actuator, api gateway
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
+property file configuration:
+--------------------------
+step 2:
+management:
+  endpoint:
+    gateway:
+      enabled: true
+
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+		  
+Java configuration give more flexiblity to define routes:
+---------------------------------------------------
+
+@Bean
+    public RouteLocator busycoderRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
+        return routeLocatorBuilder.routes()
+                .route(p -> p
+                        .path("/busycoder/accounts/**")
+                        .filters( f -> f.rewritePath("/busycoder/accounts/(?<segment>.*)","/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .uri("lb://ACCOUNTS"))
+                .route(p -> p
+                        .path("/busycoder/loans/**")
+                        .filters( f -> f.rewritePath("/busycoder/loans/(?<segment>.*)","/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .uri("lb://LOANS"))
+                .route(p -> p
+                        .path("/busycoder/cards/**")
+                        .filters( f -> f.rewritePath("/busycoder/cards/(?<segment>.*)","/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .uri("lb://CARDS")).build();
+    }
+
+Configuring global filter:
+---------------------------
+
+@Component
+public class LoggingFilter implements GlobalFilter {
+	private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, 
+			GatewayFilterChain chain) {
+		logger.info("Path of the request received -> {}", exchange.getRequest().getPath());
+		return chain.filter(exchange);
+	}
+
+}
+
+
+
+configuration.yml
+--------------------
+server:
+  port: 8072
+spring:
+  config:
+    import: optional:configserver:http://localhost:8071
+  application:
+    name: gatewayserver
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+
+
+
+
+step 7.Configure resilence 4j to bank application
+-----------------------------------------------
+We can apply circuitbreaker pattern to api gateway
+and to indidual microservice
+
+
+Applying circuitbreaker to api gateway 
+----------------------------------
+step 1: add depdendency to the app
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+		</dependency>
+		
+setp 2: config
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 2
+        failure-rate-threshold: 50 #percentage
+        wait-duration-in-open-state: 10s
+		
+step 3:
+ .route(p -> p
+ .path("/busycoder/accounts/**")
+  .filters( f -> f.rewritePath("/busycoder/accounts/(?<segment>.*)","/${segment}")
+   .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+     .circuitBreaker(config -> config.setName("accountCircuitBreaker")
+      .setFallbackUri("forward:/contactSupport")))
+      .uri("lb://ACCOUNTS"))
+
+Observe circuitBreaker design pattern:
+						
+http://localhost:8072/actuator/circuitbreakers
+http://localhost:8072/actuator/circuitbreakerevents?name=accountCircuitBreaker
+
+now put a breakpoint to the contact-info endpoint of account service
+504 status code
+TimeoutException: Did not observe any item or terminal signal within 1000ms in 'circuitBreaker'
+
+run many time "status": 503,"error": "Service Unavailable",
+
+Step 4: creating fallback controller:
+
+@RestController
+public class FallbackController {
+    @RequestMapping("/contactSupport")
+    public Mono<String> contactSupport() {
+        return Mono.just("An error occurred. Please try after some time or contact support team!!!");
+    }
+}
+
+
+Implementing circuitBreaker pattern in the account microservice:
+----------------------------------------------------------------
+integration circuitBreaker with feign client
+
+step 1: add dep to account ms
+
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+		
+step 2:
+spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 2
+        failure-rate-threshold: 50 #percentage
+        wait-duration-in-open-state: 10s
+		
+now we have to define fallback for feign client
+--------------------------------------------
+@FeignClient(name = "CARDS", fallback = CardFallBack.class)
+public interface CardServiceProxy {
+    @GetMapping(path = "api/fetch")
+    public CardDto findByMobileNumber(@RequestParam(name="mobile") String mobile);
+}
+
+@Component
+public class CardFallBack implements CardServiceProxy{
+    @Override
+    public CardDto findByMobileNumber(String mobile) {
+        return new CardDto();
+    }
+}
+@Component
+public class LoanFallBack implements LoanServiceProxy{
+    @Override
+    public LoanDto getByMobile(String mobile) {
+        return new LoanDto();
+    }
+}
+
+
+@FeignClient(name = "LOANS", fallback = LoanFallBack.class)
+public interface LoanServiceProxy {
+    @GetMapping(path = "api/fetch")
+    public LoanDto getByMobile(@RequestParam(name="mobile") String mobile);
+}
+
+Now observe the circuitBreaker urls
+
+http://localhost:8080/actuator
+http://localhost:8080/actuator/circuitbreakerevents
+
+Now stop loan ms and observe the behaviour of the application
+
+
+
+Http timeout configuration:
+------------------------------
+sometime service is very slow and we will not get immediate response
+ex: run contact-info endpoint with breakpoint
+it keep waiting for the response, a thread is block for the response
+
+how to overcome? we can define timeout configuration:
+
+if we try same with api gateway we get different response due to 
+
+.circuitBreaker(config -> config.setName("accountCircuitBreaker")
+ .setFallbackUri("forward:/contactSupport")))
+ with default timeout configuration of 1sec
+ 
+ how how to customized it? add configuration to the gateway service
+ 
+ spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: false
+          lower-case-service-id: true
+      httpclient:
+        connect-timeout: 1000
+        response-timeout: 2s
+		
+retry pattern to the pattern to api gateway:
+----------------------------------------
+
+	.route(p -> p
+    .path("/busycoder/loans/**")
+    .filters( f -> f.rewritePath("/busycoder/loans/(?<segment>.*)","/${segment}")
+     .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+      .retry(retryConfig -> retryConfig.setRetries(3)
+                                        .setMethods(HttpMethod.GET)
+                                        .setBackoff(Duration.ofMillis(100),Duration.ofMillis(1000),2,true)))
+                        .uri("lb://LOANS"))					
+
+
+
+
+
+
+@RestController
+public class CircuitBreakerController {
+	
+	private Logger logger = LoggerFactory.getLogger(CircuitBreakerController.class);
+	
+	@GetMapping("/sample-api")
+	//@Retry(name = "sample-api", fallbackMethod = "hardcodedResponse")
+	//@CircuitBreaker(name = "default", fallbackMethod = "hardcodedResponse")
+	//@RateLimiter(name="default")
+	@Bulkhead(name="sample-api")
+	//10s => 10000 calls to the sample api
+	public String sampleApi() {
+		logger.info("Sample api call received");
+//		ResponseEntity<String> forEntity = new RestTemplate().getForEntity("http://localhost:8080/some-dummy-url", 
+//					String.class);
+//		return forEntity.getBody();
+		return "sample-api";
+	}
+	
+	public String hardcodedResponse(Exception ex) {
+		return "fallback-response";
+	}
+}
+
+resilience4j.retry.instances.sample-api.maxRetryAttempts=5
+resilience4j.retry.instances.sample-api.waitDuration=1s
+resilience4j.retry.instances.sample-api.enableExponentialBackoff=true
+
+#resilience4j.circuitbreaker.instances.default.failureRateThreshold=90
+resilience4j.ratelimiter.instances.default.limitForPeriod=2
+resilience4j.ratelimiter.instances.default.limitRefreshPeriod=10s
+
+resilience4j.bulkhead.instances.default.maxConcurrentCalls=10
+resilience4j.bulkhead.instances.sample-api.maxConcurrentCalls=10
+
+
+
+
+Spring boot zipkine and sluth:
+--------------------------------
+What is the need to distributed log tracing?
+
+complex call chains
+how you debug the problem?
+how you trace request accorss microservice?
+Distributed log tracking is require
+
+
+Observability and OpenTelemetry:
+------------------------------
+Monitoring vs Observability?
+	monitoring is reactive while Observability is proactive
+	monitoring is subset of Observability
+	
+Observability?
+	how well do we understand what is happing in the system?
+	Step 1: gather data : materix logs or traces
+	step 2: get intelligence : AI/Ops and anomaly detection
+	
+OpenTelemetry: collection of tools, api and sdk to instruments, generate, collect
+	and export telemetry data (materix logs or traces)
+	
+	all applications have materix logs or traces
+		why do we need to have a separate standared for each one of these
+		opentelemetry: how about one standared for materix logs or traces
+
+
+
+Step 1:
+docker pull openzipkin/zipkin:2.23
+docker run -p 9411:9411 openzipkin/zipkin:2.23
+
+Step 2: add dependency to each projects
+---------------------------------------
+<!-- SB3 :  Micrometer 
+            > OpenTelemetry 
+            > Zipkin 
+-->
+
+<!-- Micrometer - Vendor-neutral application observability facade. 
+    Instrument your JVM-based application code without vendor lock-in.  
+    Observation (Metrics & Logs) + Tracing.
+-->
+
+
+<!--Open Telemetry as Bridge (RECOMMENDED) -->
+<!-- Open Telemetry - Simplified Observability (metrics, logs, and traces) -->
+
+
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-observation</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.micrometer</groupId>
+    <artifactId>micrometer-tracing-bridge-otel</artifactId>
+</dependency>
+
+<dependency>
+    <groupId>io.opentelemetry</groupId>
+    <artifactId>opentelemetry-exporter-zipkin</artifactId>
+</dependency>
+
+<dependency>
+	<groupId>io.github.openfeign</groupId>
+	<artifactId>feign-micrometer</artifactId>
+</dependency>
+
+
+
+Step 3: add tracing sampling to each project:
+---------------------------------------
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+	    
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+
+
+for feign we need to add addtional depdendency:
+------------------------------------
+<!-- Enables tracing of REST API calls made using Feign - V3 ONLY-->
+
+<dependency>
+	<groupId>io.github.openfeign</groupId>
+	<artifactId>feign-micrometer</artifactId>
+</dependency>
+
+management.tracing.sampling.probability=1.0
+logging.pattern.level=%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]
+
+spring.config.import=optional:configserver:
+
+##spring.zipkin.baseUrl=http://localhost:9411/
+##management.zipkin.tracing.endpoint=http://localhost:9411/api/v2/spans
+
+
+
+
+8. Spring boot grafana and prometheus
+----------------------------------------
+
+Prometheus: Hello world configuration:
+__________________________________
+
+Step 1: create spring boot application with actuator, and prometheus dep
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		
+		
+		
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true		
+		
+		
+
+step 2: download sw
+
+Download and configure Prometheus: run on port : 9090
+https://prometheus.io/download/
+
+download grafana:
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise-9.5.2.linux-amd64.tar.gz
+https://grafana.com/grafana/download/9.5.2?platform=windows
+
+
+Step 3: configure spring boot application monitoring to  Prometheus:
+	search google (configure prometheus to monitor itself)
+	
+	
+prometheus.yml
+-----------------
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:9090']
+ 
+  - job_name: 'spring-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['localhost:8080']
+    
+    
+Start prometheus
+./prometheus 
+
+4.start grafana:
+ bin/grafana-server
+ http://localhost:9090
+up
+
+grafana dashboard
+http://localhost:3000/
+
+Dashboard-> new import -> grafana dashboard id -->put that id---> ui is created
+
+	 search google SpringBoot APM Dashboard
+
+
+
+Microservice security:
+-----------------------
+spring sec:
+	basics auth
+	jwt auth
+
+OAuth2? is mainly used for delegated authorization?
+spring sec of ms
+
+OAuth2  ( jpa -> hibeante, eclipselink)
+------------------------------
+Protocol that allow a user to grant limited access to there
+resouces on one site to the another side
+without exposing there credential
+
+Open ID connect
+----------------
+OAuth2 was designed for authorization
+Open ID connect is build on top of Oauth2
+
+Open ID connect: id token to the request
+OAuth2
+http
+
+what type of request flows is supported by Oauth2?
+--------------------------------------------
+1. Authroization code grant (front end + back end)
+2. client credential grant (backend application )
+		service -----------------service2
+		
+3. Resouce owner passaward grant type (back application)
+4. Implicit code grant (js application)
+
+
+
+OAuth keyclock integration:
+---------------------------
+https://www.keycloak.org/getting-started/getting-started-docker
+
+Step 1: configure keycloak server using docker
+
+https://www.keycloak.org/
+
+docker run -d -p 7080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.1 start-dev
+
+
+step 2: register client application with keycloak server:
+---------------------------------------------------
+client -> create client -> openid connect
+
+provide:
+cc: client credential
+
+client id: busycoder-cc
+
+client name: busycoder-cc-app
+
+enable client authentication--->auth flow --> service accounts roles (other dont select)
+				two application try to communicate each other
+				
+copy client secret:
+
+client secret: ptgcrpzwMshj7lne8y5Oz6jmEB3usVSO
+
+
+step 3: getting access token form auth server in client credential grant flow:
+------------------------------------------------------------------------------
+go to relem setting-->open endpoint section
+http://localhost:7080/realms/master/.well-known/openid-configuration
+
+select and create new post request to following url to get token:
+
+http://localhost:7080/realms/master/protocol/openid-connect/token
+
+grant_type: client_credentials
+client_id: busycoder-cc
+client_secret: 
+scope: openid email profile
+
+understand token formate
+
+
+step 4: Securing gateway server as resource server:
+
+add following dependencies:
+
+<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-resource-server</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-jose</artifactId>
+		</dependency>
+
+
+
+step 5: add configuration to customized security
+
+@Configuration
+@EnableWebFluxSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
+        serverHttpSecurity.authorizeExchange(exchanges -> exchanges.pathMatchers(HttpMethod.GET).authenticated()
+                .pathMatchers("/busycoder/accounts/**").authenticated()
+                .pathMatchers("/busycoder/cards/**").authenticated()
+                .pathMatchers("/busycoder/loans/**").authenticated())
+                .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec
+                        .jwt(Customizer.withDefaults()));
+        serverHttpSecurity.csrf(csrfSpec -> csrfSpec.disable());
+        return serverHttpSecurity.build();
+    }
+}
+
+
+
+step 6: resourceserver will fetch certificates from auth server
+		resourceserver will validate token using this certificates
+		
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: "http://localhost:7080/realms/master/protocol/openid-connect/certs"
+		  
+
+step 7: now try calling api
+
+Select auth type: oauth2
+add authorization data to : request headers
+
+configure new token:
+token : clientcredentials _ccesstoken
+grant type: client credential
+Auth access url: http://localhost:7080/realms/master/protocol/openid-connect/token
+client id: busycoder-cc
+Client Secret: Gs4tq3qUpT7S41qf9B3NXnvRsnhDb3BI
+Scope: openid email profile
+Client Authentication: send client credential in body
+
+
+use token type: access token
+
+
+step 8: implementation authorization inside gateway server using roles
+-----------------------------------------------------------------------
+
+Step 1: go to relm roles--> create new roles 
+				ACCOUNTS, CARDS, LOANS
+
+
+Step 2: go to client -> busycoder-cc -->service account role--> assign role ACCOUNTS
+
+
+Step 3: get fresh access token and verify new role jwt.io now you can see new role under realm_access
+					
+
+Step 4: Now we need to extract role in our java code
+------------
+
+public class KeycloakRoleConverter  implements Converter<Jwt, Collection<GrantedAuthority>> {
+    @Override
+    public Collection<GrantedAuthority> convert(Jwt source) {
+        Map<String, Object> realmAccess = (Map<String, Object>) source.getClaims().get("realm_access");
+        if (realmAccess == null || realmAccess.isEmpty()) {
+            return new ArrayList<>();
+        }
+        Collection<GrantedAuthority> returnValue = ((List<String>) realmAccess.get("roles"))
+                .stream().map(roleName -> "ROLE_" + roleName)
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+        return returnValue;
+    }
+}
+
+Step 5: use roles:
+-------------
+@Configuration
+@EnableWebFluxSecurity
+public class SecurityConfig {
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity serverHttpSecurity) {
+        serverHttpSecurity.authorizeExchange(exchanges -> exchanges.pathMatchers(HttpMethod.POST).authenticated()
+                .pathMatchers("/busycoder/accounts/**").hasRole("ACCOUNTS")
+                .pathMatchers("/busycoder/cards/**").hasRole("CARDS")
+                .pathMatchers("/busycoder/loans/**").hasRole("LOANS"))
+                .oauth2ResourceServer(oAuth2ResourceServerSpec -> oAuth2ResourceServerSpec.jwt(jwtSpec ->
+                        jwtSpec.jwtAuthenticationConverter(grantedAuthoritiesExtractor())));
+        serverHttpSecurity.csrf(csrfSpec -> csrfSpec.disable());
+        return serverHttpSecurity.build();
+    }
+
+    private Converter<Jwt, Mono<AbstractAuthenticationToken>> grantedAuthoritiesExtractor() {
+        JwtAuthenticationConverter jwtAuthenticationConverter =
+                new JwtAuthenticationConverter();
+        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter
+                (new KeycloakRoleConverter());
+        return new ReactiveJwtAuthenticationConverterAdapter(jwtAuthenticationConverter);
+    }
+
+}
+
+Step 6: now we can access account resource but for others we get 403 error
+
+
+Authorization code grant type flow:
+---------------------------------------
+
+client -> create client -> openid connect
+
+provide:
+cc: client credential
+
+client id: busycoder-ac
+
+client name: busycoder-cc-app2
+
+enable client authentication--->auth flow -->standard flow (other dont select)
+				two application try to communicate each other
+				
+copy client secret:
+
+client secret: VA7R6c0IiwXySnMjBkvptGIdDRIx1IbM
+
+Access settings
+Root URL blank
+Home URL blank
+Valid redirect URIs *
+Valid post logout redirect URIs blank
+Web origins *
+Admin URL blank
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+7. ELK
+=========
+Step 1: download tools
+---------------------------
+https://www.elastic.co/downloads/past-releases/elasticsearch-6-5-1
+https://www.elastic.co/downloads/past-releases/kibana-6-5-1
+https://www.elastic.co/downloads/past-releases/logstash-6-5-1
+
+Step 2:
+
+Start elasticsearch(9200)
+-------------------
+ ./elasticsearch port No: localhost:9200
+
+start kibana(5601)
+--------------
+Uncomment the file kibana.yml to point to the elasticsearch instance. 
+elasticsearch url: http://localhost:9200
+
+./bin/kibana
+
+logstash
+-------------
+Create a configuration file named logstash.conf
+bin/logstash -f bin/logstash.conf
+
+http://localhost:9200/_cat/indices/?v
+http://localhost:9200/logstash-2022.08.02/_search
+
+logstash-*
+

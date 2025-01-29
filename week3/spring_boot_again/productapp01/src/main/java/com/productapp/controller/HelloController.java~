@@ -1,0 +1,16 @@
+package com.productapp.controller;
+
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RestController;
+//HTTP
+@RestController
+public class HelloController {
+
+    //http://localhost:8090/hello/sumit/noida
+    @GetMapping("/hello/{name}/{city}")
+    public String hello(@PathVariable String name, @PathVariable String city) {
+        return "hello "+ name + " "+ city;
+    }
+    //RequestParam
+}

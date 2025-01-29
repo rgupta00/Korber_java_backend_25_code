@@ -1,0 +1,11 @@
+key:
+  message: "it is a pre prod profile"
+
+account:
+  message: "welcome to productapp pre prod profile"
+  contactDetails:
+    name: "raj prod"
+    email: "rgupta.prod@gmail.com"
+  onCallSupport:
+    -254645464556
+    -275765777677

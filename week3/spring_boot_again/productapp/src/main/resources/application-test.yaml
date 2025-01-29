@@ -1,0 +1,11 @@
+key:
+  message: "it is a test profile"
+
+account:
+  message: "welcome to productapp test profile"
+  contactDetails:
+    name: "raj test"
+    email: "rgupta.test@gmail.com"
+  onCallSupport:
+    -354645464556
+    -375765777677
