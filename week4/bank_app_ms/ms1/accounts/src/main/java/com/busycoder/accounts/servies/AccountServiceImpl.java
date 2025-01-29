@@ -19,8 +19,7 @@ import java.util.stream.Collectors;
 public class AccountServiceImpl implements AccountService{
 
     private final AccountRepo accountRepo;
-    private final CardServiceProxy cardServiceProxy;
-    private final LoanServiceProxy loanServiceProxy;
+  
 
     @Override
     public List<AccountDto> getAll() {
@@ -42,8 +41,7 @@ public class AccountServiceImpl implements AccountService{
        // http://localhost:9090/cards?mobile=7088993300
         AccountInfoDto accountInfoDto=new AccountInfoDto();
         accountInfoDto.setAccountDto(getByMobile(mobile));
-        accountInfoDto.setCardDto(cardServiceProxy.findByMobileNumber(mobile));
-        accountInfoDto.setLoanDto(loanServiceProxy.getByMobile(mobile));
+        
         return accountInfoDto;
     }
 

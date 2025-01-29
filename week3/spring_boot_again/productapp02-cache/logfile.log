@@ -553,3 +553,53 @@ DEBUG | 2025-01-29 16:25:16 | [http-nio-8090-exec-4] log.LogFormatUtils (LogForm
 DEBUG | 2025-01-29 16:25:16 | [http-nio-8090-exec-4] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/vnd.spring-boot.actuator.v3+json', given [*/*] and supported [application/vnd.spring-boot.actuator.v3+json, application/vnd.spring-boot.actuator.v2+json, application/json]
 DEBUG | 2025-01-29 16:25:16 | [http-nio-8090-exec-4] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [org.springframework.boot.actuate.context.ShutdownEndpoint$ShutdownDescriptor@54b2987d]
 DEBUG | 2025-01-29 16:25:16 | [http-nio-8090-exec-4] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+INFO  | 2025-01-29 16:39:12 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:50) - Starting ProductappApplication using Java 21.0.2 with PID 12016 (C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache\target\classes started by busyc in C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache)
+INFO  | 2025-01-29 16:39:12 | [main] boot.SpringApplication (SpringApplication.java:660) - The following 1 profile is active: "dev"
+DEBUG | 2025-01-29 16:39:18 | [main] filter.GenericFilterBean (GenericFilterBean.java:240) - Filter 'webMvcObservationFilter' configured for use
+DEBUG | 2025-01-29 16:39:24 | [main] handler.AbstractHandlerMethodMapping (AbstractHandlerMethodMapping.java:366) - 15 mappings in 'requestMappingHandlerMapping'
+DEBUG | 2025-01-29 16:39:25 | [main] handler.SimpleUrlHandlerMapping (SimpleUrlHandlerMapping.java:187) - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+DEBUG | 2025-01-29 16:39:25 | [main] annotation.RequestMappingHandlerAdapter (RequestMappingHandlerAdapter.java:634) - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+DEBUG | 2025-01-29 16:39:25 | [main] annotation.ExceptionHandlerExceptionResolver (ExceptionHandlerExceptionResolver.java:305) - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+INFO  | 2025-01-29 16:39:27 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:56) - Started ProductappApplication in 16.152 seconds (process running for 18.025)
+INFO  | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.FrameworkServlet (FrameworkServlet.java:532) - Initializing Servlet 'dispatcherServlet'
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.DispatcherServlet (DispatcherServlet.java:533) - Detected StandardServletMultipartResolver
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.DispatcherServlet (DispatcherServlet.java:557) - Detected AcceptHeaderLocaleResolver
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.DispatcherServlet (DispatcherServlet.java:583) - Detected FixedThemeResolver
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.DispatcherServlet (DispatcherServlet.java:733) - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@198eeb36
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.DispatcherServlet (DispatcherServlet.java:797) - Detected org.springframework.web.servlet.support.SessionFlashMapManager@6cf47d05
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.FrameworkServlet (FrameworkServlet.java:549) - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+INFO  | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.FrameworkServlet (FrameworkServlet.java:554) - Completed initialization in 7 ms
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] log.LogFormatUtils (LogFormatUtils.java:120) - POST "/products", parameters={}
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#addProduct(Product)
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] log.LogFormatUtils (LogFormatUtils.java:120) - Read "application/octet-stream" to []
+WARN  | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] handler.AbstractHandlerExceptionResolver (AbstractHandlerExceptionResolver.java:247) - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: Required request body is missing: public org.springframework.http.ResponseEntity<com.productapp.repo.Product> com.productapp.controller.ProductController.addProduct(com.productapp.repo.Product)]
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 400 BAD_REQUEST
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] log.LogFormatUtils (LogFormatUtils.java:120) - "ERROR" dispatch for POST "/error", parameters={}
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to org.springframework.boot.autoconfigure.web.servlet.error.BasicErrorController#error(HttpServletRequest)
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 16:39:32 | [http-nio-8090-exec-1] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [{timestamp=Wed Jan 29 16:39:32 IST 2025, status=400, error=Bad Request, path=/products}]
+DEBUG | 2025-01-29 16:39:33 | [http-nio-8090-exec-1] servlet.FrameworkServlet (FrameworkServlet.java:1135) - Exiting from "ERROR" dispatch, status 400
+DEBUG | 2025-01-29 16:39:42 | [http-nio-8090-exec-4] log.LogFormatUtils (LogFormatUtils.java:120) - GET "/products", parameters={}
+DEBUG | 2025-01-29 16:39:42 | [http-nio-8090-exec-4] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#getProducts()
+DEBUG | 2025-01-29 16:39:47 | [http-nio-8090-exec-4] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 16:39:47 | [http-nio-8090-exec-4] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [[Product(id=1, name=laptop, price=50000.00), Product(id=2, name=mobile, price=5000.00), Product(id=3 (truncated)...]
+DEBUG | 2025-01-29 16:39:48 | [http-nio-8090-exec-4] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+DEBUG | 2025-01-29 16:39:52 | [http-nio-8090-exec-5] log.LogFormatUtils (LogFormatUtils.java:120) - GET "/products", parameters={}
+DEBUG | 2025-01-29 16:39:52 | [http-nio-8090-exec-5] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#getProducts()
+DEBUG | 2025-01-29 16:39:52 | [http-nio-8090-exec-5] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 16:39:52 | [http-nio-8090-exec-5] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [[Product(id=1, name=laptop, price=50000.00), Product(id=2, name=mobile, price=5000.00), Product(id=3 (truncated)...]
+DEBUG | 2025-01-29 16:39:52 | [http-nio-8090-exec-5] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+INFO  | 2025-01-29 16:51:45 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:50) - Starting ProductappApplication using Java 21.0.2 with PID 22132 (C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache\target\classes started by busyc in C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache)
+INFO  | 2025-01-29 16:51:45 | [main] boot.SpringApplication (SpringApplication.java:660) - The following 1 profile is active: "dev"
+DEBUG | 2025-01-29 16:51:49 | [main] filter.GenericFilterBean (GenericFilterBean.java:240) - Filter 'webMvcObservationFilter' configured for use
+DEBUG | 2025-01-29 16:51:53 | [main] handler.AbstractHandlerMethodMapping (AbstractHandlerMethodMapping.java:366) - 15 mappings in 'requestMappingHandlerMapping'
+DEBUG | 2025-01-29 16:51:54 | [main] handler.SimpleUrlHandlerMapping (SimpleUrlHandlerMapping.java:187) - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+DEBUG | 2025-01-29 16:51:54 | [main] annotation.RequestMappingHandlerAdapter (RequestMappingHandlerAdapter.java:634) - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+DEBUG | 2025-01-29 16:51:54 | [main] annotation.ExceptionHandlerExceptionResolver (ExceptionHandlerExceptionResolver.java:305) - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+INFO  | 2025-01-29 16:51:55 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:56) - Started ProductappApplication in 11.067 seconds (process running for 12.095)
+INFO  | 2025-01-29 16:52:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 16:52:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 16:53:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 16:53:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 16:54:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 16:54:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
