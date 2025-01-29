@@ -603,3 +603,38 @@ INFO  | 2025-01-29 16:53:00 | [scheduling-1] scheduled.CacheEvictSchedulerServic
 INFO  | 2025-01-29 16:53:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 INFO  | 2025-01-29 16:54:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 INFO  | 2025-01-29 16:54:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 17:05:24 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:50) - Starting ProductappApplication using Java 21.0.2 with PID 8812 (C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache\target\classes started by busyc in C:\Korber_java_backend_25_code\week3\spring_boot_again\productapp02-cache)
+INFO  | 2025-01-29 17:05:24 | [main] boot.SpringApplication (SpringApplication.java:660) - The following 1 profile is active: "dev"
+DEBUG | 2025-01-29 17:05:28 | [main] filter.GenericFilterBean (GenericFilterBean.java:240) - Filter 'webMvcObservationFilter' configured for use
+DEBUG | 2025-01-29 17:05:32 | [main] handler.AbstractHandlerMethodMapping (AbstractHandlerMethodMapping.java:366) - 15 mappings in 'requestMappingHandlerMapping'
+DEBUG | 2025-01-29 17:05:32 | [main] handler.SimpleUrlHandlerMapping (SimpleUrlHandlerMapping.java:187) - Patterns [/webjars/**, /**, /swagger-ui*/*swagger-initializer.js, /swagger-ui*/**] in 'resourceHandlerMapping'
+DEBUG | 2025-01-29 17:05:32 | [main] annotation.RequestMappingHandlerAdapter (RequestMappingHandlerAdapter.java:634) - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+DEBUG | 2025-01-29 17:05:32 | [main] annotation.ExceptionHandlerExceptionResolver (ExceptionHandlerExceptionResolver.java:305) - ControllerAdvice beans: 2 @ExceptionHandler, 1 ResponseBodyAdvice
+INFO  | 2025-01-29 17:05:34 | [main] boot.StartupInfoLogger (StartupInfoLogger.java:56) - Started ProductappApplication in 10.236 seconds (process running for 11.292)
+INFO  | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.FrameworkServlet (FrameworkServlet.java:532) - Initializing Servlet 'dispatcherServlet'
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.DispatcherServlet (DispatcherServlet.java:533) - Detected StandardServletMultipartResolver
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.DispatcherServlet (DispatcherServlet.java:557) - Detected AcceptHeaderLocaleResolver
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.DispatcherServlet (DispatcherServlet.java:583) - Detected FixedThemeResolver
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.DispatcherServlet (DispatcherServlet.java:733) - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@13cfe28b
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.DispatcherServlet (DispatcherServlet.java:797) - Detected org.springframework.web.servlet.support.SessionFlashMapManager@709c41da
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.FrameworkServlet (FrameworkServlet.java:549) - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+INFO  | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.FrameworkServlet (FrameworkServlet.java:554) - Completed initialization in 2 ms
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] log.LogFormatUtils (LogFormatUtils.java:120) - GET "/products", parameters={}
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#getProducts()
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [[Product(id=1, name=laptop, price=50000.00), Product(id=2, name=mobile, price=5000.00), Product(id=3 (truncated)...]
+DEBUG | 2025-01-29 17:05:51 | [http-nio-8090-exec-2] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+INFO  | 2025-01-29 17:06:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 17:06:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+DEBUG | 2025-01-29 17:06:39 | [http-nio-8090-exec-3] log.LogFormatUtils (LogFormatUtils.java:120) - GET "/products", parameters={}
+DEBUG | 2025-01-29 17:06:39 | [http-nio-8090-exec-3] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#getProducts()
+DEBUG | 2025-01-29 17:06:39 | [http-nio-8090-exec-3] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 17:06:39 | [http-nio-8090-exec-3] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [[Product(id=1, name=laptop, price=50000.00), Product(id=2, name=mobile, price=5000.00), Product(id=3 (truncated)...]
+DEBUG | 2025-01-29 17:06:39 | [http-nio-8090-exec-3] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+DEBUG | 2025-01-29 17:06:58 | [http-nio-8090-exec-5] log.LogFormatUtils (LogFormatUtils.java:120) - GET "/products", parameters={}
+DEBUG | 2025-01-29 17:06:58 | [http-nio-8090-exec-5] handler.AbstractHandlerMapping (AbstractHandlerMapping.java:531) - Mapped to com.productapp.controller.ProductController#getProducts()
+DEBUG | 2025-01-29 17:06:58 | [http-nio-8090-exec-5] annotation.AbstractMessageConverterMethodProcessor (AbstractMessageConverterMethodProcessor.java:275) - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+DEBUG | 2025-01-29 17:06:58 | [http-nio-8090-exec-5] log.LogFormatUtils (LogFormatUtils.java:120) - Writing [[Product(id=1, name=laptop, price=50000.00), Product(id=2, name=mobile, price=5000.00), Product(id=3 (truncated)...]
+DEBUG | 2025-01-29 17:06:58 | [http-nio-8090-exec-5] servlet.FrameworkServlet (FrameworkServlet.java:1138) - Completed 200 OK
+INFO  | 2025-01-29 17:07:00 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+INFO  | 2025-01-29 17:07:05 | [scheduling-1] scheduled.CacheEvictSchedulerService (CacheEvictSchedulerService.java:20) - %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
