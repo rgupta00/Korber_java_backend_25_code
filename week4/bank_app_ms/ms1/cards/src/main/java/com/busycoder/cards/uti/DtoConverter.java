@@ -5,6 +5,7 @@ import com.busycoder.cards.entities.Card;
 
 public class DtoConverter {
 
+
     public static  CardDto entityToDto(Card card){
         CardDto cardDto = new CardDto();
         cardDto.setCardId(card.getCardId());

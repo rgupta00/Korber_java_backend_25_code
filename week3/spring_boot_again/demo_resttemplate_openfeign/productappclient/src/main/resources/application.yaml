@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: productappclient
+server:
+  port: 8092

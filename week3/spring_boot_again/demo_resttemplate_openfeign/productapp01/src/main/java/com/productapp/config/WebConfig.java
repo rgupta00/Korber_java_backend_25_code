@@ -1,0 +1,43 @@
+package com.productapp.config;
+
+import com.productapp.filter.FooFilter;
+import com.productapp.interceptor.RequestInterceptor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+@Component
+public class WebConfig implements WebMvcConfigurer {
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new RequestInterceptor())
+                .order(1);
+    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/*").allowedOrigins("http://127.0.0.1:5500");
+    }
+
+    //how u customize filter in sb
+    @Bean
+    public FilterRegistrationBean<FooFilter> filterRegistrationBean() {
+
+        // Filter Registration Bean
+        FilterRegistrationBean<FooFilter> registrationBean = new FilterRegistrationBean<>();
+
+        // Configure Authorization Filter
+        registrationBean.setFilter(new FooFilter());
+
+        // Specify URL Pattern
+        registrationBean.addUrlPatterns("/secureapi/*");
+        // Set the Execution Order of Filter
+        registrationBean.setOrder(2);
+        return registrationBean;
+    }
+}

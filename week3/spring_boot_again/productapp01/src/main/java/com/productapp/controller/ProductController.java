@@ -6,25 +6,34 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 //@ResponseBody: parser in our classpath: jackson parser
 @RestController
+//@CrossOrigin(origins="http://127.0.0.1:5500")
 public class ProductController {
 
     private ProductService productService;
+
 
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
+    @GetMapping("/secureapi")
+    public String secApi(){
+        return "secure api";
+    }
     //ResponseEntity: HTTP status code + data
 
     //get all
-    @GetMapping("products")
+//    @CrossOrigin(origins="http://localhost:5500")
+    @GetMapping(path = "products", produces = {MediaType.APPLICATION_JSON_VALUE,
+            MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProducts());
     }

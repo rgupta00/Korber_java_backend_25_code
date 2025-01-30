@@ -737,6 +737,8 @@ Supporting both xml and json:
 
 
 
+
+
 spring boot reading property files:
 ---------------------------------
 
@@ -933,6 +935,7 @@ https://editor.swagger.io/
 			)
 	)
 
+
 10. caching
 _____________
 1. In memory cache
@@ -1060,7 +1063,9 @@ server.port=8080
 spring.devtools.restart.enabled=true
 #management.endpoints.web.exposure.exclude=*
 management.endpoints.web.exposure.include=health, custom-endpoint
+
 management.endpoint.health.show-details=always
+
 management.health.disk.enabled=true
 management.health.livenessstate.enabled=true
 management.health.readinessstate.enabled=true
