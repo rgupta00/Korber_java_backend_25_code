@@ -1,0 +1,34 @@
+<config xmlns="http://www.ehcache.org/v3"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+
+	<cache alias="areaOfSquareCache">
+		<key-type>java.lang.Integer</key-type>
+		<value-type>java.lang.Double</value-type>
+
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<resources>
+			<heap unit="entries">1000</heap>
+			<offheap unit="MB">100</offheap>
+		</resources>
+
+	</cache>
+
+<!-- 	<cache alias="cache2">
+		<key-type>java.lang.Integer</key-type>
+		<value-type>java.lang.Double</value-type>
+
+		<expiry>
+			<ttl unit="seconds">3600</ttl>
+		</expiry>
+		<resources>
+			<heap unit="entries">1000</heap>
+			<offheap unit="MB">100</offheap>
+		</resources>
+
+	</cache> -->
+
+
+</config>	

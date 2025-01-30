@@ -1,0 +1,12 @@
+key:
+  message: "it is a dev profile"
+
+
+account:
+  message: "welcome to productapp dev profile"
+  contactDetails:
+    name: "raj dev"
+    email: "rgupta.dev@gmail.com"
+  onCallSupport:
+    -154645464556
+    -175765777677

@@ -1,6 +1,7 @@
 package com.productapp;
 
 import com.productapp.dto.InfoDto;
+import com.productapp.repo.Product;
 import com.productapp.repo.ProductRepo;
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
@@ -9,6 +10,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+
+import java.math.BigDecimal;
 
 //CommandLineRunner
 

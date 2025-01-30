@@ -1,7 +1,6 @@
 package com.productapp.controller;
 
-import com.productapp.dto.ProductDto;
-import com.productapp.entities.Product;
+import com.productapp.repo.Product;
 import com.productapp.service.ProductService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -10,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class ProductController {
 
     //get all
     @GetMapping("products")
-    public ResponseEntity<List<ProductDto>> getProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProducts());
     }
 
@@ -45,21 +45,21 @@ public class ProductController {
             @ApiResponse(responseCode = "404", content = { @Content(schema = @Schema()) }),
             @ApiResponse(responseCode = "500", content = { @Content(schema = @Schema()) }) })
       @GetMapping("products/{id}")
-    public ResponseEntity<ProductDto> getProductById(@PathVariable int id) {
+    public ResponseEntity<Product> getProductById(@PathVariable int id) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
     }
 
     //add product
     @PostMapping("products")
-    public ResponseEntity<ProductDto> addProduct(@RequestBody @Valid ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(productDto));
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid Product product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(product));
     }
 
     //update product
     @PutMapping("products/{id}")
-    public ResponseEntity<ProductDto> updateProduct(@PathVariable int id,
-                                 @RequestBody ProductDto productDto) {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(id, productDto));
+    public ResponseEntity<Product> updateProduct(@PathVariable int id,
+                                 @RequestBody Product product) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.updateProduct(id, product));
     }
 
     //remove product

@@ -1,8 +1,10 @@
 package com.productapp.service;
 
+import com.productapp.dto.ProductDto;
 import com.productapp.excetions.ProductNotFoundException;
-import com.productapp.repo.Product;
+import com.productapp.entities.Product;
 import com.productapp.repo.ProductRepo;
+import com.productapp.util.ProductUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,37 +23,36 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<Product> getProducts() {
+    public List<ProductDto> getProducts() {
         logger.info("**************************************************************");
-        return productRepo.findAll();
+        return productRepo.findAll().stream().map(ProductUtil::convertProductToProductDto).toList();
     }
 
     @Override
-    public Product getProductById(int id) {
-        Product product= productRepo.findById(id)
+    public ProductDto getProductById(int id) {
+        ProductDto productDto= productRepo.findById(id).map(ProductUtil::convertProductToProductDto)
                 .orElseThrow(()-> new ProductNotFoundException("product with id "+ id +" is not found"));
-        return product;
+        return productDto;
     }
 
     @Override
-    public Product addProduct(Product product) {
-         productRepo.save(product);
-         return product;
+    public ProductDto addProduct(ProductDto productDto) {
+        Product product = productRepo.save(ProductUtil.convertProductDtoToProduct(productDto));
+        return ProductUtil.convertProductToProductDto(product);
     }
 
     @Override
-    public Product updateProduct(int id, Product product) {
-        Product productToUpdate=getProductById(id);
-        productToUpdate.setPrice(product.getPrice());
-         productRepo.save(productToUpdate);
-        return  productToUpdate;
+    public ProductDto updateProduct(int id, ProductDto productDto) {
+        ProductDto productDtoToUpdate=getProductById(id);
+        productDtoToUpdate.setPrice(productDto.getPrice());
+        productRepo.save(ProductUtil.convertProductDtoToProduct(productDtoToUpdate));
+        return  productDtoToUpdate;
     }
 
     @Override
-    public Product removeProduct(int id) {
-        Product productToRemove=getProductById(id);
-        productRepo.delete(productToRemove);
-
-        return productToRemove;
+    public ProductDto removeProduct(int id) {
+        ProductDto productDtoToRemove=getProductById(id);
+        productRepo.delete(ProductUtil.convertProductDtoToProduct(productDtoToRemove));
+        return productDtoToRemove;
     }
 }
