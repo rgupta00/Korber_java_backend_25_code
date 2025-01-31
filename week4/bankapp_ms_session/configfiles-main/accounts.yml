@@ -1,0 +1,24 @@
+server:
+  port: 8080
+spring:
+  profiles:
+    active:
+      - "qa"
+  application:
+    name: accounts
+  jpa:
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+  info:
+    env:
+      enabled: true
+info:
+  message: "welcome to accounts application default profile 1"
+  name: "raj default profile accounts 1"

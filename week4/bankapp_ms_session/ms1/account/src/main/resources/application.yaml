@@ -1,0 +1,33 @@
+spring:
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active:
+      - "qa"
+  jpa:
+    show-sql: true
+  application:
+    name: accounts
+server:
+  port: 8080
+
+management:
+  build:
+    version: "1.0"
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  message: "Welcome to koerber account default profile"
+  name: "Raj: Product Owner account default profile"
+
+

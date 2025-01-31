@@ -1,0 +1,26 @@
+server:
+  port: 9090
+spring:
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active:
+      - "qa"
+  application:
+    name: cards
+  jpa:
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+  info:
+    env:
+      enabled: true
+info:
+  message: "welcome to cards application default profile"
+  name: "raj default profile cards"
