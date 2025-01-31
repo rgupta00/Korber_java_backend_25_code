@@ -1,0 +1,27 @@
+#spring.main.allow-bean-definition-overriding=true
+server:
+  port: 8080
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  profiles:
+    active:
+      - "qa"
+  application:
+    name: accounts
+  jpa:
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+  info:
+    env:
+      enabled: true
+info:
+  message: "welcome to accounts application default profile"
+  name: "raj default profile accounts"

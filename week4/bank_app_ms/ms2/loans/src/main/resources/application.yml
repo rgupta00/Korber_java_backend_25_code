@@ -1,0 +1,24 @@
+server:
+  port: 8090
+spring:
+  profiles:
+    active:
+      - "qa"
+  application:
+    name: loans
+  jpa:
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+  info:
+    env:
+      enabled: true
+info:
+  message: "welcome to loan application default profile"
+  name: "raj default profile"
