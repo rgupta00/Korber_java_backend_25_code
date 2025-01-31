@@ -1,0 +1,31 @@
+spring:
+  profiles:
+    active:
+      - "qa"
+  jpa:
+    show-sql: true
+  application:
+    name: cards
+server:
+  port: 9090
+
+management:
+  build:
+    version: "1.0"
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  message: "Welcome to koerber card default profile"
+  name: "Raj: Product Owner card default profile"
+
+
