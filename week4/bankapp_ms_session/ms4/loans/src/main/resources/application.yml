@@ -1,0 +1,34 @@
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+server:
+  port: 8090
+spring:
+  config:
+    import: optional:configserver:http://localhost:8071
+  profiles:
+    active:
+      - "qa"
+  application:
+    name: loans
+  jpa:
+    show-sql: true
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      enabled: true
+  info:
+    env:
+      enabled: true
+info:
+  message: "welcome to loan application default profile"
+  name: "raj default profile"
