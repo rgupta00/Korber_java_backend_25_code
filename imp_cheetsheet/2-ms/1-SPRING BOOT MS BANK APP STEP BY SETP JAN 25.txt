@@ -67,9 +67,627 @@ http://localhost:8080/api/accountsdetails?mobile=7088993300
 http://localhost:8070/
 
 
-step 1: create loan ms
-step 2: create card ms
-step 3: create account ms
+
+spring boot microservice projectstep by step:
+-------------------------------------------
+web, actuator, h2, jpa, lombok
+cards:  9090
+loans: 8090
+accounts: 8080
+
+
+
+
+Card 
+    private int cardId;
+    private String cardNumber;
+    private LocalDate issueDate;
+    private int totalLimit;
+    private String mobile;
+
+
+
+Loan 
+    private int loanId;
+    private String mobile;
+    private String loanNumber;
+    private String loanType;
+    private int totalLoan;
+    private int amountPaid;
+    private int outstandingAmount;
+	
+	
+Account 
+    private int accId;
+    private String name;
+    private double balance;
+    private String email;
+    private String mobile;
+
+	@Override
+	public void run(String... args) throws Exception {
+		//Card(String cardNumber, LocalDate issueDate, int totalLimit, String mobile)
+		cardRepo.save(new Card(getCardNumber(), LocalDate.now(), 10000,"7788993300"));
+		cardRepo.save(new Card(getCardNumber(), LocalDate.now(), 20000,"7988223300"));
+	}
+	private String getCardNumber(){
+		long val=new Random().nextLong(1000_0000_0000_000L);
+		Long value=1000_0000_0000_0000L+val;
+		return value.toString();
+	}
+	
+@RequestParam @Pattern(regexp="(^$|[0-9]{10})",message = "Mobile number must be 10 digits") String mobileNumber
+
+Step 1: creating card microservice:
+---------------------------------
+Choose : web,lombok, h2, spring data, actuator
+
+repo layer:
+-------------
+
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "card")
+public class Card {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int cardId;
+    private String cardNumber;
+    private LocalDate issueDate;
+    private int totalLimit;
+    private String mobile;
+
+    public Card(String cardNumber, LocalDate issueDate, int totalLimit, String mobile) {
+        this.cardNumber = cardNumber;
+        this.issueDate = issueDate;
+        this.totalLimit = totalLimit;
+        this.mobile = mobile;
+    }
+}
+
+
+@Repository
+public interface CardRepo extends JpaRepository<Card,Integer> {
+    Card findByMobile(String mobile);
+}
+
+
+
+create CardDto
+-------------
+@Data
+@NoArgsConstructor
+public class CardDto {
+   //....
+}
+
+
+create DtoConverter
+---------------------
+
+public class DtoConverter {
+    public static  CardDto entityToDto(Card card){
+       //
+    }
+    public static  Card dtoToEntity(CardDto cardDto){
+       //
+    }
+}
+
+
+
+service layer:
+-------------
+public interface CardService {
+   public CardDto findByMobileNumber(String mobile);
+}
+
+@Service
+@Transactional
+public class CardServiceImpl implements CardService{
+    @Autowired
+    private CardRepo cardRepo;
+    @Override
+    public CardDto findByMobileNumber(String mobile) {
+        Card card= cardRepo.findByMobile(mobile);
+        return DtoConverter.entityToDto(card);
+    }
+}
+
+
+Reading property file using @ConfigurationProperties annotation
+-------------------------------------------------------------
+
+@Data
+@ConfigurationProperties(prefix = "info")
+public class InfoDto {
+    private  String message;
+    private String name;
+}
+
+@EnableConfigurationProperties(InfoDto.class)
+
+
+info:
+  message: "Welcome to busycoder card default profile"
+  name: "Raj: Product Owner card default profile"
+
+
+
+
+controller layer:
+-------------
+@RequestMapping(path = "api")
+@RestController
+public class CardController {
+
+    @Autowired
+    private CardService cardService;
+    @Autowired
+    private InfoDto infoDto;
+
+    @GetMapping(path = "fetch")
+    public CardDto findByMobileNumber(@RequestParam(name="mobile") String mobile){
+        return cardService.findByMobileNumber(mobile);
+    }
+    @GetMapping("contact-info")
+    public InfoDto getInfoDto(){
+        return infoDto;
+    }
+}
+
+
+logic to insert 2 cards:
+------------------------
+@SpringBootApplication
+public class CardsApplication implements CommandLineRunner {
+
+	@Autowired
+	private CardRepo cardRepo;
+
+	public static void main(String[] args) {
+		SpringApplication.run(CardsApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+		//Card(String cardNumber, LocalDate issueDate, int totalLimit, String mobile)
+		cardRepo.save(new Card(getCardNumber(), LocalDate.now(), 10000,"7788993300"));
+		cardRepo.save(new Card(getCardNumber(), LocalDate.now(), 20000,"7988223300"));
+	}
+	private String getCardNumber(){
+		long val=new Random().nextLong(1000_0000_0000_000L);
+		Long value=1000_0000_0000_0000L+val;
+		return value.toString();
+	}
+}
+
+application.yaml
+-------------------
+server:
+  port: 9090
+ 
+spring:
+  profiles:
+    active:
+      - "qa"
+  jpa:
+    show-sql: true
+  application:
+    name: cards
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+build:
+  version: "1.0"
+info:
+  message: "Welcome to busycoder card default profile"
+  name: "Raj: Product Owner card default profile"
+
+application-prod.yml
+---------------------	  
+build:
+  version: "2.0"
+info:
+  message: "Welcome to busycoder card dev profile"
+  name: "Ravi: Product Owner card dev profile"
+  
+application-qa.yml
+---------------------  
+build:
+  version: "2.0"
+info:
+  message: "Welcome to busycoder card qa profile"
+  name: "Tarun: Product Owner card  qa profile"
+
+
+
+
+
+
+
+Step 2: creating loan microservice:
+---------------------------------
+Choose : web,lombok, h2, spring data, actuator
+
+creating repo layer
+------------------------
+
+@Data
+@NoArgsConstructor
+@Entity
+@Table(name = "loan_table")
+public class Loan {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int loanId;
+    private String mobile;
+    private String loanNumber;
+    private String loanType;
+    private int totalLoan;
+    private int amountPaid;
+    private int outstandingAmount;
+}
+
+public interface LoanRepo extends JpaRepository<Loan, Integer> {
+    public Loan findByMobile(String mobile);
+}
+
+create LoanDto and converter:
+-----------------------------
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class LoanDto {
+   //
+}
+
+public class DtoConverter {
+    public static Loan dtoToEntity(LoanDto loanDto){
+        //
+    }
+
+    public  static  LoanDto entityToDto(Loan loan){
+        //
+    }
+}
+
+
+creating server layer
+-------------------------
+
+public interface LoanService {
+    public LoanDto findByMobile(String mobile);
+}
+
+
+@Service
+public class LoanServiceImpl implements LoanService{
+    @Autowired
+    private LoanRepo loanRepo;
+    @Override
+    public LoanDto findByMobile(String mobile) {
+        return DtoConverter.entityToDto(loanRepo.findByMobile(mobile));
+    }
+}
+
+
+
+creating controller layer
+-------------------------
+@RequestMapping(path = "api")
+@RestController
+@AllArgsConstructor
+public class LoanController {
+    private final LoanService loanService;
+    private final InfoDto infoDto;
+
+    @GetMapping("fetch")
+    public LoanDto getByMobile( @RequestParam(name="mobile") String mobile){
+        return loanService.findByMobile(mobile);
+    }
+    @GetMapping("contact-info")
+    public InfoDto getInfoDto(){
+        return infoDto;
+    }
+
+
+}
+
+creating bootstrap class
+---------------------------
+@SpringBootApplication
+public class LoansApplication implements CommandLineRunner {
+
+	@Autowired
+	private LoanRepo loanRepo;
+
+	public static void main(String[] args) {
+		SpringApplication.run(LoansApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
+		//public Loan(String mobile, String loanNumber, String loanType, int totalLoan, int amountPaid, int outstandingAmount)
+		loanRepo.save(new Loan("7788993300","ASBAS11","house",
+				2000,1000,1000));
+
+		loanRepo.save(new Loan("7788223300","AAMS11","education",
+				2000,1000,1000));
+
+	}
+}
+
+application.yml
+-----------------
+server:
+  port: 8090
+spring:
+  profiles:
+    active:
+      - qa
+  jpa:
+    show-sql: true
+  application:
+    name: loans
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+build:
+  version: "1.0"
+info:
+  message: "Welcome to busycoder loans default profile"
+  name: "Raj: Product Owner loans default profile"
+
+
+application-prod.yml
+--------------------
+
+build:
+  version: "2.0"
+info:
+  message: "Welcome to busycoder loans dev profile"
+  name: "Ravi: Product Owner loans dev profile"
+  
+application-qa.yml
+-----------
+build:
+  version: "2.0"
+info:
+  message: "Welcome to busycoder loans qa profile"
+  name: "Tarun: Product Owner loans  qa profile"
+  
+  
+  
+  
+  
+  
+Step 3: creating accounts microservice
+------------------------------------
+Choose : web,lombok, h2, spring data, actuator
+
+
+dto: copy other dto from loan and card microservice
+------
+@Data
+public class AccountInfoDto {
+    private AccountDto accountDto;
+    private CardDto cardDto;
+    private LoanDto loanDto;
+}
+
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@ConfigurationProperties(prefix = "info")
+public class AppInfoDto {
+    private String message;
+    private String name;
+}
+
+
+creating entities
+-----------------
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Table(name = "account_table")
+public class Account {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int accId;
+    private String name;
+    private double balance;
+    private String email;
+    private String mobile;
+	}
+	
+
+@Repository
+public interface AccountRepo extends JpaRepository<Account, Integer> {
+    public Account findByMobile(String mobile);
+}
+
+
+Create AccountDto and converter:
+-------------------------------
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class AccountDto {
+   //
+}
+
+
+public class DtoConvertor {
+   
+    public static  AccountDto entityToDto(Account account){
+      //
+    }
+
+    public static Account dtoToEntity(AccountDto accountDto){
+       //
+    }
+}
+
+
+creating service layer
+----------------------
+public interface AccountService {
+    public List<AccountDto> getAll();
+    public AccountDto getByMobile(String mobile);
+    public AccountInfoDto getAccountDetails(String mobile);
+    public String addAccount(AccountDto accountDto);
+}
+
+
+@Service
+@AllArgsConstructor
+public class AccountServiceImpl implements AccountService{
+
+    private final AccountRepo accountRepo;
+  
+
+    @Override
+    public List<AccountDto> getAll() {
+        return accountRepo.findAll().stream()
+                .map(DtoConvertor::entityToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public AccountDto getByMobile(String mobile) {
+        return DtoConvertor.entityToDto(accountRepo.findByMobile(mobile));
+    }
+
+    @Override
+    public AccountInfoDto getAccountDetails(String mobile) {
+        //somehow we should able to call the
+        // loans and cards ms and get the related inforation
+        //http://localhost:8090/loans?mobile=7088993300
+       // http://localhost:9090/cards?mobile=7088993300
+        AccountInfoDto accountInfoDto=new AccountInfoDto();
+        accountInfoDto.setAccountDto(getByMobile(mobile));
+        
+        return accountInfoDto;
+    }
+
+    @Override
+    public String addAccount(AccountDto accountDto) {
+        Account account=DtoConvertor.dtoToEntity(accountDto);
+        accountRepo.save(account);
+        accountDto.setAccId(account.getAccId());
+        return "account is added successfully";
+    }
+}
+
+creating proxy service to invoke loan and card microservice
+----------------------------------------------------------
+apply on bootstrap class
+@EnableFeignClients("com.accounts.proxyservice")
+
+
+
+@FeignClient(name = "card-service", url = "http://localhost:9090")
+public interface CardServiceProxy {
+    @GetMapping(path = "api/fetch")
+    public CardDto findByMobileNumber(@RequestParam(name="mobile") String mobile);
+}
+
+
+@FeignClient(name = "loan-service", url = "http://localhost:8090")
+public interface LoanServiceProxy {
+    @GetMapping(path = "api/fetch")
+    public LoanDto getByMobile(@RequestParam(name="mobile") String mobile);
+}
+
+
+
+
+
+creating controller layer
+----------------------
+
+@RequestMapping(path = "api")
+@RestController
+@AllArgsConstructor
+public class AccountController {
+    private final AccountService accountService;
+    private final InfoDto appInfoDto;
+
+
+    @GetMapping("contact-info")
+    public InfoDto appInfo(){
+        return   appInfoDto;
+    }
+
+    @GetMapping("fetchall")
+    public List<AccountDto> getAll(){
+        return   accountService.getAll();
+    }
+
+    @GetMapping("fetch")
+    public AccountDto getByMobile(@RequestParam(name="mobile") String mobile){
+      return   accountService.getByMobile(mobile);
+    }
+	
+    @GetMapping("accountsdetails")
+    public AccountInfoDto getAccountDetails(@RequestParam(name = "mobile") String mobile){
+        return accountService.getAccountDetails(mobile);
+    }
+    @PostMapping(path = "add")
+    public String addAccount(@RequestBody AccountDto accountDto){
+        return accountService.addAccount(accountDto);
+    }
+}
+
+bootstrap class
+-----------------
+@EnableConfigurationProperties(AppInfoDto.class)
+@SpringBootApplication
+public class AccountsApplication implements CommandLineRunner {
+
+	@Autowired
+	private AccountService accountService;
+
+	public static void main(String[] args) {
+		SpringApplication.run(AccountsApplication.class, args);
+	}
+
+	@Override
+	public void run(String... args) throws Exception {
+
+		accountService.addAccount(new Account("raj",1000,"raj@gmail.com",
+				"7788993300"));
+
+		accountService.addAccount(new Account("ekta",1000,"ekta@gmail.com",
+				"7788223300"));
+
+	}
+}
+
+
+
 
 
 step 4: create config server:
@@ -310,54 +928,6 @@ We can apply circuitbreaker pattern to api gateway
 and to indidual microservice
 
 
-Applying circuitbreaker to api gateway 
-----------------------------------
-step 1: add depdendency to the app
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
-		</dependency>
-		
-setp 2: config
-resilience4j:
-  circuitbreaker:
-    configs:
-      default:
-        sliding-window-size: 10
-        permitted-number-of-calls-in-half-open-state: 2
-        failure-rate-threshold: 50 #percentage
-        wait-duration-in-open-state: 10s
-		
-step 3:
- .route(p -> p
- .path("/busycoder/accounts/**")
-  .filters( f -> f.rewritePath("/busycoder/accounts/(?<segment>.*)","/${segment}")
-   .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
-     .circuitBreaker(config -> config.setName("accountCircuitBreaker")
-      .setFallbackUri("forward:/contactSupport")))
-      .uri("lb://ACCOUNTS"))
-
-Observe circuitBreaker design pattern:
-						
-http://localhost:8072/actuator/circuitbreakers
-http://localhost:8072/actuator/circuitbreakerevents?name=accountCircuitBreaker
-
-now put a breakpoint to the contact-info endpoint of account service
-504 status code
-TimeoutException: Did not observe any item or terminal signal within 1000ms in 'circuitBreaker'
-
-run many time "status": 503,"error": "Service Unavailable",
-
-Step 4: creating fallback controller:
-
-@RestController
-public class FallbackController {
-    @RequestMapping("/contactSupport")
-    public Mono<String> contactSupport() {
-        return Mono.just("An error occurred. Please try after some time or contact support team!!!");
-    }
-}
-
 
 Implementing circuitBreaker pattern in the account microservice:
 ----------------------------------------------------------------
@@ -423,6 +993,54 @@ http://localhost:8080/actuator/circuitbreakerevents
 
 Now stop loan ms and observe the behaviour of the application
 
+
+Applying circuitbreaker to api gateway 
+----------------------------------
+step 1: add depdendency to the app
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-circuitbreaker-reactor-resilience4j</artifactId>
+		</dependency>
+		
+setp 2: config
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 2
+        failure-rate-threshold: 50 #percentage
+        wait-duration-in-open-state: 10s
+		
+step 3:
+ .route(p -> p
+ .path("/busycoder/accounts/**")
+  .filters( f -> f.rewritePath("/busycoder/accounts/(?<segment>.*)","/${segment}")
+   .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+     .circuitBreaker(config -> config.setName("accountCircuitBreaker")
+      .setFallbackUri("forward:/contactSupport")))
+      .uri("lb://ACCOUNTS"))
+
+Observe circuitBreaker design pattern:
+						
+http://localhost:8072/actuator/circuitbreakers
+http://localhost:8072/actuator/circuitbreakerevents?name=accountCircuitBreaker
+
+now put a breakpoint to the contact-info endpoint of account service
+504 status code
+TimeoutException: Did not observe any item or terminal signal within 1000ms in 'circuitBreaker'
+
+run many time "status": 503,"error": "Service Unavailable",
+
+Step 4: creating fallback controller:
+
+@RestController
+public class FallbackController {
+    @RequestMapping("/contactSupport")
+    public Mono<String> contactSupport() {
+        return Mono.just("An error occurred. Please try after some time or contact support team!!!");
+    }
+}
 
 
 Http timeout configuration:
@@ -503,6 +1121,9 @@ resilience4j.ratelimiter.instances.default.limitRefreshPeriod=10s
 
 resilience4j.bulkhead.instances.default.maxConcurrentCalls=10
 resilience4j.bulkhead.instances.sample-api.maxConcurrentCalls=10
+
+
+
 
 
 
