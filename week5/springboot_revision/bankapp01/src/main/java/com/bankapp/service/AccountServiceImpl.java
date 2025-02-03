@@ -6,24 +6,28 @@ import com.bankapp.dto.TransferDto;
 import com.bankapp.dto.WithdrawDto;
 import com.bankapp.entities.Account;
 import com.bankapp.exceptions.BankAccountNotFoundException;
+import com.bankapp.exceptions.NotSufficientFundException;
 import com.bankapp.repo.AccountRepo;
 import com.bankapp.util.ConvertUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.ParameterResolutionDelegate;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
 @Service
-@Transactional
+@Transactional //ACID
+@AllArgsConstructor
 public class AccountServiceImpl implements AccountService{
 
-    private AccountRepo accountRepo;
+    private final AccountRepo accountRepo;
 
-    @Autowired
-    public AccountServiceImpl(AccountRepo accountRepo) {
-        this.accountRepo = accountRepo;
-    }
+    private final  Environment environment;
+
+
 
     @Override
     public List<AccountDto> getAllAccounts() {
@@ -48,12 +52,20 @@ public class AccountServiceImpl implements AccountService{
         Account toAcc=ConvertUtil.convertToAccount(getAccount(transferDto.getToAccountId()));
 
         fromAcc.setBalance(fromAcc.getBalance().subtract(transferDto.getAmount()));
+        BigDecimal value=fromAcc.getBalance();
+
+        if(value.compareTo(BigDecimal.ZERO)<0){
+            throw new NotSufficientFundException("insufficient balance");
+        }
+
         toAcc.setBalance(toAcc.getBalance().add(transferDto.getAmount()));
 
         accountRepo.save(fromAcc);
+
+
         accountRepo.save(toAcc);
 
-        return "fund is transferred successfully";
+        return environment.getProperty("transfer.message.success");
     }
 
     @Override
@@ -64,11 +76,18 @@ public class AccountServiceImpl implements AccountService{
         return "deposit done successfully";
     }
 
+    //2000 5000
     @Override
     public String withdraw(WithdrawDto withdrawDto) {
-        Account acc=ConvertUtil.convertToAccount(getAccount(withdrawDto.getAccountId()));
-        acc.setBalance(acc.getBalance().subtract(withdrawDto.getAmount()));
-        accountRepo.save(acc);
+        Account temp=ConvertUtil.convertToAccount(getAccount(withdrawDto.getAccountId()));
+        temp.setBalance(temp.getBalance().subtract(withdrawDto.getAmount()));
+        BigDecimal tempBalance=temp.getBalance();
+
+        if(tempBalance.compareTo(BigDecimal.ZERO)<0){
+            throw new NotSufficientFundException("insufficient balance");
+        }
+
+        accountRepo.save(temp);
         return "withdraw done successfully";
     }
 }

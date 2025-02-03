@@ -1,5 +1,3 @@
 spring.application.name=bankapp01
 server.port=8081
 spring.jpa.show-sql=true
-
-transfer.message.success=fund is transferred successfully

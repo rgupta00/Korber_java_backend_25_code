@@ -4,7 +4,10 @@ import com.bankapp.dto.DepositDto;
 import com.bankapp.dto.TransferDto;
 import com.bankapp.dto.WithdrawDto;
 import com.bankapp.service.AccountService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,15 +23,16 @@ public class AccountTxController {
         this.accountService = accountService;
     }
     @PostMapping("transfer")
-    public String transfer( @RequestBody TransferDto transferDto){
-        return accountService.transfer(transferDto);
+    public ResponseEntity<String> transfer( @Valid @RequestBody TransferDto transferDto){
+        return ResponseEntity.ok(accountService.transfer(transferDto));
     }
     @PostMapping("deposit")
-    public String deposit(@RequestBody DepositDto depositDto) {
-        return accountService.deposit(depositDto);
+    public ResponseEntity<String> deposit(@RequestBody DepositDto depositDto) {
+        return ResponseEntity.ok(accountService.deposit(depositDto));
     }
     @PostMapping("withdraw")
-    public String withdraw(@RequestBody WithdrawDto withdrawDto) {
-        return accountService.withdraw(withdrawDto);
+    public ResponseEntity<String> withdraw(@RequestBody WithdrawDto withdrawDto) {
+        return ResponseEntity.ok(accountService.withdraw(withdrawDto));
     }
+
 }
