@@ -1,0 +1,54 @@
+In this lab assignment you have two services namely coupon and product.
+ The product service will be used to get the product details and the coupon service will be used to get the coupon details.
+
+ You can invoke the coupon services as follows:
+ http://localhost:8083/coupon/SUP10
+ It will return the following response:
+ {
+   "couponCode": "SUP10",
+   "discountPercentage": 10,
+   "expiredOn": "2025-02-01T06:08:49.6702893"
+ }
+ similarly you can invoke the coupon service to get discount for SUP15 and SUP20
+
+ You can invoke the product services as follows:
+
+ http://localhost:8082/products/1
+ It will return the following response:
+{
+  "id": 1,
+  "name": "Laptop",
+  "description": "Dell",
+  "price": 100000,
+  "discountCoupon": null,
+  "discountedPrice": null
+}
+You can see that we are getting discounted price and dicounted coupon is null
+
+step 1: change above api and take discount coupon from the user as
+http://localhost:8082/products?id=1&couponCode=SUP10
+
+Now call coupon-service api to get discount for SUP10 using open feign and show both discounted price and dicounted coupon
+
+{
+  "id": 1,
+  "name": "Laptop",
+  "description": "Dell",
+  "price": 100000,
+  "discountCoupon": "SUP10",
+  "discountedPrice": 90000
+}
+
+step 2: we are calling coupon service and product service directly. we should use eureka server instead of calling directly
+
+
+step 3: we are using hard coded url while using open feign. we should apply spring cloud gateway so that all  request will go through gateway
+
+
+step 4: Provide some fallback respone using resilence 4j in case of coupon service is down
+
+Ports:
+coupon: 8083
+product: 8082
+eureka: 8761
+api-gateway: 8080

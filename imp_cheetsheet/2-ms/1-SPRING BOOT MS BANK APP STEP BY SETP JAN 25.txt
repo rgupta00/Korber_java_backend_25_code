@@ -34,6 +34,10 @@ What is Spring Cloud?
 	=>  uses Spring Boot style starters
 
 
+bank app
+card
+loan
+account
 
 Port Numbers for microservice:
 ------------------------------
@@ -713,6 +717,7 @@ spring:
           clone-on-start: true
           default-label: master
 
+configfiles-main
 
 now try:
 ---------

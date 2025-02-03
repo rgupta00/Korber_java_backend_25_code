@@ -1,0 +1,26 @@
+spring:
+  jpa:
+    show-sql: true
+  application:
+    name: customer-service
+server:
+  port: 8081
+
+
+#  jpa:
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
+#    hibernate:
+#      naming:
+#        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+#      ddl-auto: update
+#    show-sql: true
+#
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/customer-service-db
+#    username: root
+#    password: Junk@2104
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
+

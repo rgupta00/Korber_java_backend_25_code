@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="d8ad2088-10fb-44b6-82eb-6c82dd719c35" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/currency_app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/main/java/com/currencyconversion/CurrencyConversionApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/main/java/com/currencyconversion/controller/CurrencyConversionController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/main/java/com/currencyconversion/dto/CurrencyConversionBean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/main/java/com/currencyconversion/serviceproxy/CurrencyExchangeServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-conversion/src/test/java/com/currencyconversion/CurrencyConversionApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/CurrencyExchangeApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/controller/CurrencyExchangeController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/repo/ExchangeValue.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/repo/ExchangeValueRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/service/ExchangeService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/java/com/currencyexchange/service/ExchangeServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/currency_app/currency-exchange/src/test/java/com/currencyexchange/CurrencyExchangeApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/.idea/weather_app.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/main/java/com/wclient/wclient/WclientApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/main/java/com/wclient/wclient/controller/WeatherClientController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/main/java/com/wclient/wclient/dto/WeatherInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/main/java/com/wclient/wclient/serviceproxy/WeatherServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wclient/src/test/java/com/wclient/wclient/WclientApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/src/main/java/com/wservice/WserviceApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/src/main/java/com/wservice/controller/WeatherServiceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/src/main/java/com/wservice/service/WeatherService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../lab_ms/weather_app/wservice/src/test/java/com/wservice/WserviceApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/bankapplicationms.postman_collection.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/accounts-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/accounts-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/accounts.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/cards-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/cards-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/cards.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/loans-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/loans-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/configfiles-main/loans.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/ms1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/AccountApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/controller/AccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/dto/AccountDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/dto/AccountInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/entities/Account.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/repo/AccountRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/service/AccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/service/AccountServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/serviceproxy/CardServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/serviceproxy/LoanServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/java/com/accounts/util/ConvertDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/resources/application-prod.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/resources/application-qa.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/account/src/test/java/com/accounts/AccountApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/CardApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/controller/CardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/entites/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/repo/CardRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/service/CardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/service/CardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/java/com/cards/util/ConvertDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/resources/application-prod.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/resources/application-qa.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/card/src/test/java/com/cards/CardApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/LoansApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/controller/LoanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/entities/Loan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/repositories/LoanRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/services/LoanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/services/LoanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/java/com/loans/util/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/resources/application-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/resources/application-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1-gettingstarted/loans/src/test/java/com/loans/LoansApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/ms1.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/AccountApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/controller/AccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/dto/AccountDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/dto/AccountInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/entities/Account.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/repo/AccountRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/service/AccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/service/AccountServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/serviceproxy/CardServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/serviceproxy/LoanServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/java/com/accounts/util/ConvertDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/resources/application-prod.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/resources/application-qa.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/account/src/test/java/com/accounts/AccountApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/CardApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/controller/CardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/entites/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/repo/CardRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/service/CardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/service/CardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/java/com/cards/util/ConvertDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/resources/application-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/resources/application-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/card/src/test/java/com/cards/CardApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/src/main/java/com/configserver/ConfigserverApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/src/main/resources/application.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/configserver/src/test/java/com/configserver/ConfigserverApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/LoansApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/controller/LoanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/entities/Loan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/repositories/LoanRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/services/LoanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/services/LoanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/java/com/loans/util/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/resources/application-prod.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/resources/application-qa.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms1/loans/src/test/java/com/loans/LoansApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/ms2.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/AccountsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/controller/AccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/dto/AccountDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/dto/AccountInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/entities/Account.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/repo/AccountRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/serviceproxy/CardServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/serviceproxy/LoanServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/servies/AccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/servies/AccountServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/java/com/busycoder/accounts/util/DtoConvertor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/accounts/src/test/java/com/busycoder/accounts/AccountsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/CardsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/controller/CardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/entities/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/repo/CardRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/service/CardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/service/CardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/java/com/busycoder/cards/uti/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/cards/src/test/java/com/busycoder/cards/CardsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/src/main/java/com/busycoder/ConfigserverApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/configserver/src/test/java/com/busycoder/ConfigserverApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/LoansApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/controller/LoanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/entities/Loan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/repositories/LoanRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/services/LoanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/services/LoanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/java/com/busycoder/loans/util/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms2/loans/src/test/java/com/busycoder/loans/LoansApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/compiler.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/encodings.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/jarRepositories.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/ms4.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/AccountsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/controller/AccountController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/dto/AccountDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/dto/AccountInfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/entities/Account.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/repo/AccountRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/serviceproxy/CardServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/serviceproxy/LoanServiceProxy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/servies/AccountService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/servies/AccountServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/java/com/busycoder/accounts/util/DtoConvertor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/accounts/src/test/java/com/busycoder/accounts/AccountsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/CardsApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/controller/CardController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/dto/CardDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/entities/Card.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/repo/CardRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/service/CardService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/service/CardServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/java/com/busycoder/cards/uti/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/cards/src/test/java/com/busycoder/cards/CardsApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/src/main/java/com/busycoder/ConfigserverApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/configserver/src/test/java/com/busycoder/ConfigserverApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/src/main/java/com/eureka/EurekaserverApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/eurekaserver/src/test/java/com/eureka/EurekaserverApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/LoansApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/controller/LoanController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/dto/InfoDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/dto/LoanDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/entities/Loan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/repositories/LoanRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/services/LoanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/services/LoanServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/java/com/busycoder/loans/util/DtoConverter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/main/resources/application.yml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../bankapp_ms_session/ms4/loans/src/test/java/com/busycoder/loans/LoansApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/ProductappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/ProductappApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/controller/ProductController.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/controller/ProductController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/repo/Product.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/repo/ProductRepo.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/resources/application.yaml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2sPtkaV3O8DMDgzsDwdTALvkKdq" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.CouponappApplication.executor": "Run",
+    "Application.ProductappApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Korber_java_backend_25_code/week4/product_ms/ms1"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.productapp.dto" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.ProductappApplication">
+    <configuration name="CouponappApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.coupon.CouponappApplication" />
+      <module name="couponapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.coupon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductappApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.productapp.ProductappApplication" />
+      <module name="productapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.productapp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.ProductappApplication" />
+        <item itemvalue="Application.CouponappApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d8ad2088-10fb-44b6-82eb-6c82dd719c35" name="Changes" comment="" />
+      <created>1738369181744</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1738369181744</updated>
+    </task>
+    <servers />
+  </component>
+</project>
