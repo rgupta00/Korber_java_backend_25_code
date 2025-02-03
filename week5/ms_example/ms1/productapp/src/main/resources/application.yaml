@@ -1,0 +1,19 @@
+server:
+  port: 8082
+spring:
+  profiles:
+    active:
+      - "default"
+  application:
+    name: products
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
