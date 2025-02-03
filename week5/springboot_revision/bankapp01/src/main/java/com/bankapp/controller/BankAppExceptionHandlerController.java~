@@ -17,7 +17,6 @@ public class BankAppExceptionHandlerController {
 
     @ExceptionHandler(BankAccountNotFoundException.class)
     public ResponseEntity<ErrorResponeDto> handleBankAccountNotFoundException(BankAccountNotFoundException ex) {
-        System.out.println("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         ErrorResponeDto errorResponeDto=ErrorResponeDto
                 .builder()
                 .timeStamp(LocalDateTime.now())
