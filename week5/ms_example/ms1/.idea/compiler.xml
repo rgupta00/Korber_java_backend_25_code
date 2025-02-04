@@ -2,18 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="productapp" />
+        <module name="euraka" />
         <module name="couponapp" />
+        <module name="productapp" />
+        <module name="gateway" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="couponapp2" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="couponapp" options="-parameters" />
+      <module name="couponapp2" options="-parameters" />
+      <module name="euraka" options="-parameters" />
+      <module name="gateway" options="-parameters" />
       <module name="productapp" options="-parameters" />
     </option>
   </component>

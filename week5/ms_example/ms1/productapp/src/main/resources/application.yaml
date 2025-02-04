@@ -1,11 +1,34 @@
 server:
   port: 8082
 spring:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
   profiles:
     active:
       - "default"
   application:
     name: products
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 2
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        wait-duration-in-half-open-state: 500s
+
 management:
   endpoints:
     web:

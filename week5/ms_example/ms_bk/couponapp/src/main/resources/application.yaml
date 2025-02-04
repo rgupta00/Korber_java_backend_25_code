@@ -1,0 +1,17 @@
+server:
+  port: 8083
+spring:
+  application:
+    name: coupons
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+  info:
+    env:
+      enabled: true
+

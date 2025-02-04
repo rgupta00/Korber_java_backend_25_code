@@ -16,6 +16,7 @@ public class CouponController {
     //http://localhost:8083/coupon/SUP10
     @GetMapping("coupon/{couponCode}")
     public Coupon getCouponByCode(@PathVariable String couponCode) {
+        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$");
         return couponServicel.getCouponByCode(couponCode);
     }
 }

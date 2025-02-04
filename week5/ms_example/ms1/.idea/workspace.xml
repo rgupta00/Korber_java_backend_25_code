@@ -4,17 +4,33 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="28b1a978-9b94-485f-ad18-5cccecdd893b" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+    <list default="true" id="e79cb4e9-2399-4f7f-909c-545bd264e9e4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/CouponappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/CouponappApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/controller/CouponController.java" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/controller/CouponController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/service/CouponServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/service/CouponServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/couponapp/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/ProductappApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/ProductappApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/proxyservice/CouponServiceProxy.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/productapp/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
@@ -23,13 +39,21 @@
   "customColor": "",
   "associatedIndex": 3
 }]]></component>
-  <component name="ProjectId" id="2sYg3TmcLR030gcK0o6OjypAcRv" />
+  <component name="ProjectId" id="2sYpHE3Lb2opQYvzRrdukDulfYk" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.CouponappApplication (1).executor": "Run",
+    "Application.CouponappApplication.executor": "Run",
+    "Application.EurakaApplication.executor": "Run",
+    "Application.GatewayApplication.executor": "Run",
+    "Application.ProductappApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "com.codeium.enabled": "true",
@@ -39,14 +63,90 @@
     "last_opened_file_path": "C:/Korber_java_backend_25_code/week5/ms_example/ms1"
   }
 }]]></component>
+  <component name="RunManager" selected="Application.GatewayApplication">
+    <configuration name="CouponappApplication (1)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.coupon.CouponappApplication" />
+      <module name="couponapp2" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.coupon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CouponappApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.coupon.CouponappApplication" />
+      <module name="couponapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.coupon.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="EurakaApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.euraka.EurakaApplication" />
+      <module name="euraka" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.euraka.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="GatewayApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.gateway.GatewayApplication" />
+      <module name="gateway" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.gateway.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="ProductappApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.productapp.ProductappApplication" />
+      <module name="productapp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.productapp.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.CouponappApplication" />
+        <item itemvalue="Application.GatewayApplication" />
+        <item itemvalue="Application.ProductappApplication" />
+        <item itemvalue="Application.EurakaApplication" />
+        <item itemvalue="Application.CouponappApplication (1)" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="28b1a978-9b94-485f-ad18-5cccecdd893b" name="Changes" comment="" />
-      <created>1738637723678</created>
+      <changelist id="e79cb4e9-2399-4f7f-909c-545bd264e9e4" name="Changes" comment="" />
+      <created>1738642274060</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1738637723678</updated>
+      <updated>1738642274060</updated>
     </task>
     <servers />
   </component>
