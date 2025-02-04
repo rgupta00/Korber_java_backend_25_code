@@ -432,8 +432,11 @@ resilience4j:
       default:
         sliding-window-size: 10
         permitted-number-of-calls-in-half-open-state: 2
-        failure-rate-threshold: 50 #percentage
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
+        wait-duration-in-half-open-state: 5s 
+        #The wait-duration-in-open-state is the amount of time a circuit breaker remains open before switching to a half-open state
 		
 		
 		
@@ -478,12 +481,15 @@ step 1: add depdendency to the app
 		</dependency>
 		
 setp 2: config
+
+
 resilience4j:
   circuitbreaker:
     configs:
       default:
         sliding-window-size: 10
         permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
         failure-rate-threshold: 50 #percentage
         wait-duration-in-open-state: 10s
 	
@@ -821,6 +827,8 @@ http://localhost:3000/
 Dashboard-> new import -> grafana dashboard id -->put that id---> ui is created
 
 	 search google SpringBoot APM Dashboard
+
+
 
 
 

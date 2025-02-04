@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 /// COUPONS
 //@FeignClient(name = "couponapp", url = "http://localhost:8083")
-@FeignClient(name = "coupons",
-        fallback = CouponServiceFallBack.class)
+//@FeignClient(name = "coupons", fallback = CouponServiceFallBack.class)
+@FeignClient(name = "coupons")
 public interface CouponServiceProxy {
     @GetMapping("coupon/{couponCode}")
     public Coupon getCouponByCode(@PathVariable String couponCode);

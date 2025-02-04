@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: service-app
+
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true

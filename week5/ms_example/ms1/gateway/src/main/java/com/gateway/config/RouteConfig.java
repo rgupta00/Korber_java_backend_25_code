@@ -15,13 +15,18 @@ public class RouteConfig {
         return routeLocatorBuilder.routes()
                 .route(p -> p
                         .path("/productstore/productsms/**")
-                        .filters( f -> f.rewritePath("/productstore/productsms/(?<segment>.*)","/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .filters( f -> f.rewritePath("/productstore/productsms/(?<segment>.*)",
+                                        "/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                .circuitBreaker(config -> config.setName("mycircuitbreaker")
+                                        .setFallbackUri("forward:/fallback"))
+                        )
                         .uri("lb://PRODUCTS"))
                 .route(p -> p
                         .path("/productstore/couponsms/**")
                         .filters( f -> f.rewritePath("/productstore/couponsms/(?<segment>.*)","/${segment}")
-                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+                                )
                         .uri("lb://COUPONS"))
                 .build();
     }

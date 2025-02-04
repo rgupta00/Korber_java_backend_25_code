@@ -12,7 +12,11 @@ eureka:
     service-url:
       defaultZone: http://localhost:8070/eureka/
 
+
 management:
+  tracing:
+    sampling:
+      probability: 1
   endpoints:
     web:
       exposure:
@@ -24,3 +28,6 @@ management:
     env:
       enabled: true
 
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

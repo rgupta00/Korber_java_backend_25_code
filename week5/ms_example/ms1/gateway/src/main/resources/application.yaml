@@ -14,6 +14,9 @@ eureka:
 
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0
   endpoints:
     web:
       exposure:
@@ -30,6 +33,15 @@ management:
       probes:
         enabled: true
 
+resilience4j:
+  circuitbreaker:
+    configs:
+      default:
+        sliding-window-size: 10
+        permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
+        failure-rate-threshold: 50 #percentage
+        wait-duration-in-open-state: 10s
 
 #  cloud:
 #    gateway:
@@ -37,3 +49,7 @@ management:
 #        locator:
 #          enabled: true
 #          lower-case-service-id: true
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"

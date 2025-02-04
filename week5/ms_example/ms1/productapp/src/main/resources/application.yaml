@@ -25,11 +25,18 @@ resilience4j:
       default:
         sliding-window-size: 10
         permitted-number-of-calls-in-half-open-state: 2
+        automatic-transition-from-open-to-half-open-enabled: true
         failure-rate-threshold: 50
         wait-duration-in-open-state: 10s
-        wait-duration-in-half-open-state: 500s
+        wait-duration-in-half-open-state: 5s
+        #The wait-duration-in-open-state is the amount of time a circuit
+        #breaker remains open before switching to a half-open state
 
 management:
+  tracing:
+    sampling:
+      probability: 1
+
   endpoints:
     web:
       exposure:
@@ -40,3 +47,6 @@ management:
   info:
     env:
       enabled: true
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
