@@ -8,7 +8,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 import java.math.BigDecimal;
 
-@EnableFeignClients("com.productapp.proxyservice")
+
 @SpringBootApplication
 public class ProductappApplication {
 
