@@ -769,6 +769,8 @@ management:
       enabled: true		
 		
 		
+Check 
+http://localhost:8080/actuator/prometheus
 
 step 2: download sw
 

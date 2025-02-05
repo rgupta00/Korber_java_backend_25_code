@@ -5,19 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e79cb4e9-2399-4f7f-909c-545bd264e9e4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../imp_cheetsheet/2-ms/2-spring boot ms product and coupon ms.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../../../imp_cheetsheet/2-ms/2-spring boot ms product and coupon ms.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/couponapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/service/CouponServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/java/com/coupon/service/CouponServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/couponapp/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/couponapp/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/euraka/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/euraka/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/euraka/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/euraka/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/java/com/gateway/config/RouteConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/java/com/gateway/config/RouteConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gateway/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/gateway/src/main/resources/application.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productapp/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/proxyservice/CouponServiceProxy.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/proxyservice/CouponServiceProxy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/java/com/productapp/service/ProductServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/productapp/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/productapp/src/main/resources/application.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -35,10 +24,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../../.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2sYpHE3Lb2opQYvzRrdukDulfYk" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -60,7 +49,7 @@
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Korber_java_backend_25_code/week5/ms_example/ms1",
+    "last_opened_file_path": "C:/Korber_java_backend_25_code/week5/grafana_promo",
     "settings.editor.selected.configurable": "preferences.updates"
   }
 }]]></component>
