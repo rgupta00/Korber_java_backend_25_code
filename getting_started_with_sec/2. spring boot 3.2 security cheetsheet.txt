@@ -1,0 +1,811 @@
+6-2-2025: agenda
+------------------
+spring security introduciton
+basics auth
+basic auth with database
+JWT 
+OAuth2 
+microservice security with keyclock
+
+
+
+
+Spring boot security 3.2.x cheetsheet:
+--------------------------------------
+* Spring security hello world
+* Spring security with custom  UserDetailsService and filter chain
+* Spring security with databse and with DaoAuthenticationProvider
+* Method level Security
+	spring provide u fitler based security
+	
+	method level security: few annotation, sec line of defence ot the url based sec
+	@PreAuthorized
+	@PostAuthorized
+	
+	
+* Exception handler: used to give customized error message to  the user
+	AuthenticationEntryPoint: 401
+	AccessDeniedHandler: 403
+* JWT security
+
+
+
+step 1: create new project bankapp with dependencies
+	web lombok security jpa mysql actuator
+	
+step 2: property file 
+---------------------
+server:
+  port: 8090
+  servlet:
+    context-path: /bankapp
+spring:
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/demoms?useSSL=false
+    password: root
+    username: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+
+
+with h2 database:
+---------------
+spring.application.name=secdemo1
+spring.main.allow-circular-references=true
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=sa
+spring.datasource.password=password
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+logging.level.org.springframework.web: DEBUG
+logging.level.org.hibernate: ERROR
+
+
+
+step 3: write a simple controller with some endpoints
+--------------------------------------------
+@RestController
+public class HelloController {
+    @GetMapping(path = "home")
+    public String home(){
+        return "home";
+    }
+    @GetMapping(path = "admin")
+    public String admin(){
+        return "admin";
+    }
+
+    @GetMapping(path = "mgr")
+    public String mgr(){
+        return "mgr";
+    }
+
+    @GetMapping(path = "clerk")
+    public String clerk(){
+        return "clerk";
+    }
+}
+
+
+
+
+step 4: customization spring security
+---------------------------------------
+
+@Component
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecConfig {
+    @Bean
+    public UserDetailsService userDetailsService(PasswordEncoder passwordEncoder){
+        UserDetails raj= User.withUsername("raj")
+                .password(passwordEncoder.encode("raj123"))
+                .roles("ADMIN")
+                .build();
+        UserDetails ekta= User.withUsername("ekta")
+                .password(passwordEncoder.encode("ekta123"))
+                .roles("MGR")
+                .build();
+
+        UserDetails gun= User.withUsername("gun")
+                .password(passwordEncoder.encode("gun123"))
+                .roles("CLERK")
+                .build();
+        return new InMemoryUserDetailsManager(raj,ekta, gun);
+
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(registry -> registry.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+  
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder();
+    }
+}
+
+
+Authorization:
+----------------
+
+ @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(registry ->
+                        registry.requestMatchers("/admin/**").hasAnyRole("ADMIN")
+                                .requestMatchers("/mgr/**").hasAnyRole("ADMIN","MGR")
+                                .requestMatchers("/clerk/**").hasAnyRole("ADMIN","MGR","CLERK")
+                                .requestMatchers("/home/**").permitAll()
+                                .anyRequest().authenticated()
+                )
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.
+						sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+
+
+Step 3: Spring sec with database
+
+step 3 a: 
+define user entity
+---------------------
+@Data
+@NoArgsConstructor
+@ToString
+@Entity
+@Table(name = "user_table_2")
+public class UserEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(unique = true, nullable = false)
+    private String username;
+    private String password;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name="user_roles_2")
+    private List<String> roles= new ArrayList<>();
+
+    public UserEntity(String username, String password, List<String> roles) {
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
+    }
+}
+
+step 3 b: define repo
+--------------------
+
+@Repository
+public interface UserRepo extends JpaRepository<UserEntity, Integer> {
+    public UserEntity findByUsername(String userName);
+}
+
+step 3 c: define service layer
+-------------------------------
+
+public interface UserService {
+    public UserEntity findByUsername(String username);
+    public void addUserEntity(UserEntity userEntity);
+}
+
+
+@Service
+@Transactional
+public class UserServiceImpl implements UserService{
+    private UserRepo userRepo;
+    @Autowired
+    public UserServiceImpl(UserRepo userRepo) {
+        this.userRepo = userRepo;
+    }
+
+    @Override
+    public UserEntity findByUsername(String username) {
+        return userRepo.findByUsername(username);
+    }
+
+    @Override
+    public void addUserEntity(UserEntity userEntity) {
+        userRepo.save(userEntity);
+    }
+}
+
+step 3 d: define userDetail service
+--------------------------------------
+@Service
+public class DetailService implements UserDetailsService {
+
+    @Autowired
+    private UserService userService;
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        UserEntity userEntity=userService.findByUsername(username);
+        if(userEntity==null)
+            throw new UsernameNotFoundException("Username/password is invalid");
+        //now problem: userEntity--->UserDetails(which spring sec understand)
+        return new SecUser(userEntity);
+    }
+}
+
+
+step 3 e: define secUser
+-------------------------
+
+public class SecUser implements UserDetails {
+
+    private UserEntity userEntity;
+
+    public SecUser(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+       return AuthorityUtils.createAuthorityList(userEntity.getRoles());
+    }
+
+    @Override
+    public String getPassword() {
+        return userEntity.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return userEntity.getUsername();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+}
+
+step 3 f: initilized database
+---------------------------
+//String username, String password, List<String> roles
+userService.addUserEntity(new UserEntity("raj","raj123", List.of("ROLE_MGR","ROLE_CLERK")));
+userService.addUserEntity(new UserEntity("ekta","ekta123", List.of("ROLE_CLERK")));
+
+
+with password encoder:
+---------------------------
+
+userService.addUserEntity(new UserEntity("raj",
+passwordEncoder.encode("raj123"), List.of("ROLE_ADMIN","ROLE_MGR","ROLE_CLERK")));
+
+userService.addUserEntity(new UserEntity("ekta",passwordEncoder.encode("ekta123"),
+         List.of("ROLE_MGR","ROLE_CLERK")));
+		 
+userService.addUserEntity(new UserEntity("gun",passwordEncoder.encode("gun123"),
+         List.of("ROLE_MGR","ROLE_CLERK")));
+
+
+step 3 g: change security config to use user detailservice
+--------------------------------------------------------
+
+@Component
+@EnableWebSecurity
+@EnableMethodSecurity
+public class SecConfig {
+
+    @Autowired
+    private DetailService userDetailsService;
+
+    @Bean
+    public AuthenticationProvider getAuthentication(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    //......
+}
+
+
+
+Step 4: spring boot method level security
+------------------------------------------
+apply to sec config class:
+--------------------
+@EnableMethodSecurity(prePostEnabled = true)
+
+
+
+@Component
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecConfig {
+	//....
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(registry -> registry.anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+	//.....
+	
+}
+
+Use annotation :
+----------------
+@RestController
+public class HelloController {
+
+    @GetMapping(path = "home")
+    public String home(){
+        return "home";
+    }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping(path = "admin")
+    public String admin(){
+        return "admin";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MGR') or hasAuthority('ROLE_CLERK')")
+    @GetMapping(path = "mgr")
+    public String mgr(){
+        return "mgr";
+    }
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MGR') or hasAuthority('ROLE_CLERK')")
+    @GetMapping(path = "clerk")
+    public String clerk(){
+        return "clerk";
+    }
+}
+
+
+
+Applying method level security:
+@PreAuthorize("hasAuthority('ROLE_MGR') or hasAuthority('ROLE_CLERK')")
+ @PreAuthorize("hasAuthority('ROLE_MGR')")
+ 
+ 
+* Exception handler
+------------------------
+	AuthenticationEntryPoint: 401
+	AccessDeniedHandler: 403
+	
+@Service
+public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
+
+	@Override
+	public void commence(HttpServletRequest request, HttpServletResponse response,
+			AuthenticationException authException) throws IOException, ServletException {
+		response.setHeader("busycoder-error", "Authentication Failure");
+		response.sendError(HttpStatus.UNAUTHORIZED.value(), HttpStatus.UNAUTHORIZED.getReasonPhrase());
+	}
+
+}
+
+@Service
+public class CustomAccessDeniedHandler implements AccessDeniedHandler {
+
+	@Override
+	public void handle(HttpServletRequest request, HttpServletResponse response,
+			AccessDeniedException accessDeniedException) throws IOException, ServletException {
+		 LocalDateTime currentTimeStamp = LocalDateTime.now();
+	        String message = (accessDeniedException != null && accessDeniedException.getMessage() != null) ?
+	                accessDeniedException.getMessage() : "Authorization failed";
+	        String path = request.getRequestURI();
+	        response.setHeader("busycoder-denied-reason", "Authorization failed");
+	        response.setStatus(HttpStatus.FORBIDDEN.value());
+	        response.setContentType("application/json;charset=UTF-8");
+	        // Construct the JSON response
+	        String jsonResponse =
+	                String.format("{\"timestamp\": \"%s\", \"status\": %d, \"error\": \"%s\", \"message\": \"%s\", \"path\": \"%s\"}",
+	                        currentTimeStamp, HttpStatus.FORBIDDEN.value(), HttpStatus.FORBIDDEN.getReasonPhrase(),
+	                        message, path);
+	        response.getWriter().write(jsonResponse);
+	}
+
+}
+
+@Configuration
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecConfig {
+	
+	
+	@Autowired
+	private AccessDeniedHandler accessDeniedHandler;
+	
+	@Autowired
+	private AuthenticationEntryPoint authenticationEntryPoint;
+	
+	//------------------------
+	
+	//Authrization
+	@Bean
+	SecurityFilterChain chain(HttpSecurity httpSecurity) throws Exception {
+		return httpSecurity
+		.csrf(AbstractHttpConfigurer::disable)
+		.cors(AbstractHttpConfigurer::disable)
+		.authorizeHttpRequests(registry-> registry.anyRequest().authenticated())
+//		.httpBasic(Customizer.withDefaults())
+		.httpBasic(hbc ->hbc.authenticationEntryPoint(authenticationEntryPoint) )
+		.exceptionHandling(hbc-> hbc.accessDeniedHandler(accessDeniedHandler))
+		.sessionManagement(configure-> configure.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+		.build();
+		
+		
+	}
+}
+
+
+
+
+
+
+Spring security jwt:
+-------------------
+step 1: put maven dependency
+<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.11.5</version>
+		</dependency>
+	
+	
+	step 
+	1. allow user to enter and /authenticate 
+	and it will username and password and
+	if username and pw is correct it will produe jwt token
+	
+	
+	2. once user get jwt token for each request while accessing the 
+	res u need allowed to pass jwt token then validate it
+	if it is  correct you will provide with proper response
+	
+	
+		
+Step 2: create JwtService that create and validate jwt token
+------------------------------------------------------------
+
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.io.Decoder;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
+
+import java.security.Key;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Function;
+
+@Component
+public class JwtService {
+    public static final String
+            SECRET = "5367566B59703373367639792F423F4528482B4D6251655468576D5A71347437";
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parserBuilder()
+                .setSigningKey(getSignKey())
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    private Boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
+    public Boolean validateToken(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+    }
+
+    public String generateToken(String userName) {
+        Map<String, Object> claims = new HashMap<>();
+        return createToken(claims, userName);
+    }
+
+    private String createToken(Map<String, Object> claims, String userName) {
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userName)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256).compact();
+    }
+
+    private Key getSignKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
+}
+
+
+Step 2: create an endpoint "authenticate" that allow user to get jwt token
+-----------------------------------------------------------------------------
+
+
+
+@Data
+public class AuthRequest {
+    private String username;
+    private String password;
+}
+
+
+define AuthenticationManager bean in security configuration:
+------------------------------------------------------------
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception {
+        return config.getAuthenticationManager();
+    }
+	
+We need to create an endpoint so that user can get token :
+-----------------------------------------------------
+allow to access without security:
+
+                .authorizeHttpRequests(auth->
+                        auth.requestMatchers("authenticate").permitAll()
+                        .anyRequest().authenticated())
+						
+	
+	
+@RestController
+public class HelloController {
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
+
+    @GetMapping(path = "home")
+    public String home() {
+        return "home ";
+    }
+
+    //3. craete a endpoint so that user can send his u/p and get token
+    @PostMapping(path = "authenticate")
+    public String authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+
+        Authentication authentication
+                =authenticationManager.
+                authenticate(new UsernamePasswordAuthenticationToken(
+                        authRequest.getUsername(),
+                        authRequest.getPassword()
+                ));
+
+        if(authentication.isAuthenticated()){
+            return jwtService.generateToken(authRequest.getUsername());
+        }else {
+            throw  new UsernameNotFoundException("user is invalid");
+        }
+
+
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MGR')")
+    @GetMapping(path = "mgr")
+    public String mgr(){
+        return "mgr ";
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_MGR') or hasAuthority('ROLE_CLERK')")
+    @GetMapping(path = "clerk")
+    public String clerk(){
+        return "clerk ";
+    }
+
+
+}
+
+Step 3: write JwtAuthFilter that validate jwt token and put UsernamePasswordAuthenticationToken in security context
+-----------------------------------------------------------------------------
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+
+@Service
+public class JwtAuthFilter extends OncePerRequestFilter {
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws ServletException, IOException {
+
+        String authHeader= request.getHeader("Authorization");
+        String token=null;
+        String username=null;
+
+            if(authHeader!=null && authHeader.startsWith("Bearer ")){
+            token=authHeader.substring(7);
+            username=jwtService.extractUsername(token);
+        }
+
+        if(username!=null && SecurityContextHolder.getContext().getAuthentication()==null){
+            UserDetails userDetails=userDetailsService.loadUserByUsername(username);
+            //username is correct , and we are going to get UNAuthToeken and put that in SecurityContextHolder ....
+            if(jwtService.validateToken(token, userDetails)){
+
+                UsernamePasswordAuthenticationToken authToken=
+                     new  UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+
+               // authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
+                SecurityContextHolder.getContext().setAuthentication(authToken);
+
+            }
+
+        }
+        filterChain.doFilter(request, response);
+    }
+}
+
+
+
+Step 4: Customized spring security so that jwtAuthFilter must be registerd before UsernamePasswordAuthenticationFilter
+-----------------------------------------------------------------------------
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.stereotype.Component;
+
+@Component
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
+public class SecConfig {
+
+    @Autowired
+    private DetailService userDetailsService;
+
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+
+    @Bean
+    public AuthenticationProvider getAuthentication(){
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.csrf(AbstractHttpConfigurer::disable)
+                .cors(AbstractHttpConfigurer::disable)
+                .authorizeHttpRequests(auth->
+                        auth.requestMatchers("authenticate").permitAll()
+                        .anyRequest().authenticated())
+                .httpBasic(Customizer.withDefaults())
+                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+
+        return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        return NoOpPasswordEncoder.getInstance();
+    }
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)throws Exception {
+        return config.getAuthenticationManager();
+    }
+}
+
+
+Ref:
+-----
+for csrf 
+https://www.javainuse.com/spring/boot_security_csrf
