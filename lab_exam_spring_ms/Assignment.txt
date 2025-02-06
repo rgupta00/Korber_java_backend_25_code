@@ -1,0 +1,59 @@
+In this lab assignment you have two services namely empapp and deptapp.
+ The empapp service will be used to get the and employee  details by providing employee name
+ and the deptapp service will be used to get the deptartment details by providing employee name.
+
+ You can invoke the deptapp services as follows:
+ 
+ http://localhost:8083/departments/IT
+ 
+ It will return the following response:
+ {
+  "id": 1,
+  "deptName": "IT",
+  "deptLocation": "BTM"
+}
+
+ similarly you can invoke the empapp service to get employee information along with his dept information
+
+ You can invoke the empapp services as follows:
+ 
+http://localhost:8084/employees/Raj
+
+ It will return the following response:
+ 
+
+{
+  "employee": {
+    "id": 1,
+    "name": "Raj",
+    "salary": 10000.0,
+    "deptName": "IT"
+  },
+  "department": {
+    "id": 1,
+    "deptName": "IT",
+    "deptLocation": "BTM"
+  }
+}
+
+In this application we have alreay applied feignclient to call deptapp microservice to get inforation
+about deptartment of the employee
+
+step 1: we are using hard coded url while using open feign. 
+we should use eureka server instead of calling directly
+
+
+step 3: . we should apply spring cloud gateway so that all 
+ request will go through gateway
+
+
+step 4: Provide some fallback respone using resilence 4j
+ in case of coupon service is down
+
+Ports:
+deptapp: 8083
+empapp: 8084
+eureka: 8761
+api-gateway: 8090
+
+

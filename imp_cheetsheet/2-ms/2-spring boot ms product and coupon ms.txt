@@ -772,6 +772,7 @@ management:
 Check 
 http://localhost:8080/actuator/prometheus
 
+
 step 2: download sw
 
 Download and configure Prometheus: run on port : 9090
