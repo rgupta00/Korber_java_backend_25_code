@@ -1,0 +1,486 @@
+
+Kafka basics:
+================
+Agenda:
+* Intro to Kafka
+* Kakfa spring boot hello world, using offset explore
+* kafka consumer/producer custom objects
+* Kafka Producer Example with java configuration
+* Kafka error handling
+* Intro to kafka streams
+
+Kafka is distributed event driven messaging system
+Millions of messages can be process per second
+mutiple producer multiple broker and consumer
+
+Kafka is distributed plateform: in production env kafk is reffered as kafka cluser 
+
+kafka cluser : made of more then one kafka server
+
+feature :
+* kafka is fault tolerence
+* in kafka cluster messages are replicated in multiple brokers
+* replication factor messages is present in all the brokers
+* kafka is scalable
+	we can add new brokers
+	we can increase no of consumers
+	
+kafka cluster contains many brokers and brokers is managed by zookeeper
+
+
+Download kafka:
+-------------
+https://archive.apache.org/dist/kafka/3.4.0/kafka_2.12-3.4.0.tgz
+
+
+change: server.properties
+log.dirs=c:/kafka/kafka-logs
+
+
+change : zookeeper.properties
+dataDir=c:/kafka/zookeeper
+
+
+Kafka installation on Window:
+-------------------------------
+
+
+1. Start Zookeeper(port 2181)
+-------------------------------
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+2. Start Kafka Broker (9090)
+-----------------------------
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+3. Create topic
+----------------
+	Topic: communication chennal on which producer put the messages and consumer consume the the data
+	for performance consideration topic divided into partitions 
+	If any partition is not working we keep replication
+
+go to window:
+
+.\kafka-topics.bat --bootstrap-server localhost:9092 --create --topic t-hello2 --partitions 3 --replication-factor 1
+
+List topic
+
+.\kafka-topics.bat --bootstrap-server localhost:9092 --list
+
+describe topic
+.\kafka-topics.bat --bootstrap-server localhost:9092 --describe --topic  t-hello2
+
+delete topic
+.\kafka-topics.bat --bootstrap-server localhost:9092 --delete --topic t-hello2
+
+4. Start Producer
+--------------------
+.\kafka-console-producer.bat --broker-list localhost:9092 --topic  t-hello2
+
+Send message
+How are you
+
+5> Receive message
+-------------------
+.\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic  t-hello2 --from-beginning
+How are you
+
+
+Spring boot kafka hello world:
+--------------------------------
+step 1. Start Zookeeper(port 2181)
+-------------------------------
+
+.\bin\windows\zookeeper-server-start.bat .\config\zookeeper.properties
+
+step 2. Start Kafka Broker (9090)
+-----------------------------
+.\bin\windows\kafka-server-start.bat .\config\server.properties
+
+
+
+step 3: create simple producer and consumer project : 
+-------------------------------------------------
+producer:
+---------
+@Service
+public class ProduceService {
+
+	// //no need to config this bean urself for k, v as string
+	
+	@Autowired
+	private KafkaTemplate<String, String>kafkaTemplate;
+	
+	public void produce(String message) {
+		System.out.println("message is send....");
+		kafkaTemplate.send("t-hello2", message);
+	}
+}
+
+
+@RestController
+public class ProducerController {
+
+	@Autowired
+	private ProduceService produceService;
+	
+	@GetMapping("producer")
+	public String callProducer(@RequestParam String message) {
+		produceService.produce(message);
+		return "ok";
+	}
+}
+
+server.port=8080
+
+http://localhost:8080/producer?message=hello 
+
+consumer:
+----------
+@Service
+public class ConsumerService {
+	@KafkaListener(topics = "t-hello2", groupId = "my_topic_group_id")
+	public void consume(String message) {
+		System.out.println(message);
+	}
+}
+
+server.port=8081
+
+
+step 4: how to create topic programmatically with no of partitions:
+------------------------------------------------------------------
+
+step 4.1: creating kafkaConfig:
+------------------------------
+@Configuration
+public class KafkaConfig {
+    @Bean
+    public NewTopic newTopic(){
+        return new NewTopic("my_topic2_sb2",3, (short) 1);
+    }
+}
+
+step 4.2: change service layer to get CompletableFuture
+------------------------------------------------
+@Service
+public class ProductService {
+	//-----------------
+    public void processProduct(String message){
+        CompletableFuture<SendResult<String, String>> future =
+                template.send("my_topic2_sb", message);
+
+        future.whenComplete(((result, ex) -> {
+            if(ex==null){
+                System.out.println(result.getRecordMetadata().hasOffset());//:)
+            }else {
+                System.out.println(ex.getMessage());
+            }
+        }));
+    }
+}
+step 4.3: change controller to producer 5000 messages
+-----------------------------------------------------
+@RestController
+public class ProductController {
+  
+	//..........
+    @GetMapping(path = "producer/{message}")
+    public String processProduct(@PathVariable String message){
+        for(int i=0;i<5000;i++){
+            productService.processProduct(message+" "+i);
+        }
+        return "message is processed";
+    }
+}
+
+Note: 
+how to read message from a spefic partition
+@KafkaListener(topics = "busycoder-demo", groupId = "my_topic_group_id", topicPartitions
+		= {@TopicPartition(topic = "busycoder-demo", partitions = {"2"})})
+		
+		
+how to send messages to the specific partition
+kafkaTemplate.send("busycoder-demo", 3, null(key), data);
+
+
+
+
+
+
+step 5: kafka consumer/producer custom objects
+-----------------------------------------------
+
+step 5.1: create dto and apply annotations
+-------------------------------------------
+public class Product {
+	private int id;
+	private String name;
+	private double price;
+}
+
+step 5.2: change service layer 
+-------------------------------
+@Service
+public class ProduceService {
+	
+	@Autowired
+	private KafkaTemplate<String, Product>kafkaTemplate;
+	
+	public void produce(Product product) {
+		System.out.println("message is send....");
+		kafkaTemplate.send("my_topic", product);
+	}
+}
+
+step 5.3: change controller layer 
+-------------------------------
+@RestController
+public class ProducerController {
+
+	@Autowired
+	private ProduceService produceService;
+	@PostMapping("producer")
+	public String callProducer(@RequestBody Product product) {
+		produceService.produce(product);
+		return "product added";
+	}
+}
+
+step 5.4: change configuration
+-------------------------------
+server:
+  port: 8080
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+
+Kafka consumer:
+-------------------
+
+public class Product {
+	private int id;
+	private String name;
+	private double price;
+}
+
+
+@Service
+public class ConsumerService {
+	@KafkaListener(topics = "my_topic", groupId = "my_topic_group_id")
+	public void consume(Product product) {
+		System.out.println(product);
+	}
+}
+
+server:
+  port: 8081
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+
+
+
+
+
+step 6: Spring Boot with Kafka Producer Example with java configuration
+--------------------------------------------------------------
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.DefaultKafkaProducerFactory;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
+import org.springframework.kafka.support.serializer.JsonSerializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class KafkaProducerConfig {
+
+    @Bean
+    public NewTopic createTopic(){
+        return new NewTopic("busycoder-demo", 3, (short) 1);
+    }
+
+    @Bean
+    public Map<String,Object> producerConfig(){
+        Map<String,Object> props=new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                "localhost:9092");
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG,
+                StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG,
+                JsonSerializer.class);
+        return props;
+    }
+
+    @Bean
+    public ProducerFactory<String,Object> producerFactory(){
+        return new DefaultKafkaProducerFactory<>(producerConfig());
+    }
+
+    @Bean
+    public KafkaTemplate<String,Object> kafkaTemplate(){
+        return new KafkaTemplate<>(producerFactory());
+    }
+
+}
+
+
+KafkaConsumerConfig
+---------------------
+import org.apache.kafka.clients.admin.NewTopic;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerContainerFactory;
+import org.springframework.kafka.core.ConsumerFactory;
+import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
+import org.springframework.kafka.listener.ConcurrentMessageListenerContainer;
+import org.springframework.kafka.support.serializer.JsonDeserializer;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class KafkaConsumerConfig {
+
+    @Bean
+    public NewTopic createTopic(){
+        return new NewTopic("busycoder-demo", 3, (short) 1);
+    }
+    @Bean
+    public Map<String, Object> consumerConfig() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG,
+                "localhost:9092");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
+                StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
+                JsonDeserializer.class);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        return props;
+    }
+
+    @Bean
+    public ConsumerFactory<String,Object> consumerFactory(){
+        return new DefaultKafkaConsumerFactory<>(consumerConfig());
+    }
+
+    @Bean
+    public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, Object>>
+        kafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(consumerFactory());
+        return factory;
+    }
+}
+
+
+
+Kafka exception handling
+---------------------------
+
+@Service
+@Slf4j
+public class KafkaMessageConsumer {
+
+   	@RetryableTopic(attempts = "4", backoff =@Backoff(delay = 3000,multiplier = 1.5, maxDelay = 15000)
+	,exclude = {NullPointerException.class})// 3 topic N-1
+    @KafkaListener(topics = "${app.topic.name}", groupId = "busycoder-group")
+    public void consumeEvents(Product p, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic, 
+			@Header(KafkaHeaders.OFFSET) long offset) {
+		//throw exception in case of price >100000
+    }
+
+    @DltHandler
+    public void listenDLT(Product p, @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+			@Header(KafkaHeaders.OFFSET) long offset) {
+        log.info("DLT Received : {} , from {} , offset {}",user.getFirstName(),topic,offset);
+    }
+}
+
+
+
+
+Example: fixed rate consumer and producer:
+________________________________________
+@Service
+public class HelloKafkaProducer {
+	@Autowired
+	private KafkaTemplate<String, String>kafkaTemplate;
+	
+	private int i=0;
+	private Logger logger=LoggerFactory.getLogger(HelloKafkaProducer.class);
+	
+	@Scheduled(fixedRate = 1000)
+	public void sendHello() {
+		i++;
+		kafkaTemplate.send("t_hello", "fixed rate "+ i);
+	}
+}
+
+
+
+@EnableScheduling
+@SpringBootApplication
+public class KafkaProducerApplication implements CommandLineRunner{
+}
+
+
+
+
+
+
+
+
+
+Kafka installation on Linux:
+-------------------------------
+Start Zookeeper
+bin/zookeeper-server-start.sh config/zookeeper.properties
+
+Start Kafka Server
+bin/kafka-server-start.sh config/server.properties
+
+Create Kafka Topic
+bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic Kafka_Example
+
+Consume from the Kafka Topic via Console
+bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic Kafka_Example --from-beginning
+
+
+Consumer:
+# create topic t_hello
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic t_hello --partitions 1 --replication-factor 1
+
+# list topic
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --list
+
+# describe topic
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --describe --topic t_hello
+
+# create topic t_test
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic t_test --partitions 1 --replication-factor 1
+
+# delete topic t_test
+bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic t_test
+

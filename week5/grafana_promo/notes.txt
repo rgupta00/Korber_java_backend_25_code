@@ -1,0 +1,96 @@
+
+8. Spring boot grafana and prometheus
+----------------------------------------
+https://medium.com/@extio/unveiling-the-architectural-brilliance-of-prometheus-af07cca14896
+
+Prometheus: Hello world configuration:
+__________________________________
+
+Step 1: create spring boot application with actuator, and prometheus dep
+		<dependency>
+			<groupId>io.micrometer</groupId>
+			<artifactId>micrometer-registry-prometheus</artifactId>
+		</dependency>
+		
+		
+		
+server:
+  port: 8080
+management:
+  endpoints:
+    web:
+      base-path: /actuator
+      exposure:
+        include: "*"
+  endpoint:
+    prometheus:
+      enabled: true
+    metrics:
+      enabled: true		
+		
+		
+Check 
+http://localhost:8080/actuator/prometheus
+
+
+step 2: download sw
+
+Download and configure Prometheus: run on port : 9090
+https://prometheus.io/download/
+
+download grafana:
+wget https://dl.grafana.com/enterprise/release/grafana-enterprise-9.5.2.linux-amd64.tar.gz
+https://grafana.com/grafana/download/9.5.2?platform=windows
+
+
+Step 3: configure spring boot application monitoring to  Prometheus:
+	search google (configure prometheus to monitor itself)
+	
+	
+prometheus.yml
+-----------------
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: 'codelab-monitor'
+
+# A scrape configuration containing exactly one endpoint to scrape:
+# Here it's Prometheus itself.
+scrape_configs:
+  # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+  - job_name: 'prometheus'
+
+    # Override the global default and scrape targets from this job every 5 seconds.
+    scrape_interval: 5s
+
+    static_configs:
+      - targets: ['localhost:9090']
+ 
+  - job_name: 'spring-actuator'
+    metrics_path: '/actuator/prometheus'
+    scrape_interval: 5s
+    static_configs:
+    - targets: ['localhost:8080']
+    
+    
+Start prometheus
+./prometheus 
+
+4.start grafana:
+ bin/grafana-server
+ http://localhost:9090
+up
+
+grafana dashboard
+http://localhost:3000/
+
+Dashboard-> new import -> grafana dashboard id -->put that id---> ui is created
+
+	 search google SpringBoot APM Dashboard
+	 
+
+
+
