@@ -1,0 +1,20 @@
+
+1. start zipkin
+docker run -p 9411:9411 openzipkin/zipkin:2.23
+
+2. start eureaka service
+
+3. start gateway
+
+4. other serverices
+
+5. 1. start kC
+
+docker run -d -p 7080:8080 -e KEYCLOAK_ADMIN=admin -e KEYCLOAK_ADMIN_PASSWORD=admin quay.io/keycloak/keycloak:25.0.1 start-dev
+
+localhost:7080
+
+5. create a client busycoder_cc and register to keyclock
+ step
+ 
+6. import that collection and run the application

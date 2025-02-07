@@ -1,0 +1,264 @@
+{
+	"info": {
+		"_postman_id": "83caa966-29ec-4420-be74-86e13b9818ec",
+		"name": "productapp-07-02",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1432109"
+	},
+	"item": [
+		{
+			"name": "copon",
+			"item": [
+				{
+					"name": "get copon by code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8083/coupon/SUP10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8083",
+							"path": [
+								"coupon",
+								"SUP10"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "product",
+			"item": [
+				{
+					"name": "get product by id and cc",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8082/products?id=1&couponCode=SUP15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8082",
+							"path": [
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "couponCode",
+									"value": "SUP15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "gateway",
+			"item": [
+				{
+					"name": "RouteLocator: get copon by code Copy 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/productstore/couponsms/coupon/SUP10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"productstore",
+								"couponsms",
+								"coupon",
+								"SUP10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RouteLocator get product by id and cc Copy 2",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/productstore/productsms/products?id=1&couponCode=SUP15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"productstore",
+								"productsms",
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "couponCode",
+									"value": "SUP15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "security",
+			"item": [
+				{
+					"name": "1-clientCredentialAccessToken Copy 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "text"
+								},
+								{
+									"key": "client_id",
+									"value": "busycoder-cc",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "5bVkvECbbTPSXcN9W6QYj1aUMGj6vWDW",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "7080",
+							"path": [
+								"realms",
+								"master",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2-without-token-coupon",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/productstore/couponsms/coupon/SUP10",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"productstore",
+								"couponsms",
+								"coupon",
+								"SUP10"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4-RouteLocator get product by id and cc Copy 3",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/productstore/productsms/products?id=1&couponCode=SUP15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"productstore",
+								"productsms",
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "couponCode",
+									"value": "SUP15"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3-Without-token product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8072/productstore/productsms/products?id=1&couponCode=SUP15",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8072",
+							"path": [
+								"productstore",
+								"productsms",
+								"products"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								},
+								{
+									"key": "couponCode",
+									"value": "SUP15"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

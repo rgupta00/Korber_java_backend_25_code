@@ -222,6 +222,9 @@ create new project with: eureka server, actuator
 2. url pattern
 http://localhost:8070/
 
+check
+http://localhost:8070/eureka/app
+
 3. application.yml configuration for eureka server
 --------------------------
 spring:
@@ -236,7 +239,7 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-      defaultZone: 
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
 management:
   endpoints:
     web:
@@ -904,7 +907,7 @@ enable client authentication--->auth flow --> service accounts roles (other dont
 				
 copy client secret:
 
-client secret: ptgcrpzwMshj7lne8y5Oz6jmEB3usVSO
+client secret: RCbqtSmYnzEbdWcEZLSVsk1HBJ15wcIY
 
 
 step 3: getting access token form auth server in client credential grant flow:
