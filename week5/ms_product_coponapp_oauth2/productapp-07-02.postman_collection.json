@@ -146,7 +146,7 @@
 								},
 								{
 									"key": "client_secret",
-									"value": "5bVkvECbbTPSXcN9W6QYj1aUMGj6vWDW",
+									"value": "wYLW6IYHsVlfZym6EM41p43Na09jStCd",
 									"type": "text"
 								},
 								{
@@ -177,6 +177,9 @@
 				{
 					"name": "2-without-token-coupon",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -199,6 +202,51 @@
 				{
 					"name": "4-RouteLocator get product by id and cc Copy 3",
 					"request": {
+						"auth": {
+							"type": "oauth2",
+							"oauth2": [
+								{
+									"key": "clientSecret",
+									"value": "wYLW6IYHsVlfZym6EM41p43Na09jStCd",
+									"type": "string"
+								},
+								{
+									"key": "addTokenTo",
+									"value": "header",
+									"type": "string"
+								},
+								{
+									"key": "accessTokenUrl",
+									"value": "http://localhost:7080/realms/master/protocol/openid-connect/token",
+									"type": "string"
+								},
+								{
+									"key": "client_authentication",
+									"value": "body",
+									"type": "string"
+								},
+								{
+									"key": "scope",
+									"value": "openid email profile",
+									"type": "string"
+								},
+								{
+									"key": "clientId",
+									"value": "busycoder-cc",
+									"type": "string"
+								},
+								{
+									"key": "grant_type",
+									"value": "client_credentials",
+									"type": "string"
+								},
+								{
+									"key": "tokenName",
+									"value": "clientcredentials _ccesstoken",
+									"type": "string"
+								}
+							]
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
@@ -230,6 +278,9 @@
 				{
 					"name": "3-Without-token product",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
 						"header": [],
 						"url": {
