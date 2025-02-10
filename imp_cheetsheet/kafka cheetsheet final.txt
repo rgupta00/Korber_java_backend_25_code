@@ -172,7 +172,7 @@ public class ProductService {
 
         future.whenComplete(((result, ex) -> {
             if(ex==null){
-                System.out.println(result.getRecordMetadata().hasOffset());//:)
+                System.out.println(result.getRecordMetadata().offset());//:)
             }else {
                 System.out.println(ex.getMessage());
             }
@@ -484,3 +484,4 @@ bin/kafka-topics.sh --bootstrap-server localhost:9092 --create --topic t_test --
 # delete topic t_test
 bin/kafka-topics.sh --bootstrap-server localhost:9092 --delete --topic t_test
 
+https://www.youtube.com/playlist?list=PLOcnwq0FwVrQd7fxM64p6aR4mIxG3ZdYw
