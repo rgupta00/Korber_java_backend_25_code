@@ -21,8 +21,57 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 //i want to mock dao layer
-
+@ExtendWith(MockitoExtension.class)
 class ProductServiceImplTest {
 
+    @Mock
+    private ProductRepo productRepo;
 
+    @InjectMocks
+    private ProductServiceImpl productService;
+
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product=new Product("laptop", 120000);
+    }
+
+    @DisplayName("JUnit test for save Product method")
+    @Test
+    public void givenProductObject_whenSaveProduct_thenReturnProductObject(){
+        // given - precondition or setup
+        given(productRepo.save(product)).willReturn(product);
+        Product savedProduct = productService.addProduct(product);
+        assertThat(savedProduct).isNotNull();
+    }
+
+    @DisplayName("JUnit test for getAll Product method (negative scenario)")
+    @Test
+    public void givenEmptyEmployeesList_whenGetAllEmployees_thenReturnEmptyEmployeesList(){
+        // given - precondition or setup
+        given(productRepo.findAll()).willReturn(Collections.emptyList());
+
+        // when -  action or the behaviour that we are going test
+        List<Product> employeeList = productService.getAll();
+        // then - verify the output
+        Assertions.assertThat(employeeList).isEmpty();
+        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    @DisplayName("JUnit test for getAll Product method")
+    @Test
+    public void givenProductList_whenGetAllProduct_thenReturnProductList(){
+        // given - precondition or setup
+        Product  product2=new Product("laptop cover", 1200);
+
+        given(productRepo.findAll()).willReturn(List.of(product,product2));
+
+        // when -  action or the behaviour that we are going test
+        List<Product> productList = productService.getAll();
+
+        // then - verify the output
+        Assertions.assertThat(productList).isNotNull();
+        Assertions.assertThat(productList.size()).isEqualTo(2);
+    }
 }

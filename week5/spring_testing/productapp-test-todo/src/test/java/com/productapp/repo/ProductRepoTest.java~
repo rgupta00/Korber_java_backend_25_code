@@ -59,7 +59,6 @@ class ProductRepoTest {
         // then - verify the output
         assertThat(productDB).isNotNull();
     }
-
     @DisplayName("JUnit test for update product operation")
     @Test
     public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee(){
