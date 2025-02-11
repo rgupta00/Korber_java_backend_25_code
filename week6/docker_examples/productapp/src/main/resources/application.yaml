@@ -1,0 +1,19 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: productapp
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true

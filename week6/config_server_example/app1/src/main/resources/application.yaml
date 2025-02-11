@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active:
+      - dev
+  application:
+    name: app1
+server:
+  port: 8091
+
+app:
+  name: default config app1

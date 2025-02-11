@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        ports:
+        - name: "app-port"
+          containerPort: 8080

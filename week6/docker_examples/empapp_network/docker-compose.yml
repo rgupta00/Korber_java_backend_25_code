@@ -1,0 +1,40 @@
+version: "3"
+services:
+  consumer:
+    image: emp-consumer
+    ports:
+      - "8081:8081"
+    networks:
+      - consumer-producer
+    depends_on:
+      - producer
+  producer:
+    image: emp-producer
+    ports:
+      - "8080:8080"
+    networks:
+      - consumer-producer
+networks:
+  consumer-producer:
+
+
+#version: "3"
+#services:
+#  consumer:
+#    image: emp-consumer
+#    ports:
+#      - "8081:8081"
+#    networks:
+#      - consumer-producer
+#    depends_on:
+#      - producer
+#
+#  producer:
+#    image: emp-producer
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      - consumer-producer
+#
+#networks:
+#  consumer-producer:

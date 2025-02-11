@@ -1,0 +1,11 @@
+spring:
+  profiles:
+    active:
+      - dev
+  application:
+    name: app2
+server:
+  port: 8092
+
+app:
+  name: dev app2

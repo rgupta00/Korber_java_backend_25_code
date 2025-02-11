@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  springboot-app:
+    # container_name: spring-app
+    image: springbooot-app
+    restart: always
+    build: .
+    depends_on:
+      - mysqldb
+    ports:
+      - 8004:8080
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysqldb:3306/demo123?autoReconnect=true&allowPublicKeyRetrieval=true
+      SPRING_DATASOURCE_USERNAME: "root"
+      SPRING_DATASOURCE_PASSWORD: "root"
+    networks:
+      - boot-mysql
+  mysqldb:
+    container_name: mysqldb
+    image: mysql
+    volumes:
+      - c:/mysqldata/db:/var/lib/mysql
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: demo123
+      MYSQL_ROOT_PASSWORD: root
+    networks:
+      - boot-mysql
+networks:
+  boot-mysql:

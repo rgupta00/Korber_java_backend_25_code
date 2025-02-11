@@ -1,0 +1,43 @@
+server:
+  port: 8090
+  servlet:
+    context-path: /productapp
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27018
+      database: mydb
+  jmx:
+    enabled: true
+management:
+  info:
+    env:
+      enabled: true
+  endpoint:
+    health:
+      livenessstate:
+        enabled: true
+      readinessstate:
+        enabled: true
+      show-details: always
+      probes:
+        enabled: true
+  endpoints:
+    jmx:
+      exposure:
+        include: "*"
+    web:
+      base-path: /busycoder
+      exposure:
+        include: "*"
+logging:
+  level:
+    org:
+      hibernate: ERROR
+      springframework:
+        web: DEBUG
+info:
+  app:
+    name: "myapp"
+    dev: "raj"
