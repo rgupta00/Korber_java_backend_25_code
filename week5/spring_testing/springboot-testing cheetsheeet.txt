@@ -1,0 +1,923 @@
+
+Spring boot testing
+---------------------
+* Junit mockito intro
+* Spring boot testing
+* Communication bw spring boot applications
+
+
+Basics Recap Junit and mockito:
+------------------------------
+
+Unit testing:
+	where any given test covers the smallest unit of a program (a function or procedure).
+	 It may or may not take some input parameters and may or may not return some values.
+
+Integration testing:
+	 where individual units are tested together to check whether all the
+	 units interact with each other as expected.
+
+
+To define one Test case we should use
+  a. JUnit 5 Annotations  
+  b. JUnit 5 Assert API
+
+
+Some imp Junit 5 annotations
+------------------------
+@Test
+@DisplayName
+@BeforeEach
+@AfterEach
+@BeforeAl
+@AfterAll
+@Disable
+@TestMethodOrder
+@RepeatTest
+@Tag
+@ParameterizedTest
+
+@BeforeEach : To execute any logic once per test method before starting test method.
+@AfterEach  : To execute any logic once per test method after finishing test method.
+
+@BeforeAll : To execute any logic once per test case before starting.
+@AfterAll  : To execute any logic once per test case after finishing.
+
+Calculator example:
+------------------
+
+	@Test
+	void testDivide() {
+		Assertions.assertThrows(ArithmeticException.class, ()-> cal.divide(3, 0));
+	}
+	
+		
+	@Test
+	void testDivide() {
+		int sum=Assertions.assertTimeout(Duration.ofMillis(100), ()-> cal.add(2, 1));
+	}
+	
+	
+
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
+
+@EnabledOnOs(OS.LINUX)
+@EnabledOnJre(JRE.JAVA_15)
+@DisplayName("test for add employee")
+@Order(value = 1)
+
+AssertEquals()
+assertNotNull(object):
+assertNull(object):
+assertTrue()/assertFalse()
+assertAll(Executable...) 
+assertThrow()
+assertNotThrow()
+assertTimeOut()
+
+
+
+
+Demo @TestMethodOrder:
+_____________________
+@TestMethodOrder : We can define multiple test methods inside Testcase.
+ Those are executed in Random order by default.
+
+We can specify our own order using @TestMethodOrder + OrderAnnotation
+Here we need to provide @Order(number).
+
+
+@TestMethodOrder(OrderAnnotation.class)
+public class TestEmployee {
+
+	@Order(value = 1)
+	@Test
+	public void testSave() {
+		System.out.println("saving");
+	}
+	
+}
+
+
+@DisplayName : This annotation is used to provide 'Readable text' inplace of
+                   actual method and class names at JUnit console.
+
+Eg:
+DisplayName("test for employee dao")
+public class TestEmployee {
+
+	@DisplayName("test for saving employee dao")
+	@Test
+	public void testSave() {
+		System.out.println("saving");
+	}
+	//
+
+}
+
+
+
+@Disabled :    This annotation is used to specify Ignore one Test-method 
+               while executing test-case (do not execute test method)
+
+
+@Tag 
+----------
+
+	These are used to filter test methods for execution in different environments.
+
+	For Example, i want to test export example in production env at same
+	    i want to test delete operation only in development environment 
+	then use tag concept and maven-surefire-plugin in pom.xml
+
+
+@DisplayName("test for employee dao")
+public class TestEmployee {
+
+	@DisplayName("test for saving employee dao")
+
+	@Test
+	public void testSave(TestInfo info) {
+		System.out.println(info.getTestMethod().toString());
+		System.out.println("saving");
+	}
+	@Tag(value = "dev")
+	@Test
+	public void testUpdate() {
+		System.out.println("updating ");
+	}
+	
+	@Tag(value = "prod")
+	@Test
+	public void testDelete() {
+		System.out.println("deleting");
+	}
+}
+
+	 <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M5</version>
+                <configuration>
+                    <!-- include tags -->
+                    <groups>prod</groups>
+                    <!-- exclude tags -->
+                    <excludedGroups>dev</excludedGroups>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+@ParameterizedTest
+___________________
+
+	@ParameterizedTest
+	@CsvFileSource(resources = "/data.csv", numLinesToSkip = 1)
+	void toUpperCase_ShouldGenerateTheExpectedUppercaseValueCSVFile(
+	  String input, String expected) {
+	    String actualValue = input.toUpperCase();
+	    assertEquals(expected, actualValue);
+	}
+
+input,expected
+test,TEST
+tEst,TEST
+Java,JAVA
+
+
+junit mock testing:
+_______________
+What is Mocking and When Does It Come into the Picture?
+___________________________________________________
+
+	What if we want to test service layer without completion of dao layer?
+	What if we want to test one service which depend on an service available on other application?
+
+	=> mockito used for mocking
+
+getting started:
+------------------
+
+Why mockito?
+-----------
+public interface BookDao {
+	public List<String> getBooks();
+}
+
+
+public class BookDaoImpl implements BookDao {
+	@Override
+	public List<String> getBooks() {
+		return Arrays.asList("java","rich dad poor dad","java adv");
+	}
+}
+
+
+public interface BookService {
+	public List<String> getBooks(String subject);
+}
+
+
+
+public class BookServiceImpl implements BookService {
+	private BookDao bookDao;
+
+	public void setBookDao(BookDao bookDao) {
+		this.bookDao = bookDao;
+	}
+
+	@Override
+	public List<String> getBooks(String subject) {
+		return bookDao.getBooks().stream().filter(title -> title.contains(subject)).collect(Collectors.toList());
+	}
+
+}
+
+
+
+
+
+import org.junit.Assert; 
+
+
+public class DemoTest {
+
+	@Test
+	public void getBookTest() {
+		BookDao dao=new BookDaoImpl();
+		
+		BookServiceImpl bookService=new BookServiceImpl();
+		bookService.setBookDao(dao);
+		List<String> books=bookService.getBooks("java");
+		Assert.assertEquals(2, books.size());
+	}
+}
+
+
+
+mockito with annotations:
+----------------------
+
+@ExtendWith(MockitoExtension.class)
+class BookServiceImplTest {
+
+	@InjectMocks
+	private BookServiceImpl bookServiceImpl;
+	
+	@Mock
+	private BookDao bookDao;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		List<String> allBooks=Arrays.asList("java","rich dad poor dad","java adv");
+		when(bookDao.getBooks()).thenReturn(allBooks);
+		
+	}
+
+	@AfterEach
+	void tearDown() throws Exception {
+	}
+
+	@Test
+	void test() {
+		List<String> books=bookServiceImpl.getBooks("java");
+		assertEquals(2, books.size());
+	}
+
+}
+
+
+MockitoAnnotations.initMocks(this) vs @RunWith(MockitoJUnitRunner.class)
+
+Note:
+----
+Mockito cannot mock or spy on Java constructs such as final classes and
+methods, static methods, enums, private methods, the equals() and
+hashCode() methods, primitive types, and anonymous classes
+
+
+
+Partial Mocking: @Spy
+--------------------
+  When we want an object in the test class to mock some method(s),
+ but also call some actual method(s), then we need partial mocking. 
+  This is achieved via @Spy
+
+	Unlike using @Mock, with @Spy, a real object is created, 
+	but the methods of that object can be mocked or can be actually called—whatever we need.
+
+
+Example:
+--------
+@Repository
+public class BookDaoImpl implements BookDao {
+	@Override
+	public List<String> getBooks() {
+		log();
+		return null;
+	}
+
+	public void log() {
+		System.out.println("----------");
+	}
+}
+
+
+
+@RunWith(MockitoJUnitRunner.class)
+public class DemoTest {
+
+	@Spy
+	BookDaoImpl dao;
+	
+	@InjectMocks
+	BookServiceImpl bookService;
+
+	// when tested log() method is going to be called.....
+
+}
+
+
+Testing Spring boot application:
+---------------------------------
+	
+	web---------- service ------------- repo -----db
+	unit testing
+	|<-------------integration testing ------->|
+
+
+
+Testing spring boot repo layer:
+----------------------------
+Refer productstore application
+
+application.properties
+---------------------
+server.port=8080
+spring.h2.console.enabled=true
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.datasource.driverClassName=org.h2.Driver
+spring.datasource.username=foo
+spring.datasource.password=foo
+spring.jpa.database-platform=org.hibernate.dialect.H2Dialect
+
+# Custom H2 Console URL
+spring.h2.console.path=/h2
+
+spring.jpa.hibernate.ddl-auto=update
+
+
+
+testing dao layer:
+---------------------
+
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Rollback;
+import java.util.List;
+import java.util.Optional;
+import static org.assertj.core.api.Assertions.assertThat;
+
+
+@DataJpaTest
+class ProductRepoTest {
+
+    @Autowired
+    private ProductRepo productRepo;
+	
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product=new Product("laptop", 120000);
+    }
+
+    @Test
+    @Rollback(value = true)
+    public void givenProductObjectWhenSaveReturnProductObject(){
+        Product productSaved=productRepo.save(product);
+        assertThat(productSaved).isNotNull();
+        assertThat(productSaved.getId()).isGreaterThan(0);
+    }
+    @DisplayName("JUnit test for get all employees operation")
+    @Test
+    public void givenProductList_whenFindAll_thenProductList(){
+        //given
+        Product p1=new Product("laptop",120000);
+        Product p2=new Product("laptop cover",1200);
+        productRepo.save(p1);
+        productRepo.save(p2);
+        // when -  action or the behaviour that we are going test
+        List<Product> productList=productRepo.findAll();
+        // then - verify the output
+        assertThat(productList).isNotNull();
+        assertThat(productList.size()).isEqualTo(2);
+    }
+    @DisplayName("JUnit test for get product by id operation")
+    @Test
+    public void givenProductObject_whenFindById_thenReturnProductObject(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+
+        // when -  action or the behaviour that we are going test
+        Product productDB = productRepo.findById(p1.getId()).get();
+        // then - verify the output
+        assertThat(productDB).isNotNull();
+    }
+    @DisplayName("JUnit test for update product operation")
+    @Test
+    public void givenEmployeeObject_whenUpdateEmployee_thenReturnUpdatedEmployee(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+        // when -  action or the behaviour that we are going test
+        Product savedProduct = productRepo.findById(p1.getId()).get();
+        savedProduct.setPrice(130000);
+        Product updatedProduct =  productRepo.save(savedProduct);
+
+        assertThat(updatedProduct.getPrice()).isEqualTo(130000);
+    }
+
+    @DisplayName("JUnit test for delete product operation")
+    @Test
+    public void givenProductObject_whenDelete_thenRemoveProduct(){
+        // given - precondition or setup
+        Product p1=new Product("laptop",120000);
+        productRepo.save(p1);
+
+        // when -  action or the behaviour that we are going test
+        productRepo.deleteById(p1.getId());
+        Optional<Product> employeeOptional = productRepo.findById(product.getId());
+
+        // then - verify the output
+        assertThat(employeeOptional).isEmpty();
+    }
+
+
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+
+
+
+
+
+service layer testing:
+---------------------
+
+import com.productapp.repo.Product;
+import com.productapp.repo.ProductRepo;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.BDDMockito.given;
+
+
+@ExtendWith(MockitoExtension.class)
+class ProductServiceImplTest {
+
+    @Mock
+    private ProductRepo productRepo;
+
+    @InjectMocks
+    private ProductServiceImpl productService;
+
+    private Product product;
+
+    @BeforeEach
+    void setUp() {
+        product=new Product("laptop", 120000);
+    }
+
+    @DisplayName("JUnit test for save Product method")
+    @Test
+    public void givenProductObject_whenSaveProduct_thenReturnProductObject(){
+        // given - precondition or setup
+        given(productRepo.save(product)).willReturn(product);
+        Product savedProduct = productService.addProduct(product);
+        assertThat(savedProduct).isNotNull();
+    }
+
+
+    @DisplayName("JUnit test for getAll Product method")
+    @Test
+    public void givenProductList_whenGetAllProduct_thenReturnProductList(){
+        // given - precondition or setup
+        Product  product2=new Product("laptop cover", 1200);
+
+        given(productRepo.findAll()).willReturn(List.of(product,product2));
+
+        // when -  action or the behaviour that we are going test
+        List<Product> productList = productService.getAll();
+
+        // then - verify the output
+        Assertions.assertThat(productList).isNotNull();
+        Assertions.assertThat(productList.size()).isEqualTo(2);
+    }
+
+
+    @DisplayName("JUnit test for getAll Product method (negative scenario)")
+    @Test
+    public void givenEmptyEmployeesList_whenGetAllEmployees_thenReturnEmptyEmployeesList(){
+        // given - precondition or setup
+        given(productRepo.findAll()).willReturn(Collections.emptyList());
+
+        // when -  action or the behaviour that we are going test
+        List<Product> employeeList = productService.getAll();
+        // then - verify the output
+        Assertions.assertThat(employeeList).isEmpty();
+        Assertions.assertThat(employeeList.size()).isEqualTo(0);
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+
+
+controller layer testing:
+---------------------------
+
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willDoNothing;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+@WebMvcTest
+class ProductRestControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private ProductService productService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @Test
+    public void givenProductObject_whenCreateProduct_thenReturnSavedProduct() throws Exception{
+
+        // given - precondition or setup
+        Product product=new Product("laptop", 120000);
+        given(productService.addProduct(any(Product.class)))
+                .willAnswer((invocation)-> invocation.getArgument(0));
+
+        // when - action or behaviour that we are going test
+        ResultActions response = mockMvc.perform(post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(product)));
+
+        // then - verify the result or output using assert statements
+        response.andDo(print()).
+                andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name",
+                        is(product.getName())))
+                .andExpect(jsonPath("$.price",
+                        is(product.getPrice())));
+    }
+    @Test
+    public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception{
+        // given - precondition or setup
+        List<Product> listOfProducts = new ArrayList<>();
+        listOfProducts.add(Product.builder().name("a").price(6000).build());
+        listOfProducts.add(Product.builder().name("b").price(6000).build());
+        given(productService.getAll()).willReturn(listOfProducts);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products"));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",
+                        is(listOfProducts.size())));
+
+    }
+
+    // positive scenario - valid employee id
+    @Test
+    public void givenProductId_whenGetProductById_thenReturnProductObject() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        Product product=new Product(1,"laptop", 120000);
+        given(productService.getById(productId)).willReturn(product);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(product.getName())))
+                .andExpect(jsonPath("$.price", is(product.getPrice())));
+
+    }
+
+
+    // @Test
+    public void givenInvalidProductId_whenGetProductById_thenReturnEmpty() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        Product product=new Product(1,"laptop", 120000);
+        given(productService.getById(productId)).willReturn(null);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isNotFound())
+                .andDo(print());
+
+    }
+
+    // JUnit test for delete employee REST API
+    @Test
+    public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception{
+        // given - precondition or setup
+        int productId = 1;
+        willDoNothing().given(productService).deleteProduct(productId);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/products/{id}", productId));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
+    }
+    @BeforeEach
+    void setUp() {
+    }
+
+    @AfterEach
+    void tearDown() {
+    }
+}
+
+
+
+integration testing:
+-------------------
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.productapp.repo.Product;
+import com.productapp.repo.ProductRepo;
+import com.productapp.service.ProductService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.hamcrest.CoreMatchers.is;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+
+@AutoConfigureMockMvc
+
+public class ProductAppIntegrationTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private ProductRepo productRepo;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
+    @BeforeEach
+    void setup(){
+        productRepo.deleteAll();
+    }
+
+    @Test
+    public void givenProductObject_whenCreateProduct_thenReturnSavedProduct() throws Exception{
+
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+
+        // when - action or behaviour that we are going test
+        ResultActions response = mockMvc.perform(post("/products")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(product)));
+
+        // then - verify the result or output using assert statements
+        response.andDo(print()).
+                andExpect(status().isCreated())
+                .andExpect(jsonPath("$.name",
+                        is(product.getName())))
+                .andExpect(jsonPath("$.price",
+                        is(product.getPrice())));
+
+
+    }
+
+    @Test
+    public void givenListOfProducts_whenGetAllProducts_thenReturnProductList() throws Exception{
+        // given - precondition or setup
+        List<Product> listOfProducts = new ArrayList<>();
+        listOfProducts.add(Product.builder().name("foo").price(7000).build());
+        listOfProducts.add(Product.builder().name("bar").price(7000).build());
+        productRepo.saveAll(listOfProducts);
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products"));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.size()",
+                        is(listOfProducts.size())));
+
+    }
+
+    // positive scenario - valid employee id
+    // JUnit test for GET employee by id REST API
+    @Test
+    public void givenProductId_whenGetProductById_thenReturnProducteObject() throws Exception{
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+        productRepo.save(product);
+
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/products/{id}", product.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print())
+                .andExpect(jsonPath("$.name", is(product.getName())))
+                .andExpect(jsonPath("$.price", is(product.getPrice())));
+
+    }
+
+
+
+    // JUnit test for delete employee REST API
+    @Test
+    public void givenProductId_whenDeleteProduct_thenReturn200() throws Exception{
+        // given - precondition or setup
+        Product product = Product.builder()
+                .name("watch")
+                .price(7000)
+                .build();
+        productRepo.save(product);
+        // when -  action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/products/{id}", product.getId()));
+
+        // then - verify the output
+        response.andExpect(status().isOk())
+                .andDo(print());
+    }
+}
+
+
+
+
+
+JaCoCo 
+--------
+https://medium.com/@truongbui95/jacoco-code-coverage-with-spring-boot-835af8debc68
+
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.version}</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<!-- com.productapp.Productapp01Application
+						com.productapp.exceptions.ProductNotFoundException
+						com.productapp.dto.ErrorInfo
+						com.productapp.repo.Product
+						-->
+						<exclude>com/productapp/Productapp01Application.class</exclude>
+						<exclude>com/productapp/exceptions/ProductNotFoundException.class</exclude>
+						<exclude>com/productapp/dto/ErrorInfo.class</exclude>
+						<exclude>com/productapp/repo/Product.class</exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>jacoco-check</id>
+						<goals>
+							<goal>check</goal>
+						</goals>
+						<configuration>
+							<rules>
+								<rule>
+									<element>PACKAGE</element>
+									<limits>
+										<limit>
+											<counter>LINE</counter>
+											<value>COVEREDRATIO</value>
+											<minimum>00%</minimum>
+										</limit>
+									</limits>
+								</rule>
+							</rules>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+SonarCube
+------------
+https://blog.stackademic.com/integratation-of-sonarqube-with-springboot-6d2cebd4ef95
+
+port : 9000
+
+mvn clean verify sonar:sonar -Dsonar.projectKey=project123 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_47977d2c78c6db5d18007022abe47943918dbfb5
+  
+mvn clean verify sonar:sonar -Dsonar.projectKey=project1 -Dsonar.host.url=http://localhost:9000 -Dsonar.login=sqp_c728475131a378fa2c93963c688a9450b3563b6d
+
+

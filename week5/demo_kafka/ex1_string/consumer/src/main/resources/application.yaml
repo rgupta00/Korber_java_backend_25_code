@@ -1,0 +1,9 @@
+server:
+    port: 8082
+spring:
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+  application:
+    name: consumerapp
+#spring.kafka.consumer.auto-offset-reset=earliest
