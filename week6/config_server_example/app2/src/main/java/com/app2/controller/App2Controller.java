@@ -11,6 +11,7 @@ public class App2Controller {
     @Value("${app.name}")
     private String val;
 
+
     @GetMapping(path="app2")
     public String hello(){
         return "app2 hello: "+ val;

@@ -209,8 +209,6 @@ public class ProductServiceImpl implements ProductService{
 
 
 
-
-
 Step 4: Configure eureka server:
 -------------------------------
 create new project with: eureka server, actuator
@@ -286,7 +284,47 @@ public interface CouponServiceProxy {
 
 
 
-step 5.gateway routing and cross cutting concern in 
+step 5: config server 
+---------------------
+Create project for config server : config server, actuator, eureaka client
+
+Step 1: apply annotation to the bootstrap class
+----------------------------------------
+
+@EnableConfigServer
+
+step 2: configure config server
+--------------------------
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:/propfiles
+          clone-on-start: true
+          default-label: master
+
+  application:
+    name: configserver
+server:
+  port: 8888
+  
+step 3: create config client:
+----------------------------
+spring:
+  config:
+    import: optional:configserver:http://localhost:8888
+  profiles:
+    active:
+      - dev
+  application:
+    name:
+  
+
+
+
+
+step 6.gateway routing and cross cutting concern in 
 microservicve using "spring cloud gateway"
 -----------------------------------------------
 step 1:
@@ -402,7 +440,7 @@ public class LoggingFilter implements GlobalFilter {
 
 
 
-step 6.Configure resilence 4j to productstore application
+step 7.Configure resilence 4j to productstore application
 ---------------------------------------------------------
 We can apply circuitbreaker pattern to api gateway
 and to indidual microservice
@@ -630,8 +668,11 @@ Example:
         return new ResponseEntity<String>(" orderService is full and does not permit further calls", HttpStatus.TOO_MANY_REQUESTS);
     }
 	
+	
+	
+	
 
-Step 7: Spring boot zipkine and sluth:
+Step 8: Spring boot zipkine and sluth:
 ------------------------------------------
 
 What is the need to distributed log tracing?
@@ -742,7 +783,7 @@ spring.config.import=optional:configserver:
 
 
 
-8. Spring boot grafana and prometheus
+9. Spring boot grafana and prometheus
 ----------------------------------------
 https://medium.com/@extio/unveiling-the-architectural-brilliance-of-prometheus-af07cca14896
 
@@ -847,8 +888,8 @@ Dashboard-> new import -> grafana dashboard id -->put that id---> ui is created
 
 
 
-Microservice security:
------------------------
+step 10: Microservice security:
+---------------------------------
 spring sec:
 	basics auth
 	jwt auth
