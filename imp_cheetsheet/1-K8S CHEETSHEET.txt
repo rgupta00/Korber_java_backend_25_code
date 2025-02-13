@@ -1134,9 +1134,12 @@ spec:
 --------------------
 	Namespace
 ---------------------
- get all existing namespaces
- ---------------------------------
- kubectl get ns
+
+get all existing namespaces
+---------------------------
+
+
+kubectl get ns
 
 NAME                 STATUS   AGE
 default              Active   4h2m
@@ -1436,167 +1439,100 @@ spec:
 
 
 Configmap and secret:
------------------------------
+------------------------
+What are Kubernetes ConfigMaps?
+----------------------------------------
+Kubernetes ConfigMap is a built-in Kubernetes API object that’s 
+designed to store your application’s non-sensitive key-value config data. 
+ConfigMaps allow you to keep config values separate from your code and container images. 
+Values can be strings or Base64-encoded binary data.
 
- kubectl apply -f .\01-simple-cm.yaml
- 
-  kubectl get all
+Once you’ve created a ConfigMap, its content will be saved to your Kubernetes cluster. 
+Pods can then consume the ConfigMap’s values as environment variables, 
+command line arguments, or filesystem volumes.
+
+
+ConfigMaps are intended to store relatively small amounts of simple data. 
+The total size of a ConfigMap object must be less than 1 MiB
+
+What is a Kubernetes ConfigMap used for?
+----------------------------------------
+You should reach for a ConfigMap when your app deployments need access to 
+config values that could change independently of your code. 
+A classic example is a system that uses a database connection—you will need to 
+supply the hostname or IP address of the database server for your app to function correctly.
+
+Where it stored?
+----------------
+Kubernetes stores ConfigMaps in its etcd datastore.
+
+
+Example:
+----------
+
+1-configmap.yaml
+----------------
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: demo-config
+data:
+  database_host: "192.168.0.1"
+  debug_mode: "1"
+  log_level: "verbose"
   
-  kubectl get cm
-    
- kubectl get cm -o yaml
+  
+ kubectl get configmaps
  
-  kubectl logs my-pod
-	
+ 
+ 
+1-demo-pod.yaml
+------------------
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: demo-pod
+spec:
+  containers:
+    - name: app
+      command: ["/bin/sh", "-c", "printenv"]
+      image: busybox:latest
+      envFrom:
+        - configMapRef:
+            name: demo-config
   
 
-01-simple-cm.yaml
----------------------
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-properties
-data:
-  appUrl: "http://my-app-service"
-  timeout: "30"
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  restartPolicy: Never
-  containers:
-  - name: ubuntu
-    image: ubuntu
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    env:
-    - name: "request.timeout"
-      valueFrom:
-        configMapKeyRef:
-          name: app-properties
-          key: timeout
-    - name: "application.url"
-      valueFrom:
-        configMapKeyRef:
-          name: app-properties
-          key: appUrl
-    args:
-    - env                  
+
+kubectl apply -f 1-demo-pod.yaml
+
+kubectl logs pod/demo-pod
 
 
-02-inject-cm-as-env.yaml
-------------------------
-now we want to insert all key-value in one go as env
 
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-properties
-data:
-  appUrl: "http://my-app-service"
-  timeout: "30"
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  restartPolicy: Never
-  containers:
-  - name: ubuntu
-    image: ubuntu
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    envFrom:
-    - configMapRef:
-        name: app-properties
-    args:
-    - env      
+ConfigMap vs Secrets
+-----------------------
+	Kubernetes Secrets are an alternative to ConfigMaps that can be used
+	to save confidential values with encryption support. 
 	
-02-inject-cm-as-env.yaml
-------------------------
-now we want to insert all key-value in one go as env
+	Most real-world applications will therefore use a combination 
+	of ConfigMaps and Secrets when deploying to Kubernetes.
 
-
-03-inject-cm-as-file.yaml
--------------------------
-how to store multiline string as a file inside the pod
-kubectl get cm
- kubectl get cm kube-root-ca.crt -o yaml
- 
- kubectl apply -f .\03-inject-cm-as-file.yaml
- 
-03-inject-cm-as-file.yaml:
-------------------------
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: app-properties
-data:
-  application.properties: |
-    appUrl=http://my-app-service
-    timeout=30
-    a.b.c.d=something
-    username=raj
----
-apiVersion: v1
-kind: Pod
-metadata:
-  name: my-pod
-spec:
-  terminationGracePeriodSeconds: 1
-  restartPolicy: Never
-  containers:
-  - name: ubuntu
-    image: ubuntu
-    resources:
-      limits:
-        memory: "128Mi"
-        cpu: "500m"
-    volumeMounts:
-    - name: config-volume
-      mountPath: /usr/share/props  
-    args:
-    - sleep
-    - "3600"
-  volumes:
-  - name: config-volume
-    configMap:
-      name: app-properties   
- 
-
-kubectl get all
-
-now observe file inside container:
----------------------------------
-
-kubectl exec -it my-pod -- bash
- 
+	Values such as passwords, API keys, tokens, and certificates should be stored 
+	in a Kubernetes Secret instead. 
+	
+	Secrets function similarly to ConfigMaps but are encrypted at rest, 
+	ensuring that your sensitive values are protected.
 
 Secret:
---------------------------
+-----------
 same as configMap but it is for sensitive data
 value is base64 encoded
 use cases:
 ssh key file
 basic credentials
 etc
-
-
-docker run -it ubuntu
-  
-echo raj | base64
-echo -n raj | base64
-cmFq
-
-echo -n admin123 | base64
-YWRtaW4xMjM=
 
 
 Example:
@@ -1639,7 +1575,7 @@ spec:
 	
 now run it:
 -----------
-kubectl apply -f .\04-simple-secret.yaml
+kubectl apply -f .\1-simple-secret.yaml
 kubectl get all
 kubectl get secret -o yaml
 kubectl get pod
@@ -1655,7 +1591,7 @@ Resource Management & Auto Scaling
 -----------------------------------
 how we can get cpu memory usages of pods?
 
- kubectl top nodes
+kubectl top nodes
 
 
 install materix service:

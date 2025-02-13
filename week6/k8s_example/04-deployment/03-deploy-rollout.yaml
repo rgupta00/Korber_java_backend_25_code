@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: empapp-deploy
   annotations:
-    kubernetes.io/change-cause: "deploying v3"
+    kubernetes.io/change-cause: "deploying v"
 spec:
   selector:
     matchLabels:

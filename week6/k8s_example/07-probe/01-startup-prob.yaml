@@ -18,12 +18,18 @@ spec:
       containers:
       - name:  empapp-service
         image: rgupta00/empapp:1.1
-        startupProbe:
-          httpGet:
-            path: /
-            port: 8080
-          periodSeconds: 1
-          failureThreshold: 3
         ports:
         - name: "app-port"
           containerPort: 8080
+        readinessProbe:
+            httpGet:
+              path: /actuator/health  # Adjust the path to your custom health endpoint
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+        livenessProbe:
+            httpGet:
+              path: /actuator/health  # Use the default health endpoint for liveness
+              port: 8080
+            initialDelaySeconds: 10
+            periodSeconds: 15
