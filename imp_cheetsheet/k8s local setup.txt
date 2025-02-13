@@ -1,0 +1,27 @@
+
+kubectl download and configuration:
+--------------------------------
+go to 
+https://github.com/kubernetes/minikube/releases
+
+direct download link:
+https://github.com/kubernetes/minikube/releases/download/v1.35.0/minikube-windows-amd64.exe
+
+kind download:
+--------------
+
+curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.26.0/kind-windows-amd64
+Move-Item .\kind-windows-amd64.exe C:\setup_k8s\kind.exe
+
+
+
+download minikube:
+-------------------
+New-Item -Path 'c:\setup_k8s' -Name 'minikube' -ItemType Directory -Force
+Invoke-WebRequest -OutFile 'c:\setup_k8s\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+
+
+
+
+https://github.com/kubernetes/minikube/releases

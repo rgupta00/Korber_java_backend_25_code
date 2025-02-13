@@ -1,0 +1,1791 @@
+K8s Notes:
+-------------
+while (1) {kubectl get all;sleep 5;cls}
+
+agenda:
+-------
+* Intro to kubernetes
+* Setup kind local cluster
+* Pods
+* Replicaset
+* Deployment
+* services
+* namespace
+* probes
+* configMap and secreat
+* persitance volume and statefullness
+* HPA - Horizontal pod autoscaling
+* ingress
+
+
+--------------------
+Intro to kubernetes
+--------------------
+
+What is cloud native application development?
+--------------------------------------------
+	an approach to develop mordern s/w (folling 12 factor/15 factor app)
+	HA, Scalable, responsive, fault tolerent 
+	speed ang agility
+
+Docker pre req?
+-------------
+Docker arch, docker images, containers, networking, 
+port mapping, volumens, exec, docker file etc
+
+
+Docker vs k8s
+	Docker provide OS level abstraction
+	K8S provide infrastructure abs on cloud
+	
+What is docker?
+	open source plateform for packing the app + all dependencies + run time server
+	seperate app from underlying host
+	OS abstraction
+	
+What is kubernetes?
+	Kubernetes is an open-source container orchestration system for automating software deployment, 
+	scaling, and management.
+	
+	Originally designed by Google, the project is now maintained by the Cloud Native Computing Foundation.
+	 
+	The name Kubernetes originates from Ancient Greek, meaning 'helmsman' or 'pilot'
+	 
+	container orchestration engine
+	k8s manage life cycle of application
+	cluster of nodes 
+	admin : will manage the cluster
+	dev   : will use tools to develop cloud native app
+	
+kubernetes which is provided by cloud provide
+
+kubernetes setup:
+
+	local setup: docker + kubectl + minikube/kind
+	cloud setup : 
+	
+	The four major Kubernetes providers are:
+	Google Kubernetes Engine (GKE): 
+		Closely follows the latest changes in the Kubernetes open-source project;
+
+	Azure Kubernetes Service (AKS): 
+		Known for rich integration points to other Azure services
+		
+	Amazon Elastic Kubernetes Service (Amazon EKS): 
+			One of the late players in the Kubernetes arena; a strong option due to AWS;
+
+	DigitalOcean Kubernetes (DOKS): The new Kubernetes service in the market.
+
+https://k21academy.com/docker-kubernetes/kubernetes-installation-options/
+
+	
+How to do local setup while learing k8s:
+---------------------------------------
+kind cluster config
+1. install kubectl (client utilty to interact with k8s infra)
+2. kind cluster
+
+kubernetes Arch:
+-----------------
+	Master: also called control plan (1-more master for HA)
+	Worker: 1 to many (5000) to make a cluster
+	
+components of k8s:
+	
+	
+		Master node / control plan
+		-----------------------------
+		API server: 
+			* Most important component, user intract with api server using imparative/decleartive commands
+			* The API server is a component of the Kubernetes control plane that exposes the Kubernetes API. 
+			* The API server is the front end for the Kubernetes control plane.
+		etcd:
+			* Consistent and highly-available key value store used as Kubernetes' 
+				backing store for all cluster data.
+		kube-scheduler:
+			* Workload scheduler
+			* Control plane component that watches for newly created Pods with no assigned node, 
+				and selects a node for them to run on.
+				
+		kube-controller-manager: 
+			* A process that continously monitor workload/nodes etc
+			* desired state vs current state kubernetes
+			
+		Worker Node:
+		-----------
+			kubelet:
+			* An agent that runs on each node in the cluster. 
+			It makes sure that containers are running in a Pod.
+			* It create and manage container inside a pod
+
+			* The kubelet takes a set of PodSpecs that are provided through various mechanisms 
+			and ensures that the containers described in those PodSpecs are running and healthy.
+			 The kubelet doesn't manage containers which were not created by Kubernetes.
+
+			kube-proxy:
+			*kube-proxy is a network proxy that runs on each node in your cluster, 
+			implementing part of the Kubernetes Service concept.
+
+			* kube-proxy maintains network rules on nodes
+			* handle conmmunication among the nodes within the cluster
+			
+			*These network rules allow network communication to your Pods from network sessions 
+			inside or outside of your cluster.
+
+			Container runtime:
+			*A fundamental component that empowers Kubernetes to run containers effectively. 
+			It is responsible for managing the execution and lifecycle of containers within the Kubernetes 				
+			environment.
+
+			Kubernetes supports container runtimes such as containerd, CRI-O,
+			 and any other implementation of the Kubernetes CRI (Container Runtime Interface).
+
+
+kubernetes working process:
+-------------------------------
+
+1. API server expose API to interact with kubernetes (using Kubectl)
+
+2. Workload is the application that we want to run.
+	let assume we want to run 2 instances of nginx server
+	
+	developer write yaml file and send req to api server 
+			|
+	API server validate the request 
+			|
+	API server authenticate/authorize the request
+			|
+	API server store it into etcd db
+	etcd container all info about cluster
+			|
+	API server talk to the scheduler if he can run
+	2 intance of nginx
+			|
+	scheduler choose 2 worker node to run the workload and schedule it on worker node
+			|
+	controller manager responsible for continously monitoring
+	the state of cluster.let assume one pod dies then, 
+	controller manager find we need 2 instance and one is down
+			|
+	controller talk to API server
+			|
+	Scheduler pick another node to run the nginx instance
+	
+worker node how it works?
+
+	As JRE is required to run java app
+	in same way docker runtime is required to run container
+	docker of CRI is required on each node
+			|
+	let scheduler pick node1 and node2 to run 2 instance of nginx
+			|
+	API server inform kubelet (agent) (That is waiting for instruction of api server) to run 
+	intance of app1 and app2 then kubelet will create and manage containers
+	
+	
+tools for local development
+---------------------------
+kubectl : command line utlility to intract with API server
+	 command line tool to intract with kubernete master / API server
+	 
+
+Kind:	kind is used to create local cluster 
+	to setp a kubernetes cluster for development and testing
+	kind vs minikube
+	
+verify installation:
+	kind version
+	kubectl version --output=yaml
+	
+Note: command remain same no matter what tool we are using :)
+
+
+
+-----------------------
+Setup kind local cluster
+------------------------
+
+docker system prune -af
+docker network ls
+
+ls ~/.kube/config
+
+Step 1: create cluster configuration file
+
+01-cluster.yaml
+----------------
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: dev-cluster
+nodes:
+- role: control-plane
+  extraPortMappings:
+  - containerPort: 30001
+    hostPort: 30001
+    protocol: TCP
+- role: worker
+- role: worker
+
+
+step 2: create kind cluster
+-----------------------------
+ kind create cluster --config 01-cluster.yaml
+ 
+ to delete cluster:
+  kind delete cluster --name dev-cluster
+  
+  
+ What it do?
+ This will create local cluster with 3 nodes
+ 1 master and 2 worker node
+ 
+ docker ps	
+ 	command will list nodes
+ 	dev-cluster-worker-1
+ 	dev-cluster-worker-2
+ 	dev-cluster-control-plan-3
+ It will also create a bride network to conn bw different nodes
+ 
+ 
+  cat ~/.kube/config
+  will give information where the cluster, ip networking is running
+  
+ Now kubectl able to talk to master check command
+ 
+ kubectl version --output=yaml
+ 
+ -------------
+  get all notes in the cluster
+  	
+  kubectl get nodes
+ 
+  to delete the cluster
+  
+  kind delete cluster --name dev-cluster
+  
+  
+  Exploring kind cluster
+  -----------------------
+  docker ps
+  
+  docker exec -it <cid> bash		now we are inside the master node
+  
+  cd /etc/kubernetes/manifests
+  ls -l				will display all yaml file related to master node
+  
+  ps -aux				process running within control plan
+  
+  Now explore worker node:
+ 
+ 
+ 
+   
+  -------------
+   	Pods
+  -------------
+  	* Pods are the smallest deployable units of computing that you can create and manage in Kubernetes.
+  	
+  	* A Pod (as in a pod of whales or pea pod) is a group of one or more containers, 
+  	
+  	* with shared storage and network resources, and a specification for how to run the containers
+  	
+  	* collection of containers that can run on k8s
+  	
+  	* workload is an application running on k8s cluster
+  	
+  	* Pod is basic building block to create workload
+  	
+  	* A pod can run one/ more containers
+  	
+  	* only one of the container contain app other container run as helper container
+  	
+   
+   	https://k21academy.com/docker-kubernetes/kubernetes-pods-for-beginners/
+
+	Command K8s
+	------------
+
+	to create k8s cluster
+	kind create cluster --config 01-cluster.yaml 
+
+	to delete k8s cluster
+	kind delete cluster --name dev-cluster
+
+	get nodes in the cluster
+	kubectl get nodes
+
+	get pods in default ns
+	kubectl get pod
+
+
+   	
+Pod hello world:
+ ---------------
+   step 1: start cluster
+   step 2: create yaml file
+   step 3: run the command
+   	
+   Main Component of Pod manifest file:
+   
+   apiVersion:
+   kind:
+   metadata:
+   spec:	
+   	
+01-simple-pod.yaml 
+---------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+
+    
+    
+    kubectl create -f 01-simple-pod.yaml 
+  
+     kubectl get pod
+    
+	 kubectl describe pod
+     give valuable informatation to debug pod
+	 
+     watch -t -x kubectl get pod
+     watch -t -x kubectl get all
+     
+	kubectl get pod/my-pod
+	kubectl get pod my-pod
+	kubectl get pod --show-labels
+
+     kubectl delete -f 01-simple-pod.yaml --dry-run=client
+
+
+
+	  
+	  
+02-falling-pod.yaml
+------------------   
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx:12
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+   
+create simple pod: 02-falling-pod.yaml : ImagePullBackOff
+----------------------------------------
+kubectl apply -f 02-failing-pod.yaml 
+kubectl describe pod
+
+
+
+ 
+ 
+multiple pods:
+03-multiple-pod.yaml
+------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-1
+  labels:
+    dept: dept-1
+    team: team-a
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-2
+  labels:
+    dept: dept-2
+    team: team-a
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: pod-3
+  labels:
+    dept: dept-3
+    team: team-b
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+	
+
+kubectl apply -f 03-multiple-pods.yaml 
+kubectl get pods
+kubectl describe pod
+
+getting an specfic pod
+ kubectl get pod pod-1
+
+kubectl describe pod pod-1
+
+pod displaying lables
+kubectl get pod --show-labels
+
+kubectl get pod -l dept=dept-1
+kubectl  get pod -l team!=team-a
+kubectl  get pod -l dept=dept-1,team=team-a
+
+kubectl get pod pod-1 -o wide
+ kubectl get pods --output=wide
+ 
+ 
+ kubectl get pod pod-1 -o yaml
+ 
+ deleting an specfic pod
+ 
+ kubectl delete pod pod-2		delete/describe/get all works
+ kubectl delete pod/pod-2
+ 
+ 
+ 
+ 
+ Port forwarding
+ ------------------
+ 04-port-forwarding.yaml
+ -----------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+  labels:
+    name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: nginx
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    ports:
+      - containerPort: 80
+	  
+	  
+ create a tunnel from our machine to Pod
+ 
+ kubectl create -f 04-pod-port.yaml
+ kubectl get pod
+ kubectl port-forward my-pod 8080:80
+
+
+
+
+
+
+
+agenda:
+-----------
+Replicaset
+deployment
+Deployment Strategy
+Services
+Namespace
+probes
+
+----------------
+	Replicaset
+----------------
+
+What is replicaset?
+	A ReplicaSet's purpose is to maintain a stable set of replica Pods running at any given time. 
+	As such, it is often used to guarantee the availability of a specified number of identical Pods.
+	
+	A ReplicaSet ensures that a specified number of pod replicas are running at any given time. 
+	
+	desired state vs current state
+	
+	Note: Deployment is a higher-level concept that manages ReplicaSets and provides declarative updates to
+	 Pods along with a lot of other useful features. 
+	 Therefore, we recommend using Deployments instead of directly using ReplicaSets
+	 
+	
+metadata:
+  name: empapp
+  labels:
+    name: empapp
+spec:
+  containers:
+    - name: empapp
+      image: rgupta00/empapp:1.1
+      resources:
+       limits:
+         memory: "128Mi"
+         cpu: "500m"
+      ports:
+        - containerPort: 8080
+		
+		
+
+		
+Example:
+01-simple-rs.yaml
+-----------------
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-rs
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  replicas: 3
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+
+        
+	
+kubectl create -f 01-simple-rs.yaml	
+kubectl get rs
+kubectl get all
+kubectl get pod --show-labels
+
+kubectl delete pod my-rs-j9k6l
+new pod is create as we have mentioned desire count =3
+
+kubectl delete rs my-rs
+will delete replicaset
+
+
+What happen if label is not matching pod label is not matching with Replicaset
+---------------------------------------------------------------------------------
+02-mismatch.yaml
+-----------------
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: my-rs
+spec:
+  selector:
+    matchLabels:
+      app: my-app-foo
+  replicas: 3
+  template:
+    metadata:
+      name: my-pod
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+
+
+kubectl apply -f 02-mismatch.yaml
+
+
+The ReplicaSet "my-rs" is invalid: spec.template.metadata.labels: Invalid value: map[string]string{"app":"my-app-foo"}: `selector` does not match template `labels`
+
+
+Note: You can have multiple labels but one must match
+
+
+
+Replicaset with existing pod
+---------------------------
+let say we have desire state =3
+if we alreay have 1 pod otherwise with same labels, and then running kubectl apply -f 01-mismatch.yaml
+then only 2 pod will be create 
+
+kubectl apply -f 02-multiple-pods.yaml 
+kubectl apply -f 03-existing-pod-manager.yaml
+
+What happen if desire count is =2 and you alreay have 3 container running with same labels
+then one pod is deleted
+
+
+
+
+
+---------------------
+	Deployment
+---------------------
+What is deployment?
+
+	A Kubernetes Deployment tells Kubernetes how to create or modify instances of the pods that hold
+	 a containerized application. 
+	 
+	 Deployments can help to efficiently scale the number of replica pods, 
+	 enable the rollout of updated code in a controlled manner, 
+	 or roll back to an earlier deployment version if necessary. 
+	 
+	 What are the benefits of using a Kubernetes Deployment?
+
+	Kubernetes saves time and migrate errors by automating the work and 
+	repetitive manual functions involved in deploying, scaling, and updating applications in production. 
+	
+	Since the Kubernetes deployment controller continuously monitors the health of pods and nodes,
+	 it can make changes in real-time—like replacing a failed pod or bypassing down nodes—to ensure 
+	 the continuity of critical applications.
+
+	Deployments automate the launching of pod instances and ensure they are running as 
+	defined across all the nodes in the Kubernetes cluster.
+	
+	Faster deployments with fewer errors.
+
+
+	
+
+
+Very Important:
+---------------
+
+  http://wiki.ciscolinux.co.uk/index.php/Kubernetes/Deployment,_ReplicaSet_and_Pod
+   Deployement ----> replicaset --> pod
+
+01-simple-deploy.yaml 
+-----------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-deploy
+spec:
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        
+  
+kubectl apply -f 01-simple-deploy.yaml 
+
+kubectl get all
+
+exec inside pod
+kubectl exec -it pod/my-deploy-5c5b7bc6d7-bvwpc bash
+
+kubectl get deployment
+
+describe deployment:
+kubectl describe deploy
+
+getting logs of specific container that is inside a pod:
+kubectl logs deploy/my-deploy		will show log of any one container that is running inside a pod
+kubectl logs pod/my-deploy-5c5b7bc6d7-bvwpc
+
+
+port forwarding:
+kubectl port-forward deploy/my-deploy 8080:80
+
+
+02-deploy-rs.yaml
+--------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+spec:
+  selector:
+    matchLabels:
+      app: empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: empapp-service
+    spec:
+      containers:
+      - name: empapp-service
+        image: rgupta00/empapp:1.1
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+      
+     kubectl describe pod
+     give valuable informatation to debug pod
+	 
+
+
+kubectl apply -f 02-deploy-rs.yaml
+
+kubectl get all
+
+exec inside pod
+kubectl exec -it pod/my-deploy-5c5b7bc6d7-bvwpc bash
+
+kubectl get deployment
+
+port forwarding
+kubectl port-forward deploy/empapp-deploy 8080:8080
+
+
+
+	 
+Deployment revision
+--------------------
+	Note : if we are changing no of pods that is managed in a deployment it dont change
+	deployment revision
+	
+	Whenever we update the pod template then ur are changing application 
+	configuration and it is consider new revision
+
+	Exmaple 1: if u are just changing the desire pod count it is not consider new revision
+	Example 2: if u change the version of application it is conider new deployment
+
+
+
+     
+
+
+Annotations in kubernetes:
+---------------------------
+have special meaning for k8s
+it is the way to pass some editional informationation using anntations
+
+  annotations:
+    kubernetes.io/change-cause: "deploying v3"
+	
+way to tell kubernete to show change cause when showing rollout history
+kubectl rollout history deploy
+
+
+03-deploy-rollout.yaml
+---------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v3"
+spec:
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.3
+        imagePullPolicy: Always
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+		
+
+		
+kubectl apply -f 02-deploy-rs.yaml
+
+kubectl get all
+
+exec inside pod
+kubectl exec -it pod/my-deploy-5c5b7bc6d7-bvwpc bash
+
+kubectl get deployment
+
+port forwarding
+kubectl port-forward deploy/empapp-deploy 8080:8080
+
+	  
+Rollout history
+---------------
+	Switching from 1.1 to 1.2 
+	
+kubectl rollout history deploy
+
+let assume there is bug in 1.2 and we want to migrate from 1.2 to 1.1
+
+
+kubectl rollout undo deploy/empapp-deploy
+
+if you want to see more details:
+kubectl rollout history deploy --revision=4
+
+if we want to go to an specific version: (imp)
+kubectl rollout undo deploy/empapp-deploy --to-revision=2
+
+now if we do port forwarding we switch version to previous version
+
+port forwarding:
+kubectl port-forward deploy/my-deploy 8080:80
+
+Min ready seconds:
+------------------
+	spring boot may take few second before it ready
+	we can put this inforation in deployment file
+	
+	health check and probes: will be proper way to do this
+	will be done latter
+	
+Ex: 04-min-ready-seconds.yaml
+-----------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+
+
+
+Recreate strategy
+-----------------
+05-deploy-recreate.yaml
+-------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v2"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.2
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+		
+
+
+		
+  strategy:
+    type: Recreate
+    
+   Switching from v1 to v2 	
+   kubectl rollout history deploy
+
+   In  this strategy extra pod are not created
+   already existing pod first deleted and then new one are created
+    
+    Ex: 05-deploy-recreate.yaml
+    
+    
+    
+    
+    
+RollingUpdate strategy with   maxSurge: 1 or 100%
+------------------------------------------------------
+ maxSurge: 1 and  maxSurge: "100%"
+	
+  Note: temparory pod count get double once all pod are ready old pod are deleted that is the
+  meaning of maxSurge of 100%
+  
+  What is the meaning of maxSurge:1 	we are ok with one extra pod
+	 
+
+    spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      
+     
+     Switching from v1 to v2 	
+   kubectl rollout history deploy
+   
+   
+06-deploy-max-surge.yaml
+------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v2"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "100%"
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.2
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+
+
+
+maxUnavailable 
+----------------
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+      
+     here we are saying dont create extra pod it is ok if
+	 one pod is not available during rolling update
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+
+
+
+07-deploy-max-unavailable.yaml
+-------------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v2"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.2
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+
+
+
+-----------------------
+	Service
+-----------------------
+
+	* Logical abstraction for a set of pods
+	* A single reliable network endpoints to access pods
+		statble IP address
+		DNS name
+		
+	we get statble ip address and dns name to access the application
+	
+	during rolling update when once pod recread its ip address changes
+	it create problem if one pod connect to that pod
+	
+	logicall group a set of pod so that another application can 
+	connect using logical name
+	
+	Type of services
+	------------------
+	* clusterIP (within)
+	* NodePort (External)
+	* Load balancer(External)
+	
+	
+watch -t -x kubectl get all
+
+kubectl apply -f 01-nodeport-service.yaml 
+
+kubectl get all
+
+service/empapp-svc   NodePort    10.96.170.39   <none>        8080:30001/TCP   113
+
+now we can connect to the service using
+
+curl localhost:30001/hello-world
+
+http://localhost:30001/hello-world
+
+01-nodeport-service.yaml
+---------------------------
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "100%"
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: empapp-svc
+spec:
+  type: NodePort
+  selector:
+    app: empapp-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30001
+
+
+
+
+
+--------------------
+	Namespace
+---------------------
+ get all existing namespaces
+ ---------------------------------
+ kubectl get ns
+
+NAME                 STATUS   AGE
+default              Active   4h2m
+kube-node-lease      Active   4h2m
+kube-public          Active   4h2m
+kube-system          Active   4h2m
+local-path-storage   Active   4h2m
+
+
+namespace started with kube are reserved for kubernetes cluster
+kube-system  is super important
+ 
+ to get all pods from all namespaces: (imp)
+ kubectl get pod --all-namespaces
+ 
+ 
+creating namespace
+----------------------
+kubectl create ns dev
+kubectl create ns qa
+
+get pod in dev ns
+-------------------
+kubectl get pod -n dev
+
+apply yaml config for dev ns
+-------------------------
+kubectl apply -f 01-ns-demo -n dev
+
+
+get all resouces in dev ns
+-------------------
+kubectl get all -n dev
+
+delete all resouces from dev ns
+-------------------------
+kubectl delete -f 01-ns-demo -n dev
+
+delete all resources from qa namespace
+----------------------------
+kubectl delete ns qa
+
+01-ns-demo.yaml
+-----------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  namespace: dev
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: "100%"
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: empapp-svc
+spec:
+  type: NodePort
+  selector:
+    app: empapp-service
+  ports:
+  - port: 8080
+    targetPort: 8080
+    nodePort: 30002
+
+
+
+understanding kube-system 
+-----------------------------
+
+kubectl get pod -n kube-system 
+
+it gives lods of pod running under kube-system as pod
+kindnet is CNI plugin to provide networking amongs different nodes
+CoreDNS is a dns server translate logical name to ip address
+
+NAME                                                READY   STATUS    RESTARTS   AGE
+coredns-5d78c9869d-jhzcl                            1/1     Running   0          4h12m
+coredns-5d78c9869d-nq26f                            1/1     Running   0          4h12m
+etcd-dev-cluster-control-plane                      1/1     Running   0          4h12m
+kindnet-hbc26                                       1/1     Running   0          4h12m
+kindnet-n9wkw                                       1/1     Running   0          4h12m
+kindnet-p4vps                                       1/1     Running   0          4h12m
+kube-apiserver-dev-cluster-control-plane            1/1     Running   0          4h12m
+kube-controller-manager-dev-cluster-control-plane   1/1     Running   0          4h12m
+kube-proxy-6t68m                                    1/1     Running   0          4h12m
+kube-proxy-kql6j                                    1/1     Running   0          4h12m
+kube-proxy-xjnxm                                    1/1     Running   0          4h12m
+kube-scheduler-dev-cluster-control-plane            1/1     Running   0          4h12m
+
+
+
+
+probes:
+---------
+pods are consider to be live and health as soon as container started by pod
+if pod is ready
+	service will send request to to the pod
+	rollingUpdate will terminate older pods
+we should ensure that our pods are live and ready to avoid any surprises.
+
+01-startup-prob.yaml
+--------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+
+port forwarding
+kubectl port-forward deploy/empapp-deploy 8080:8080
+
+
+02-startup-tcpsocket.yaml
+------------------------
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: mongo
+    image: mongo
+    startupProbe:
+      tcpSocket:
+        port: 27017
+      periodSeconds: 1
+      failureThreshold: 5
+
+
+
+03-startup-exec.yaml
+----------------------
+# prefer httpGet / tcpSocket
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  containers:
+  - name: nginx
+    image: nginx
+    startupProbe:
+      exec:
+        command:
+        - "cat"
+        - "/usr/share/nginx/html/index.html"
+      periodSeconds: 1
+      failureThreshold: 3
+
+# create a separate healthcheck
+# /bin/healthcheck
+
+      # exec:
+      #   command:
+      #   - "/bin/healthcheck"
+	  
+	
+04-liveness-probe.yaml
+------------------------
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+      resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+	
+05-readiness-probe.yaml
+--------------------	
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: empapp-deploy
+  annotations:
+    kubernetes.io/change-cause: "deploying v1"
+spec:
+  minReadySeconds: 10
+  selector:
+    matchLabels:
+      app:  empapp-service
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app:  empapp-service
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name:  empapp-service
+        image: rgupta00/empapp:1.1
+      resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+        startupProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 8080
+          periodSeconds: 1
+          failureThreshold: 3
+        ports:
+        - name: "app-port"
+          containerPort: 8080
+
+
+
+Configmap and secret:
+-----------------------------
+
+ kubectl apply -f .\01-simple-cm.yaml
+ 
+  kubectl get all
+  
+  kubectl get cm
+    
+ kubectl get cm -o yaml
+ 
+  kubectl logs my-pod
+	
+  
+
+01-simple-cm.yaml
+---------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-properties
+data:
+  appUrl: "http://my-app-service"
+  timeout: "30"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    env:
+    - name: "request.timeout"
+      valueFrom:
+        configMapKeyRef:
+          name: app-properties
+          key: timeout
+    - name: "application.url"
+      valueFrom:
+        configMapKeyRef:
+          name: app-properties
+          key: appUrl
+    args:
+    - env                  
+
+
+02-inject-cm-as-env.yaml
+------------------------
+now we want to insert all key-value in one go as env
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-properties
+data:
+  appUrl: "http://my-app-service"
+  timeout: "30"
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    envFrom:
+    - configMapRef:
+        name: app-properties
+    args:
+    - env      
+	
+02-inject-cm-as-env.yaml
+------------------------
+now we want to insert all key-value in one go as env
+
+
+03-inject-cm-as-file.yaml
+-------------------------
+how to store multiline string as a file inside the pod
+kubectl get cm
+ kubectl get cm kube-root-ca.crt -o yaml
+ 
+ kubectl apply -f .\03-inject-cm-as-file.yaml
+ 
+03-inject-cm-as-file.yaml:
+------------------------
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-properties
+data:
+  application.properties: |
+    appUrl=http://my-app-service
+    timeout=30
+    a.b.c.d=something
+    username=raj
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  terminationGracePeriodSeconds: 1
+  restartPolicy: Never
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    volumeMounts:
+    - name: config-volume
+      mountPath: /usr/share/props  
+    args:
+    - sleep
+    - "3600"
+  volumes:
+  - name: config-volume
+    configMap:
+      name: app-properties   
+ 
+
+kubectl get all
+
+now observe file inside container:
+---------------------------------
+
+kubectl exec -it my-pod -- bash
+ 
+
+Secret:
+--------------------------
+same as configMap but it is for sensitive data
+value is base64 encoded
+use cases:
+ssh key file
+basic credentials
+etc
+
+
+docker run -it ubuntu
+  
+echo raj | base64
+echo -n raj | base64
+cmFq
+
+echo -n admin123 | base64
+YWRtaW4xMjM=
+
+
+Example:
+04-simple-secret.yaml
+--------------------
+apiVersion: v1
+kind: Secret
+metadata:
+  name: app-secret
+data:
+  username: cmFq
+  password: YWRtaW4xMjM=
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: my-pod
+spec:
+  restartPolicy: Never
+  containers:
+  - name: ubuntu
+    image: ubuntu
+    resources:
+      limits:
+        memory: "128Mi"
+        cpu: "500m"
+    env:
+    - name: "app_username"
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: username
+    - name: "app_password"
+      valueFrom:
+        secretKeyRef:
+          name: app-secret
+          key: password
+    args:
+    - env            
+	
+now run it:
+-----------
+kubectl apply -f .\04-simple-secret.yaml
+kubectl get all
+kubectl get secret -o yaml
+kubectl get pod
+kubectl logs my-pod
+
+
+
+
+
+
+
+Resource Management & Auto Scaling
+-----------------------------------
+how we can get cpu memory usages of pods?
+
+ kubectl top nodes
+
+
+install materix service:
+-----------------------
+
+kubectl apply -f .\metrics-server.yaml
+
+check if matrix server is install and ready:
+----------------------------------------------
+
+kubectl get pod -n kube-system
+
+now try command to check cpu and memory usages:
+--------------------------------------------
+
+kubectl top nodes
+
+NAME                        CPU(cores)   CPU%   MEMORY(bytes)   MEMORY%   
+dev-cluster-control-plane   143m         0%     676Mi           5%        
+dev-cluster-worker          37m          0%     234Mi           1%        
+dev-cluster-worker2         32m          0%     180Mi           1%        
+ 
+ kubectl apply -f .\01-deploy-cpu-memory-usage.yaml
+ 
+ Now apply cpu usages:
+ kubectl top pods
+
+ now increse no of replica to 50, then run
+ now some of the pod is in pending state
+ 
+ kubectl describe pod/my-deploy-76d58cdd59-22nr2
+ 
+	   Warning  FailedScheduling  84s   
+	   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint
+	   {node-role.kubernetes.io/control-plane: }, 2 Insufficient cpu. 
+	   preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod.
+	  
+ 
+HPA template:
+-------------
+https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
+
+hpa-template.yaml
+----------------
+it is monitoring the deployment and scale the pod the horizontally automatically
+till now we are manually update no of pod
+but we want to scale automatically in weekday less and in weekend is more
+
+
+HorizontalPodAutoscaler: used to monitor deployment
+
+
+kubectl apply -f 02-deploy-for-hpa.yaml
+
+kubectl apply -f 03-hpa.yaml
+
+kubectl get all
+
+kubectl get hpa
+
+kubectl exec -it demo-pod -- bash
+
+ ab -n 2000 -c 5 http://ngnix/
+ 
+
+
+Ingress:
+---------
+
+Step 1:
+
+Nginx Ingress Controller
+Applying below resource:
+
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+
+delete old cluster to create new one:
+
+ kind delete cluster --name dev-cluster
+
+create new cluster:
+ kind create cluster --config .\01-cluster.yaml
+ 
+ docker ps
+ 
+ Example1:02-simple-ingress
+ -------------------
+ 
+  kubectl get ing
+  curl localhost
+ 
+
+
+ 
+
+
+
+
+
+
+
+ref:
+understanding deployment strategies
+https://medium.com/devops-dev/kubernetes-deployment-strategies-part-1-f4a7b959c5e5
+
+https://www.devopsschool.com/blog/category/kubernetes/
+
+https://www.harness.io/blog/kubernetes-services-explained
+
+
+
+
+
+kind download:
+--------------
+
+curl.exe -Lo kind-windows-amd64.exe https://kind.sigs.k8s.io/dl/v0.26.0/kind-windows-amd64
+Move-Item .\kind-windows-amd64.exe C:\setup_k8s\kind.exe
+
+
+
+download minikube:
+-------------------
+New-Item -Path 'c:\setup_k8s' -Name 'minikube' -ItemType Directory -Force
+Invoke-WebRequest -OutFile 'c:\setup_k8s\minikube.exe' -Uri 'https://github.com/kubernetes/minikube/releases/latest/download/minikube-windows-amd64.exe' -UseBasicParsing
+
+
+https://github.com/kubernetes/minikube/releases
+
+
+
+     
