@@ -35,6 +35,6 @@ spec:
   selector:
     app: empapp-service
   ports:
-  - port: 8080
-    targetPort: 8080
+  - port: 8080 #port that we want to expose for pod
+    targetPort: 8080 #port inside container
     nodePort: 30001
