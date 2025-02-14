@@ -832,9 +832,8 @@ Rollout history
 kubectl rollout history deploy
 
 let assume there is bug in 1.2 and we want to migrate from 1.2 to 1.1
-
-
 kubectl rollout undo deploy/empapp-deploy
+
 
 if you want to see more details:
 kubectl rollout history deploy --revision=4
@@ -1069,19 +1068,44 @@ spec:
 	* Load balancer(External)
 	
 	
-watch -t -x kubectl get all
+Example : ClusterIP service:
+-------------------------
+	ClusterIP service is used for internal communication bw ms
+	
+steps:
+kubectl apply -f .\01-clusterip-service.yaml
 
-kubectl apply -f 01-nodeport-service.yaml 
+kubectl get all 
+
+kubectl exec -it demo-pod bash
+
+Now fire curl command to connect to one of the pod by using service (logical ) name:
+--------------------------------------------------------------
+curl empapp-svc:8080/emps
+	
+	
+	
+	
+Example : NodePort service:
+-------------------------
+	NodePort service is used for expose to the outside world
+
+
+ kubectl apply -f .\02-nodeport-service.yaml 
 
 kubectl get all
 
-service/empapp-svc   NodePort    10.96.170.39   <none>        8080:30001/TCP   113
+looks for service information:
+--------------------------------
+service/empapp-svc   NodePort    10.96.120.99   <none>        8080:30001/TCP   6s
 
-now we can connect to the service using
 
-curl localhost:30001/hello-world
+now we can connect to the service using go to the browser and req for:
+---------------------------------------
+http://localhost:30001/emps
 
-http://localhost:30001/hello-world
+
+
 
 01-nodeport-service.yaml
 ---------------------------
@@ -1126,8 +1150,6 @@ spec:
   - port: 8080
     targetPort: 8080
     nodePort: 30001
-
-
 
 
 
@@ -1438,6 +1460,10 @@ spec:
 
 
 
+
+
+
+
 Configmap and secret:
 ------------------------
 What are Kubernetes ConfigMaps?
@@ -1622,7 +1648,7 @@ dev-cluster-worker2         32m          0%     180Mi           1%
  now increse no of replica to 50, then run
  now some of the pod is in pending state
  
- kubectl describe pod/my-deploy-76d58cdd59-22nr2
+ kubectl describe pod/my-deploy-76d58cdd59-v472j
  
 	   Warning  FailedScheduling  84s   
 	   default-scheduler  0/3 nodes are available: 1 node(s) had untolerated taint
@@ -1630,15 +1656,42 @@ dev-cluster-worker2         32m          0%     180Mi           1%
 	   preemption: 0/3 nodes are available: 1 Preemption is not helpful for scheduling, 2 No preemption victims found for incoming pod.
 	  
  
+Horizontal Pod Autoscaler (HPA) 
+===================================
+
 HPA template:
 -------------
-https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/
 
-hpa-template.yaml
-----------------
-it is monitoring the deployment and scale the pod the horizontally automatically
+
+What is HPA?
+--------------
+	Horizontal Pod Autoscaler (HPA) is a Kubernetes API that automatically adjusts 
+	the number of pods in a deployment based on resource demand. 
+	
+How HPA works
+-----------------
+	HPA monitors metrics like CPU utilization and memory usage 
+	HPA compares the current metric value to the desired metric value 
+	HPA scales the number of pods up or down to meet the desired metric value 
+	
+Benefits of HPA
+----------------- 
+	HPA helps applications scale to meet increased demand
+	HPA frees up nodes for other applications when resources are not needed
+	HPA helps maintain resource utilization and application performance
+	
+HPA configuration 
+------------------
+	HPA has a stabilization window to avoid rapid scaling up and down
+	HPA has scaling limits that specify the minimum and maximum number of replicas
+
+	it is monitoring the deployment and scale the pod the horizontally automatically
+
+Real advantage of HPA?
+-------------------
 till now we are manually update no of pod
 but we want to scale automatically in weekday less and in weekend is more
+
 
 
 HorizontalPodAutoscaler: used to monitor deployment
@@ -1654,12 +1707,22 @@ kubectl get hpa
 
 kubectl exec -it demo-pod -- bash
 
- ab -n 2000 -c 5 http://ngnix/
+ab -n 2000 -c 5 http://ngnix/
  
+
+
+
 
 
 Ingress:
 ---------
+What is an ingress in Kubernetes?
+---------------------------------
+	Ingress is a Kubernetes resource that manages external access to services within a cluster. 
+	It acts as a single entry point for incoming traffic, 
+	routing it to the appropriate services based on the routing rules the developer sets. 
+	Kubernetes Ingress provides a way to securely and efficiently expose services
+
 
 Step 1:
 
@@ -1685,7 +1748,7 @@ create new cluster:
   curl localhost
  
 
-
+kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
  
 
 

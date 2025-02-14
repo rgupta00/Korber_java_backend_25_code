@@ -34,7 +34,7 @@ spec:
   terminationGracePeriodSeconds: 1
   containers:
   - name: demo
-    image: vinsdocker/util
+    image: rgupta00/util
     args:
     - "sleep"
     - "3600"

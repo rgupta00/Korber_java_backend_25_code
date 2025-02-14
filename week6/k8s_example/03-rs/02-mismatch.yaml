@@ -5,13 +5,14 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: my-app-foo
+      raj: my-app-foo
   replicas: 3
   template:
     metadata:
       name: my-pod
       labels:
-        app: my-app
+        raj: my-app-foo
+        gun: my-app-gun
     spec:
       containers:
       - name: nginx

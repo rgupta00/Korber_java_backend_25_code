@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 1
       containers:
       - name: user
-        image: vinsdocker/k8s-ingress-user
+        image: rgupta00/k8s-ingress-user
         ports:
         - containerPort: 80
 ---

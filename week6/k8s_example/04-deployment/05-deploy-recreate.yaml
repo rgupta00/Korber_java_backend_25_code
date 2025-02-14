@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: empapp-deploy
   annotations:
-    kubernetes.io/change-cause: "deploying v2"
+    kubernetes.io/change-cause: "deploying v3"
 spec:
   minReadySeconds: 10
   strategy:
@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name:  empapp-service
-        image: rgupta00/empapp:1.2
+        image: rgupta00/empapp:1.3
         ports:
         - name: "app-port"
           containerPort: 8080

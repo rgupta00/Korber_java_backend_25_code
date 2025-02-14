@@ -15,7 +15,7 @@ spec:
       terminationGracePeriodSeconds: 1
       containers:
       - name: product
-        image: vinsdocker/k8s-ingress-product
+        image: rgupta00/k8s-ingress-product
         ports:
         - containerPort: 80
 ---
