@@ -15,18 +15,18 @@ spec:
       containers:
       - name: nginx
         image: nginx  
-        startupProbe:
-          httpGet:
-            path: /
-            port: 80
-          periodSeconds: 1
-          failureThreshold: 30  
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 80
-          periodSeconds: 5
-          failureThreshold: 3                
+        # startupProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   periodSeconds: 1
+        #   failureThreshold: 30  
+        # readinessProbe:
+        #   httpGet:
+        #     path: /
+        #     port: 80
+        #   periodSeconds: 5
+        #   failureThreshold: 3                
         resources:
           requests:
             cpu: 50m
@@ -54,7 +54,8 @@ spec:
   terminationGracePeriodSeconds: 1
   containers:
   - name: demo
-    image: vinsdocker/util
+    # image: vinsdocker/util
+    image: rgupta00/util
     args:
     - "sleep"
     - "3600"

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: empapp-deploy
-  namespace: dev
+  namespace: foo
   annotations:
     kubernetes.io/change-cause: "deploying v1"
 spec:

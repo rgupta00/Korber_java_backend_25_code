@@ -1,0 +1,334 @@
+
+Spring boot mongodb
+---------------------
+choose dependencies: web, devtools, mongo
+
+Application properties:
+-----------------------
+spring.application.name=bookapp
+server.port=8080
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=mongodb
+spring.data.mongodb.repositories.enabled=true
+logging.level.org.springframework.data.mongodb.repository.query= debug
+logging.level.org.springframework.data.mongodb.core.MongoTemplate= debug
+	
+
+
+
+Mongodb with docker compose:
+
+docker-compose.yml
+--------------------
+version: '3.9'
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=root
+	
+CRUD methods:
+---------------
+
+
+step 1: Dao layer
+------------------
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "books")
+public class Book {
+    @Id
+    private String id;
+    private String name;
+    private Integer pages;
+    private String author;
+    private Double cost;
+}
+
+
+@Repository
+public interface BookRepository extends MongoRepository<Book, String> {
+
+}
+	
+	
+insert records:
+-----------
+bookRepository.save(new Book("algebra", 300, "gunika", 900.0));
+bookRepository.save(new Book("adv maths", 300, "ektga", 500.0));
+bookRepository.save(new Book("spring boot", 300, "raj", 700.0));
+bookRepository.save(new Book("python adv", 200, "raj", 600.0));
+	
+CRUD methods:
+--------------
+find by id
+
+bookRepository.findById("679e03dddf9d694f4539a733").ifPresent(System.out::println);
+
+getAll
+
+bookRepository.findAll().forEach(System.out::println);
+
+save records
+
+Book book = new Book("elementry maths", 300, "gunika", 900.0);
+bookRepository.save(book);
+
+update
+
+delete
+
+
+
+
+
+
+Mongodb Quaries Example:
+-------------------------
+ //SELECT * FROM BOOK WHERE ID=?
+ 
+@Query("{id :?0}")             
+Optional<Book> getBookById(Integer id);
+
+// SELECT * FROM BOOK where pages<?
+@Query("{pages : {$lt: ?0}}")  
+
+// SELECT * FROM BOOK where pages>=?
+
+@Query("{ pages : { $gte: ?0 } }")  
+
+// SELECT * FROM BOOK where pages=?
+
+@Query("{ pages : ?0 }")           
+List<Book> getBooksByPages(Integer pages);
+
+// SELECT * FROM BOOK where author = ?
+
+@Query("{author : ?0}")      
+List<Book> getBooksByAuthor(String author);
+
+ //SELECT * FROM BOOK where author = ? and cost=?
+ 
+@Query("{author: ?0, cost: ?1}")    
+//@Query("{$and :[{author: ?0},{cost: ?1}] }")
+List<Book> getBooksByAuthorAndCost(String author, Double cost);
+
+
+//select count(*) from book where author=? or name=?
+@Query("{$or :[{author: ?0},{name: ?1}]}")   
+List<Book> getBooksByAuthorOrName(String author, String name);
+
+//select count(*) from book where author=?
+@Query(value ="{author: ?0}", count=true)   
+Integer getBooksCountByAuthor(String author);
+
+
+//Sorting
+@Query(value = "{author:?0}", sort= "{name:1}") //ASC
+//@Query(value = "{author=?0}", sort= "{name:-1}") //DESC
+List<Book> getBooksByAuthorSortByName(String author);
+
+//@Query with Projection
+ // only data of name & author properties will be displayed
+ 
+@Query(value= "{pages: ?0}", fields="{name:1, author:1}")  
+//@Query(value= "{pages: ?0}", fields="{name:1, author:1, cost:1, pages:1}") // will display all properties data
+List<Book> getBookNameAndAuthorByPages(Integer pages);
+
+        
+// SQL Equivalent : SELECT * FROM BOOK select * from books where author=?
+@Query(value= "{author : ?0}")           
+List<Book> getAllBooksByAuthor(String author);
+
+MongoDB Regular Expressions
+@Query("{ author : { $regex : ?0 } }")
+List<Book> getBooksByAuthorRegEx(String author);
+
+Ex:
+bookRepo.getBooksByAuthorRegEx("^S").forEach(System.out::println);
+bookRepo.getBooksByAuthorRegEx("man$").forEach(System.out::println);
+bookRepo.getBooksByAuthorRegEx("S").forEach(System.out::println);
+
+
+
+	
+	
+	
+Spring boot MongoTemplate (similer to jdbcTemplate)
+-------------------------------------------------------
+
+MongoTemplate offers you closer control over what you request from MongoDB. 
+We can even utilize both of them in our programming practice as per our need 
+and for performance enhancements. 
+
+Moreover, MongoTemplate can offer an easier step to write a complex query than MongoRepository
+	
+	
+Example:
+-------
+
+create Collection :
+-----------------
+
+@Document(collection = "book_mongotemplate")
+public class Book {
+    @Id
+    private String id;
+    private String name;
+    private Integer pages;
+    private String author;
+    private Double cost;
+}
+
+
+Autowire MongoTemplate and populate some records:
+--------------------------------------------------
+	@Autowired
+	private MongoTemplate mongoTemplate;
+
+
+private void saveData() {
+		mongoTemplate.save(new Book("Core Java", 200, "Kathy Sierra", 1065.5));
+		mongoTemplate.save(new Book("JSP & Servlets", 350, "Kathy Sierra", 1749.0));
+		// mt.save(new Book(501, "JSP & Servlets", 350, "Kathy Sierra", 1749.0),"Book"); // save () with collection name 'Book'
+		mongoTemplate.save(new Book( "Spring in Action", 480, "Craig Walls", 940.75));
+		mongoTemplate.save(new Book("Pro Angular", 260, "Freeman", 1949.25));
+		mongoTemplate.save(new Book("HTML CSS", 100, "Thomas Powell", 2317.09));
+		mongoTemplate.save(new Book("Hibernate in Action", 180, "Gavin King", 889.25));
+		mongoTemplate.save(new Book( "Practical MongoDB", 180, "Shakuntala Gupta", 785.0));
+		mongoTemplate.save(new Book("Pro Spring Boot", 850, "Felipe Gutierrez", 2167.99));
+		mongoTemplate.save(new Book("Beginning jQuery", 180, "Franklin", 1500.00));
+		mongoTemplate.save(new Book("Java Design Patterns", 114, "Devendra Singh", 919.99));
+	}
+	
+
+
+insert( )  AND  insertAll( )
+-----------------------------
+mongoTemplate.insert(collection_of_books, "collection_name");
+
+mongoTemplate.insertAll(collection_of_books)
+
+findAll method:
+----------------
+List<Book> list = mt.findAll(Book.class);
+
+findById method:
+-----------------
+Book book = mt.findById("pass the id", Book.class);
+		
+
+findAndModify(query, update, entityClassName)
+---------------------------------------------
+Query query= new Query();
+query.addCriteria(Criteria.where("id").is("............."));
+
+Update update = new Update();
+update.set("cost", 1065.25);
+update.set("name", "Core Java");
+
+mt.findAndModify(query, update, Book.class);
+
+System.out.println("Data Modified");
+
+
+updateMulti(query, update, entityClassName)
+-----------------------------------------
+This method updates all the records of the DB that matches the given criteria
+
+Query query= new Query(); 
+query.addCriteria(Criteria.where("pages").lte(180));
+Update update = new Update();
+update.set("cost", 999.0);
+mt.updateMulti(query, update, Book.class);
+
+
+findAndRemove(query, entityClassName)
+-----------------------------------------
+We use this method to remove data which are actually fetched from a given condition.
+
+Query query= new Query();
+query.addCriteria(Criteria.where("cost").is(1749.0));
+mt.findAndRemove(query, Book.class);
+
+
+findAllAndRemove(query, entityClassName)
+----------------------------------------
+We utilize this method to remove multiple records
+ which are actually fetched from a given condition.
+
+Query query= new Query();
+query.addCriteria(Criteria.where("cost").gte(1000.0));
+mt.findAllAndRemove(query, Book.class);
+
+Here in the above example, we are deleting all the Books whose cost is greater than or equal to 1000.0.
+	
+	
+upsert(query, update, entityClassName)
+--------------------------------------
+The word ‘upsert’  is the combination of words ‘update’ and ‘insert’. 
+When the given criteria matches any record in DB, upsert() will update that record. 
+If it doesn’t find any record of the given criteria, then it will insert a new record.
+
+Query query= new Query(); 
+query.addCriteria(Criteria.where("id").is(510));
+Update update = new Update();
+update.set("cost", 1065.25);
+update.set("name", "Core Java");
+mt.upsert(query, update, Book.class);
+
+
+
+Mongodb join example:
+======================
+
+spring.data.mongodb.auto-index-creation
+
+
+@Document(collection = "users")
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class User {
+
+    @Id
+    private ObjectId id;
+    @Indexed(unique = true)
+    @NonNull
+    private String userName;
+    private String email;
+    private boolean sentimentAnalysis;
+    @NonNull
+    private String password;
+    @DBRef
+    private List<JournalEntry> journalEntries = new ArrayList<>();
+    private List<String> roles;
+}
+
+
+
+@Document(collection = "journal_entries")
+@Data
+@NoArgsConstructor
+public class JournalEntry {
+    @Id
+    private ObjectId id;
+    @NonNull
+    private String title;
+    private String content;
+    private LocalDateTime date;
+    private Sentiment sentiment;
+}
+
+Blog for reference:
+-------------------
+https://javatechonline.com/spring-boot-mongodb-crud-example/

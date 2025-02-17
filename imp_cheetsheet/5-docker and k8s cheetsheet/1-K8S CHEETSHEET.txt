@@ -1725,13 +1725,8 @@ What is an ingress in Kubernetes?
 
 
 Step 1:
-
-Nginx Ingress Controller
-Applying below resource:
-
-# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
-
-
+-------------
+Step 1:
 delete old cluster to create new one:
 
  kind delete cluster --name dev-cluster
@@ -1739,14 +1734,30 @@ delete old cluster to create new one:
 create new cluster:
  kind create cluster --config .\01-cluster.yaml
  
- docker ps
+step 2:
+Nginx Ingress Controller
+Applying below resource:
+
+# kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
+
+docker ps
  
+ 
+step 3: run simple ingress configuration:
+------------------------------------------
+kubectl apply -f .  
+http://localhost/
+
+
+
  Example1:02-simple-ingress
  -------------------
  
   kubectl get ing
   curl localhost
  
+ 
+ https://stackoverflow.com/questions/61616203/nginx-ingress-controller-failed-calling-webhook
 
 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
  
@@ -1758,6 +1769,9 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
 
 
 ref:
+k8s notes
+https://veeevek.medium.com/kubernetes-notes-get-started-8a05f06b5479
+
 understanding deployment strategies
 https://medium.com/devops-dev/kubernetes-deployment-strategies-part-1-f4a7b959c5e5
 

@@ -1,0 +1,1356 @@
+Mongo db tutorial
+-----------------
+
+What is MongoDB?
+--------------
+	MongoDB is a high-performance NoSQL database where each 
+	database has collections which in turn has documents. 
+	
+	Each document has a different number of fields, size, content, and is 
+	stored in a JSON-like format (i.e. Binary JSON (BSN)
+	
+	The documents in MongoDB doesn’t need to have a schema defined beforehand. 
+	Instead, the fields (i.e. records) can be created on the go
+	
+	Data model available within the MongoDB allows developers to represent the 
+	hierarchical relationships, store arrays, and other more complex structures easily
+	
+	This NoSQL solution often comes with embedding, auto-sharding, 
+	and onboard replication for better scalability and high availability
+	
+Why MongoDB?
+-----------
+	As a NoSQL type database, MongoDB stores the data in the form of a document.
+	Thus, MongoDB offers more flexibility
+	
+	This database supports search by field-name, range queries, and the regular expressions. 
+	
+	It often provides queries to return the particular fields inside the documents
+	MongoDB offers indexes to improve the search performance within the NoSQL database
+	To offer horizontal scalability, MongoDB uses sharding by splitting the 
+	data across the many MongoDB occurrences
+	
+	Replication: MongoDB can give high availability with the replica sets
+
+
+
+
+mongodb installation 
+-------------------
+https://www.youtube.com/watch?v=1LiZRYzgM2o
+
+
+RDBMS 	MongoDB
+-------------------
+Table 	<--->	Collection
+Column 	<--->	Key
+Value 	<--->	Value
+Records/Rows<--->Document/Object
+
+
+Creating collections, document, storing data etc:
+-----------------------------------------------
+
+show dbs 		// List all databases
+use rajdb 		//Switches to inventory
+show collections  	//List all tables in the current selected database
+
+
+how to drop databse?
+--------------------
+use rajdb;
+db.dropDatabase();
+
+
+how to delete collection?
+------------------------
+db.students.drop();
+
+
+Creating collections, document, storing data etc
+--------------------------------------------
+user rajdb;
+db.students.insertOne({"name":"ram","age":12}};
+db.students.insertOne({"name":"ram","age":13}};
+
+list students:"
+db.students.find();
+db.students.find().preety();
+
+
+add some records:
+
+
+db.students.insertOne({"name":"ram","age":12}};
+db.students.insertOne({"name":"ram","age":13}};
+
+
+Embedded documents in mongodb:
+----------------------------
+updating records with idCards 
+
+db.students.updateOne({"name":"ram"},{$set:{idCards:{hasPanCard:false, hasAdhaarCard:true}}});
+db.students.find({name: "ram"})
+
+adding hobbies to everyone:
+-------------------------
+db.students.updateMany({},{$set :{hobbies:['dancing','cooking']}})
+
+count all student with hobbies dancing
+-------------------------------------
+db.students.find({"hobbies":'cooking'}).count();
+
+
+find student has hasAdhaarCard: true
+---------------------------------
+db.students.find({'idCards.hasAdhaarCard':true})
+
+
+
+
+CRUD opeation:
+------------------
+create :
+insertOne(data, options)
+insertMany(data,options)
+
+Read:
+find(filter, options)
+findOne(filter, options)
+
+
+update:
+updateOne(filter, data, options)
+updateMany(filter, data, options)
+replaceOne(filter, data, options)
+
+delete:
+deleteOne(filter, options)
+deleteMany(filter, options)
+
+
+Read operations:
+===============
+find vs findOne
+---------------
+find : give all document in one go
+findOne: will give first doc in the order that we have inserted
+
+
+db.student.find(): provide first 20 elements and return cursor "pointer"
+db.student.findOne(): dont return cursor
+
+how to user cursor:
+--------------------
+db.students.find().count();
+
+db.students.find().forEach(x=>{})
+db.students.find().forEach(x=>{printjson(x)})
+db.students.find().limit(2)
+
+db.student.findOne().count(): give error
+
+find student less then 12:
+----------------------------
+db.students.find({age: {$lt:12}})
+lt, gt, gte etc
+
+age bw 5 to 12:
+--------------
+db.students.find({age: {$gt:5, $lt:12}})
+
+
+
+
+create operation:
+=====================
+insertOne(data, options)
+insertMany(data,options)
+
+db.student.insertMany([{},{},{}])
+
+
+update opeation:
+=========================
+updateOne(filter, data, options)
+-------------------------------
+db.students.updateOne({name:"ram"},{$set: {age: 15}})
+
+updateMany(filter, data, options)
+--------------------------------
+db.students.updateMany({age:12},{$set: {age: 15}})
+
+Note: if isEligiable property is missing it will add it:
+db.students.updateMany({age:13},{$set: {isEligiable: false}})
+
+db.students.updateMany({age:{$gte:14}},{$set: {isEligiable: false}})
+
+replaceOne(filter, data, options)
+
+
+
+delete opeation:
+====================
+
+deleteOne(filter, options)
+db.students.deleteOne({ name: "Somya" })
+deleteMany(filter, options)
+db.students.deleteMany({age: 13})
+
+Note: will delete all documents
+db.students.deleteMany({})
+
+To delete all records : db.students.remove()
+
+Projection Operation: getting selected columns:
+---------------------------------
+Note: it will take id by default
+db.students.find({},{name:1})
+
+
+Note: it i dont want id
+db.students.find({},{name:1, _id: 0})
+
+Note: Mongodb ObjectId()
+-------------------
+	db.emp.insert({_id:10, "EmployeeName" : "Smith"})
+
+	=> By default when inserting documents in the collection,
+	if you don't add a field name with the _id in the field name, 
+	then MongoDB will automatically add an Object id field.
+
+	=> Why do we need the ObjectId field? 
+		MongoDB uses this as the primary key for the collection so that 
+		each document can be uniquely identified in the collection.
+
+	=> If we want mongodb dont create  _id Field when the collection is created and 
+	if you want to specify your own id as the _id of the collection, then you need to 
+		explicitly define this while creating the collection
+
+
+	Help 
+	-------
+	db.collection.help()	
+		Eg: db.employees.help()  
+
+	db.collection.function.help()
+		db.employees.find().help()  
+		
+
+
+
+insert with option:
+---------------------
+insertOne(data, options)
+insertMany(data,options)
+
+key can not be duplicate , let we are adding following records
+db.books.insertMany
+	([{_id: "A",name: "A",price: 3},
+		{_id: "C",name: "C",price: 3},
+		{_id: "C",name: "C",price: 3},
+		{_id: "D",name: "D",price: 3}]
+	);
+	
+errors comes but 2 records are inserted,and last records is ignored
+
+db.books.insertMany
+	([{_id: "A",name: "A",price: 3},
+		{_id: "C",name: "C",price: 3},
+		{_id: "C",name: "C",price: 3},
+		{_id: "D",name: "D",price: 3}], {ordered:false}
+	);
+
+
+Schema validation: how to apply ?
+====================================
+https://www.geeksforgeeks.org/schema-validation-in-mongodb/
+
+
+db.createCollection("books", {
+    validator: {
+        $jsonSchema: {
+            bsonType: "object",
+            required: ["name","price"],
+            properties: {
+                name: {
+                    bsonType: "string",
+                    description: "Name must be a string."
+                },
+                price: {
+                       bsonType: "number",
+                    description: "number must be an integer."
+                }
+            }
+        }
+    }
+});
+
+inserting books:
+-------------
+[
+    {
+        "name": "rich dad poor dad",
+        "price" : 15
+    },
+    {
+        "name": "spring fundamentals",
+        "price" : 13
+    },
+    {
+        "name": "Maths for 10",
+        "price" : 12
+    },
+    {
+        "name": "Physics basics",
+        "price" : 11
+    },
+    {
+        "name": "Java Advance",
+        "price" : 15
+    }
+]
+
+importing collection in mongodb:
+---------------------------------
+[
+    {
+        "name": "raj",
+        "age" : 15
+    },
+    {
+        "name": "ekta",
+        "age" : 13
+    },
+    {
+        "name": "gun",
+        "age" : 12
+    },
+    {
+        "name": "kesh",
+        "age" : 11
+    },
+    {
+        "name": "vicky",
+        "age" : 15
+    }
+]
+
+Comparision operator in mongodb:
+---------------------------------
+$eq, $ne, $lt, $gt, $lte, $gte, $in, $nin
+
+Example:
+db.students.find();
+
+
+find student with age not equal to 5 
+db.students.find({age:{$ne:5}});
+
+find student with age not equal > 5
+db.students.find({age:{$gt:5}});
+
+
+find student with age in 5,11,12
+db.students.find({age: {$in: [5,11,12]}});
+
+find student with AdhaarCard
+db.students.find({'idCards.hasAdhaarCard': true});
+
+
+ idCards: {
+    hasPanCard: false,
+    hasAdhaarCard: true
+  }
+
+
+
+Logical Operators in MongoDB in Hindi ( $not, $and, $or & $nor)
+---------------------------------
+find student whose age more then or eq to 10 and less then and req to 12?
+
+db.students.find({$or: [{age: {$lte:10}},{age: {$gte:12}}]});
+
+db.students.find({$and: [{age: {$lt:16}},{Hobbies:'walk'});
+
+
+
+Understanding the $exists and $type Operators
+-------------------------------------------------
+
+find student having hasMacBook field it can be true of false
+db.students.find({hasMacBook:{$exists: true}});
+
+db.students.find({hasMacBook:{$exists: true, $type: 'boolean'}});
+
+
+Sort documents
+--------------
+db.students.find().sort({age: 1, name: 1});
+
+
+
+Advanced Update ( $inc, $min, $max, $mul, $unset, $rename & Upsert in MongoDB )
+-----------------------------------------------------------------------------------
+Example:
+
+db.stu.insertMany([
+    {
+        "name": "ram",
+        "Hobbies": ["Walk","Cricket"],
+        "identity":{"hasPanCard": true, "hasAdhaarCard": true},
+        "bio": "i am an student",
+        "experience": [
+            {"company" :"amazon","duration": 3 },
+            {"company" :"paytm","duration": 1 }
+        ],
+        "age":21
+    },
+    {
+        "name": "sita",
+        "Hobbies": ["Walk","Music"],
+        "identity":{"hasPanCard": true, "hasAdhaarCard": true},
+        "bio": "i am an student",
+        "experience": [
+            {"company" :"HCL","duration": 3 },
+            {"company" :"paytm","duration": 1 }
+        ],
+        "age":23
+    }
+])
+
+
+
+increasing age of all students by 1 yr
+--------------------------------
+it will set age of all student to 1
+
+db.stu.updateMany({},{$set:{age: 1}});
+
+
+increasing age of all students by 1 yr
+db.stu.updateMany({},{$inc:{age: 1}});
+
+decreasing age of all students by 2 yr
+db.stu.updateMany({},{$inc:{age: -2}});
+
+set age of sita  to 50 iff her age is less then 50
+--------------------------------------------
+$min: kam karan hey
+$max: jayda karan hey
+
+$max:
+--------
+db.stu.updateOne({},{$max:{age: 50}});
+
+what if i do
+db.stu.updateOne({},{$max:{age: 23}});	//it have no effect as age is age is greate then 23 it will not chage
+
+
+$min:
+--------
+db.stu.updateOne({},{$min:{age: 20}});
+
+
+$mul: multiply age by 2
+--------
+db.stu.updateOne({},{$mul:{age: 2}});
+
+
+$unset: remove age field
+--------
+db.stu.updateOne({},{$unset:{age: 2}});
+
+upsert: update if found else insert new record:
+---------------------------------------------
+db.stu.updateOne({name:"foo"},{$set:{age: 100}},{upsert: true});
+
+
+
+
+
+Indexing in mongodb:
+--------------------
+if we dont use indexing then data will be searched one by one (aka liner search)
+if we do indexing then it will do index search
+
+if i will do indexing on name then all names will be stored in sorted order in different data struc
+along with the pointe to the data==> store in BTree DS
+
+When a query executed mongodb can use the index to quickly locate the document that match the query by 
+searching through b tree 
+
+Trade off:
+storage space
+write performance: if you add new data then B tree will be reorganized
+
+Perfered for read only data collections
+Not for heavy write operation
+
+
+
+
+Type of indexes in mongo db:
+	1. single field indexes
+	2. compound index
+	3. Text indexes
+	
+
+Example data:
+---------------
+db.teachers.insertMany([
+    { "_id": 1, "name": "John Doe", "age": 35, "gender": "male" },
+    { "_id": 2, "name": "Jane Smith", "age": 40, "gender": "female" },
+    { "_id": 3, "name": "Michael Johnson", "age": 45, "gender": "male" },
+    { "_id": 4, "name": "Emily Williams", "age": 30, "gender": "female" },
+    { "_id": 5, "name": "Robert Brown", "age": 38, "gender": "male" },
+    { "_id": 6, "name": "Emma Jones", "age": 33, "gender": "female" },
+    { "_id": 7, "name": "William Davis", "age": 37, "gender": "male" },
+    { "_id": 8, "name": "Olivia Miller", "age": 41, "gender": "female" },
+    { "_id": 9, "name": "David Wilson", "age": 36, "gender": "male" },
+    { "_id": 10, "name": "Sophia Moore", "age": 32, "gender": "female" },
+    { "_id": 11, "name": "Richard Taylor", "age": 39, "gender": "male" },
+    { "_id": 12, "name": "Isabella Anderson", "age": 43, "gender": "female" },
+    { "_id": 13, "name": "Joseph Thomas", "age": 34, "gender": "male" },
+    { "_id": 14, "name": "Mia Jackson", "age": 42, "gender": "female" },
+    { "_id": 15, "name": "Charles White", "age": 36, "gender": "male" },
+    { "_id": 16, "name": "Abigail Harris", "age": 31, "gender": "female" },
+    { "_id": 17, "name": "Daniel Martin", "age": 44, "gender": "male" },
+    { "_id": 18, "name": "Evelyn Thompson", "age": 38, "gender": "female" },
+    { "_id": 19, "name": "Matthew Garcia", "age": 37, "gender": "male" },
+    { "_id": 20, "name": "Sofia Martinez", "age": 35, "gender": "female" },
+    { "_id": 21, "name": "Andrew Robinson", "age": 40, "gender": "male" },
+    { "_id": 22, "name": "Grace Clark", "age": 33, "gender": "female" },
+    { "_id": 23, "name": "Joshua Rodriguez", "age": 39, "gender": "male" },
+    { "_id": 24, "name": "Avery Lewis", "age": 42, "gender": "female" },
+    { "_id": 25, "name": "Christopher Lee", "age": 37, "gender": "male" },
+    { "_id": 26, "name": "Chloe Walker", "age": 31, "gender": "female" },
+    { "_id": 27, "name": "Kevin Hall", "age": 44, "gender": "male" },
+    { "_id": 28, "name": "Zoey Allen", "age": 38, "gender": "female" },
+    { "_id": 29, "name": "Brian Young", "age": 36, "gender": "male" },
+    { "_id": 30, "name": "Harper King", "age": 34, "gender": "female" }
+])
+
+
+We want to uderstand how find (Query operations) is working under the hood
+
+Ex:This will explain how mongodb is searching data
+
+db.teachers.find({"name":"John Doe"}).explain();
+db.teachers.find({age: {$lte: 30}}).explain();
+
+CollectionScan in forward direction
+
+db.teachers.find({age: {$lte: 30}}).explain("executionStats");
+it is very handy command it will tell how many documents are search to give the result 
+
+
+Now let create index on age:
+db.teachers.createIndex({"age":1});
+
+Now when we run the command:
+db.teachers.createIndex({"age":1});
+db.teachers.createIndex({"age":-1});
+
+We come to know only one doc is search to return one index
+
+we can drop index:
+
+db.teachers.dropIndex({"age":1}); //we can also provide the index
+
+When not to use indexes:
+------------------------
+	1. When the collection is small
+	2. When the collection is frequently updated
+	3. When the quaries are complex (multiple fields)
+	4. When the collection is large(apply indexes on less fields)
+	
+	
+Creating index on multiple fields:
+------------------------------
+db.teachers.createIndex({"age":1,"gender":1})
+
+	=>  order matter while declaring indexes
+	=> it first sort by name then by gender
+	
+Ex: 
+
+db.teachers.find({age: {$gte: 40},gender: 'male'}).explain("executionStats");
+It will use index scan if we search by age 
+It will use index scan if we search by age and then by gender
+
+but if we search on the basis of gender it will use collscan
+db.teachers.find({gender: 'male'}).explain("executionStats");
+
+getting all indexes:
+-------------------
+db.teachers.getIndexes();
+
+Droping an index:
+-----------------
+db.teachers.dropIndex({"age":1})
+
+
+[
+  { v: 2, key: { _id: 1 }, name: '_id_' },
+  { v: 2, key: { age: 1 }, name: 'age_1' },
+  { v: 2, key: { age: 1, gender: 1 }, name: 'age_1_gender_1' }
+]
+
+Indexing help in sorting the records
+
+
+
+
+
+Partial filters:
+----------------
+Ex:
+first drop the index on age:
+db.teachers.dropIndex({"age":1})
+
+I want to apply filter for seleted data
+-----------------------------------
+db.teachers.createIndex({"age":1},{partialFilterExpression: { age: {$gt :25}}})
+
+it will use IndexScan iff age >25 or use collscan
+
+
+Index that expire itself after a time:(it work only on date)
+---------------------------------
+db.teachers.createIndex({"expires":1},{expireAfterSeconds:3600})
+
+
+Covered Query:
+----------------
+Very fast, actually it just return result form BTree
+Let assume we have an index on name and 
+
+db.teachers.createIndex({name:1})
+we are writing query:
+
+db.teachers.find({name: 'Mark'},{_id: 0,name: 1}).explain("executionStats");
+
+Winning Plan:
+------------
+In case of multiple indexes, mongodb check the performance of index on a
+sample of documents once the query are run and set it as winning plan
+
+Then for second query of similer type it dont race them again
+It store the winning plan in cache
+
+
+Aggrigation in mongodb:
+-----------------------
+	In Aggrigation quaries we have sequnce of operation applied on one another
+	It is also called pipeline operation
+	
+	It groups the data from multiple documents into a single documents
+	based on the spefified expressions
+	
+	Aggregation Pipeline:
+	----------------------
+		The aggregation process in mongodb consist of serveral
+		stages, each stage transforming the data in some way
+		
+		The output of one stage is fed as the input to the next stage
+		and so on, until the final stage produced the desired result
+		
+		Mongodb provides several build in aggregation pipeline stages to perform various operations on the
+		data such as $group $sum, $avg, $max $min etc
+	
+	
+	Aggregation operations process multiple documents and return computed results.
+	You can use aggregation operations to:
+
+		Group values from multiple documents together.
+
+		Perform operations on the grouped data to return a single result.
+
+		Analyze data changes over time.
+
+		To perform aggregation operations, you can use:
+
+		Aggregation pipelines, which are the preferred method for performing aggregations.
+
+	https://www.mongodb.com/docs/manual/aggregation/
+	
+	
+	Syn: 
+	db.collection.aggregate(pipeline,options)
+	
+	Ex1: find all teachers that are male
+	-----------------------------------------
+	db.teachers.aggregate([{$match: {gender:"male"}}])
+	
+	group teacher by age
+	---------------------
+	db.teachers.aggregate([{$group: {_id:"$age"}}])
+	
+
+	The $group operator group documents by the age field 
+	creating a new doc for each unique age value
+	
+	The _id field in the group stage specifies the field based on which documents
+	will be grouped
+	
+	Syntex of group:
+	$group:{_id: expression, field1: expression, field2: expression, ...}
+							jo result me lana hey
+							
+	
+	db.teachers.aggregate([{$group: {_id:"$age",names: {$push: "$name"}}}])
+	
+					The names field use $push operator to add the name field from each
+					document in the group to the arrays
+							 ----------
+							 
+	Example: I want complete details of teachers as per group:
+	
+	db.teachers.aggregate([{$group: {_id:"$age",teachers:{$push: "$$ROOT"}}}])
+	
+	$$ROOT:(Upper case) value is a reference to the current document being processed in the pipeline
+	which represent complete document
+	
+	Example: give a count per age of male teacher
+	
+	db.teachers.aggregate([{$match: {"gender":"male"}},{$group: {_id:"$age",count: {$sum: 1}}}])
+	
+	The value of $sum is 1, which means that for each document in the group the value of 
+	"number" will be incremented by 1
+	
+	Give count per age of male teachers and sort them by count in desc manner
+	
+	db.teachers.aggregate([
+			{$match: {"gender":"male"}},
+			{$group: {_id:"$age",count: {$sum: 1}}},
+			{$sort:{count:-1}}])
+	
+	Avg age of all teachers
+		db.teachers.aggregate([
+			{$group: {_id: null,
+			avgAge: {$avg: "$age"}}}])
+	Note: if you specifies _id null in the $group operator , it means that all the documents
+	in the collection will be grouped togather in the single group
+	
+	
+	$lookup (aggregation)
+	==================
+		$lookup is an aggregation pipeline stage that allows
+		you to perform left outer join bw two collection
+		
+		
+		Performs a left outer join to a collection in the same database
+		to filter in documents from the "joined" collection for processing. 
+		
+		The $lookup stage adds a new array field to each input document. 
+		The new array field contains the matching documents from the "joined" collection. 
+		The $lookup stage passes these reshaped documents to the next stage.
+		
+		Consider :left outer join, right outer join, full outer join
+		Cust table
+		----------
+		
+		id	name
+		11	ram
+		12 	rohit
+		13 	akshit
+		
+		order table
+		-----------
+		id	name	c_id
+		1	laptop	11
+		2 	ball	12
+		3 	bat		100
+		
+		I want to join the records
+		
+		id	name		o_id	o_name	c_id
+		11	ram 	
+		12 	rohit
+		13 	akshit
+		
+		Syntex:
+		db.collection.aggregate([
+			$lookup:{
+				from: "foreignCollection",
+				localField:"localField",
+				foreignField: "foreignField",
+				as: "outputArray"
+			}
+		])
+		
+	Ex: 
+db.cust.insertOne({"_id":101,"name":"ekta","email":"ekta@gmail.com"});
+db.cust.insertOne({"_id":102,"name":"raj","email":"raj@gmail.com"});
+db.cust.insertOne({"_id":104,"name":"gun","email":"gun@gmail.com"});
+
+
+db.order.insertOne({"_id":1,"order_number":"ORD001","cust_id":101});
+db.order.insertOne({"_id":2,"order_number":"ORD002","cust_id":102});
+db.order.insertOne({"_id":3,"order_number":"ORD003","cust_id":103});
+
+Now we want to apply $lookup:
+db.cust.aggregate([{ $lookup: {from:"order", localField: "_id", foreignField: "cust_id", as: "orderDetails"}}]);
+
+	db.cust.aggregate([
+			{ $lookup: {
+					from:"order", 
+					localField: "_id", 
+					foreignField: "cust_id", 
+					as: "orderDetails"
+					}
+		    }
+		]);	
+
+
+What is the capped collection in MongoDB?
+----------------------------------------------
+	Capped collections are fixed-size collections that insert and retrieve
+	documents based on insertion order. Capped collections work similarly to circular buffers: 
+	
+	once a collection fills its allocated space, it makes room for new documents by overwriting 
+	the oldest documents in the collection
+	
+	Ex: 
+	db.createCollection("order_logs",{capped:true, size: 100000});
+	size: in byte
+	
+	
+
+	
+	
+	
+	
+	
+	
+Spring boot mongodb
+---------------------
+choose dependencies: web, devtools, mongo
+
+Application properties:
+-----------------------
+spring.application.name=bookapp
+server.port=8080
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=mongodb
+spring.data.mongodb.repositories.enabled=true
+logging.level.org.springframework.data.mongodb.repository.query= debug
+logging.level.org.springframework.data.mongodb.core.MongoTemplate= debug
+	
+	
+	
+CRUD methods:
+---------------
+
+
+step 1: Dao layer
+------------------
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Document(collection = "books")
+public class Book {
+    @Id
+    private String id;
+    private String name;
+    private Integer pages;
+    private String author;
+    private Double cost;
+}
+
+
+@Repository
+public interface BookRepository extends MongoRepository<Book, String> {
+
+}
+	
+	
+insert records:
+-----------
+bookRepository.save(new Book("algebra", 300, "gunika", 900.0));
+bookRepository.save(new Book("adv maths", 300, "ektga", 500.0));
+bookRepository.save(new Book("spring boot", 300, "raj", 700.0));
+bookRepository.save(new Book("python adv", 200, "raj", 600.0));
+	
+CRUD methods:
+--------------
+find by id
+
+bookRepository.findById("679e03dddf9d694f4539a733").ifPresent(System.out::println);
+
+getAll
+
+bookRepository.findAll().forEach(System.out::println);
+
+save records
+
+Book book = new Book("elementry maths", 300, "gunika", 900.0);
+bookRepository.save(book);
+
+update
+
+delete
+
+Mongodb Quaries Example:
+-------------------------
+ //SELECT * FROM BOOK WHERE ID=?
+ 
+@Query("{id :?0}")             
+Optional<Book> getBookById(Integer id);
+
+// SELECT * FROM BOOK where pages<?
+@Query("{pages : {$lt: ?0}}")  
+
+// SELECT * FROM BOOK where pages>=?
+
+@Query("{ pages : { $gte: ?0 } }")  
+
+// SELECT * FROM BOOK where pages=?
+
+@Query("{ pages : ?0 }")           
+List<Book> getBooksByPages(Integer pages);
+
+// SELECT * FROM BOOK where author = ?
+
+@Query("{author : ?0}")      
+List<Book> getBooksByAuthor(String author);
+
+ //SELECT * FROM BOOK where author = ? and cost=?
+ 
+@Query("{author: ?0, cost: ?1}")    
+//@Query("{$and :[{author: ?0},{cost: ?1}] }")
+List<Book> getBooksByAuthorAndCost(String author, Double cost);
+
+
+//select count(*) from book where author=? or name=?
+@Query("{$or :[{author: ?0},{name: ?1}]}")   
+List<Book> getBooksByAuthorOrName(String author, String name);
+
+//select count(*) from book where author=?
+@Query(value ="{author: ?0}", count=true)   
+Integer getBooksCountByAuthor(String author);
+
+
+//Sorting
+@Query(value = "{author:?0}", sort= "{name:1}") //ASC
+//@Query(value = "{author=?0}", sort= "{name:-1}") //DESC
+List<Book> getBooksByAuthorSortByName(String author);
+
+//@Query with Projection
+ // only data of name & author properties will be displayed
+ 
+@Query(value= "{pages: ?0}", fields="{name:1, author:1}")  
+//@Query(value= "{pages: ?0}", fields="{name:1, author:1, cost:1, pages:1}") // will display all properties data
+List<Book> getBookNameAndAuthorByPages(Integer pages);
+
+        
+// SQL Equivalent : SELECT * FROM BOOK select * from books where author=?
+@Query(value= "{author : ?0}")           
+List<Book> getAllBooksByAuthor(String author);
+
+MongoDB Regular Expressions
+@Query("{ author : { $regex : ?0 } }")
+List<Book> getBooksByAuthorRegEx(String author);
+
+Ex:
+bookRepo.getBooksByAuthorRegEx("^S").forEach(System.out::println);
+bookRepo.getBooksByAuthorRegEx("man$").forEach(System.out::println);
+bookRepo.getBooksByAuthorRegEx("S").forEach(System.out::println);
+
+
+
+	
+Spring boot MongoTemplate:
+--------------------------
+
+MongoTemplate offers you closer control over what you request from MongoDB. 
+We can even utilize both of them in our programming practice as per our need 
+and for performance enhancements. 
+
+Moreover, MongoTemplate can offer an easier step to write a complex query than MongoRepository
+	
+	
+Example:
+-------
+
+create Collection :
+-----------------
+
+@Document(collection = "book_mongotemplate")
+public class Book {
+    @Id
+    private String id;
+    private String name;
+    private Integer pages;
+    private String author;
+    private Double cost;
+}
+
+
+Autowire MongoTemplate and populate some records:
+--------------------------------------------------
+	@Autowired
+	private MongoTemplate mongoTemplate;
+
+
+private void saveData() {
+		mongoTemplate.save(new Book("Core Java", 200, "Kathy Sierra", 1065.5));
+		mongoTemplate.save(new Book("JSP & Servlets", 350, "Kathy Sierra", 1749.0));
+		// mt.save(new Book(501, "JSP & Servlets", 350, "Kathy Sierra", 1749.0),"Book"); // save () with collection name 'Book'
+		mongoTemplate.save(new Book( "Spring in Action", 480, "Craig Walls", 940.75));
+		mongoTemplate.save(new Book("Pro Angular", 260, "Freeman", 1949.25));
+		mongoTemplate.save(new Book("HTML CSS", 100, "Thomas Powell", 2317.09));
+		mongoTemplate.save(new Book("Hibernate in Action", 180, "Gavin King", 889.25));
+		mongoTemplate.save(new Book( "Practical MongoDB", 180, "Shakuntala Gupta", 785.0));
+		mongoTemplate.save(new Book("Pro Spring Boot", 850, "Felipe Gutierrez", 2167.99));
+		mongoTemplate.save(new Book("Beginning jQuery", 180, "Franklin", 1500.00));
+		mongoTemplate.save(new Book("Java Design Patterns", 114, "Devendra Singh", 919.99));
+	}
+	
+
+
+insert( )  AND  insertAll( )
+-----------------------------
+mongoTemplate.insert(collection_of_books, "collection_name");
+
+mongoTemplate.insertAll(collection_of_books)
+
+findAll method:
+----------------
+List<Book> list = mt.findAll(Book.class);
+
+findById method:
+-----------------
+Book book = mt.findById("pass the id", Book.class);
+		
+
+findAndModify(query, update, entityClassName)
+---------------------------------------------
+Query query= new Query();
+query.addCriteria(Criteria.where("id").is("............."));
+
+Update update = new Update();
+update.set("cost", 1065.25);
+update.set("name", "Core Java");
+
+mt.findAndModify(query, update, Book.class);
+
+System.out.println("Data Modified");
+
+
+updateMulti(query, update, entityClassName)
+-----------------------------------------
+This method updates all the records of the DB that matches the given criteria
+
+Query query= new Query(); 
+query.addCriteria(Criteria.where("pages").lte(180));
+Update update = new Update();
+update.set("cost", 999.0);
+mt.updateMulti(query, update, Book.class);
+
+
+findAndRemove(query, entityClassName)
+-----------------------------------------
+We use this method to remove data which are actually fetched from a given condition.
+
+Query query= new Query();
+query.addCriteria(Criteria.where("cost").is(1749.0));
+mt.findAndRemove(query, Book.class);
+
+
+findAllAndRemove(query, entityClassName)
+----------------------------------------
+We utilize this method to remove multiple records
+ which are actually fetched from a given condition.
+
+Query query= new Query();
+query.addCriteria(Criteria.where("cost").gte(1000.0));
+mt.findAllAndRemove(query, Book.class);
+
+Here in the above example, we are deleting all the Books whose cost is greater than or equal to 1000.0.
+	
+	
+upsert(query, update, entityClassName)
+--------------------------------------
+The word ‘upsert’  is the combination of words ‘update’ and ‘insert’. 
+When the given criteria matches any record in DB, upsert() will update that record. 
+If it doesn’t find any record of the given criteria, then it will insert a new record.
+
+Query query= new Query(); 
+query.addCriteria(Criteria.where("id").is(510));
+Update update = new Update();
+update.set("cost", 1065.25);
+update.set("name", "Core Java");
+mt.upsert(query, update, Book.class);
+
+
+
+	
+	
+https://javatechonline.com/mongotemplate-spring-boot-examples/
+	
+https://www.youtube.com/watch?v=JTvGImRESzg&t=100s
+https://www.mongodb.com/download-center/community/releases/archive
+
+
+https://stackoverflow.com/questions/61181396/mongodb-connection-refused-java-spring-boot
+https://stackoverflow.com/questions/56237646/exception-in-initandlisten-nonexistentpath-data-directory-data-db-not-found
+https://stackoverflow.com/questions/37902942/mongodb-connection-refused
+
+
+lab assignment
+https://github.com/mattdavis0351/mongodb-labs/tree/master
+
+mMongoDB Command Line Database Tools Download
+https://www.mongodb.com/try/download/database-tools
+
+https://www.digitalocean.com/community/tutorials/how-to-create-queries-in-mongodb
+
+
+
+
+Creating collections, document, storing data etc
+--------------------------------------------------
+
+	use rajdb;	// create as well switch to rajdb
+
+	inserting record
+	-------------------
+	db.employees.insert({empName:"ekta", age:36, salary:60000})
+	db.employees.insert({empName:"ekta", age:"36", salary:"60000"})
+	db.employees.insert({empName:"raj",email:"r@r.com", age:"36", salary:"60000"})
+	db.employees.insert({empName:"ravi",email:"r@r.com", age:"36", salary:"60000"})
+	db.employees.insert({empName:"ravi",email:"r@r.com", age:"39", salary:"60500", add:"delhi"})
+
+	showing all the records
+	----------------------
+	db.employees.find()	// Equivalent to show all
+
+	update:
+	-------
+	db.employees.update({empName:"raj"},{$set:{salary:"90400"}})
+
+	Update: db.employees.updateMany({empName:"raj"},{$set:{salary:"90400"}})
+
+	
+	find:
+	-------
+	findAll: db.employees.find();
+
+	findAnParticularEmployeee: db.employees.find({empName:"amit"})
+
+	finding one collection: db.employees.dav.findOne()
+	
+	delete:
+	------
+	delete: db.employees.remove({empName:"raj", "email" : "r@r.com"})
+
+	To delete all records from a table, uses db.tablename.remove()
+
+	
+
+
+
+	More examples
+	---------------
+	
+	var myEmployee=[{empName:"p", age:23, salary:60000},
+		{empName:"q", age:36, salary:80000},
+		{empName:"r", age:56, salary:6900}  ];
+	
+	db.employees.insert(myEmployee);
+
+	All users: 
+	----------
+		db.users.find()
+		db.users.find({ _id: 42})
+	 db.employees.find({_id:ObjectId("5b7ce72981d101d12438464d")})
+
+	Age between 20 and 30:
+	---------------------
+		db.users.find( { age: { $gt: 20, $lt: 30 } } )
+
+	Subdocuments: ZIP 5026
+	------------------------
+		db.users.find( { address.zip: 5026  } )
+	db.users.find
+	({ $or: [
+                 { name : "ruben" },
+                 { age: { $lt: 30 } }
+             ]})
+
+	Projection: Deliver only name and age
+	db.users.find({ }, { name: 1, age: 1 })
+
+	printing all employee in json
+		db.employees.find().forEach(printjson)
+
+
+
+
+
+performing Quaries
+--------------------
+
+What is a Cursor in MongoDB?
+--------------------------
+	In Mongo world, a cursor is an object that allows developers 
+	to iterate through the documents of a Mongo collection. 
+	
+	The behavior of cursor allows an automatic iteration across the results of the query
+	
+	https://examples.javacodegeeks.com/software-development/mongodb/mongodb-foreach-example/
+Example:
+
+use warehouse
+
+db.editors.insertMany( [
+    { "_id" : "101", "full_name" : "Daniel Atlas" }, 
+    { "_id" : "102", "full_name" : "Charlotte Neil" },
+    { "_id" : "103", "full_name" : "James Breen" },
+    { "_id" : "104", "full_name" : "John Gordon" },
+    { "_id" : "105", "full_name" : "Rick Ford" },
+    { "_id" : "106", "full_name" : "Susan Dixit" },
+    { "_id" : "107", "full_name" : "John Snow" },
+    { "_id" : "108", "full_name" : "Arya Stark" },
+    { "_id" : "109", "full_name" : 25 },
+    { "_id" : "110", "full_name" : "John Daniel" }
+] )
+ 
+ 
+ db.editors.find().pretty()
+ 
+
+MongoDB Query Document using find()
+-----------------------------------
+
+db.emp.find().forEach(printjson)
+
+	or
+db.emp.find({})		//empty query document ie 
+
+finding an particular employee
+------------------------------
+db.emp.find({EmployeeName : "Smith"}).forEach(printjson);
+
+
+finding emp whose id> 2
+---------------------------
+db.emp.find({Employeeid : {$gt:2}}).forEach(printjson);
+
+
+
+
+
+
+mongodb Quaries selector examples:
+_________________________________
+show dbs 		// List all databases
+use inv 		//Switches to inventory
+show collections  	//List all tables in the current selected database
+
+db.status
+
+db.inventory.insertMany([{ _id: 1, item: { name: "ab", code: "123" }, qty: 15, tags: [ "A", "B", "C" ] },
+{ _id: 2, item: { name: "cd", code: "123" }, qty: 20, tags: [ "B" ] },
+{ _id: 3, item: { name: "ij", code: "456" }, qty: 25, tags: [ "A", "B" ] },
+{ _id: 4, item: { name: "xy", code: "456" }, qty: 30, tags: [ "B", "A" ] },
+{ _id: 5, item: { name: "mn", code: "000" }, qty: 20, tags: [ [ "A", "B" ], "C" ] }]);
+
+
+find by id:
+__________
+db.inventory.find({"_id":2});
+
+find by qty less then 20:
+______________________
+
+db.inventory.find({qty:{$lt:20}});
+
+find all contain tags B
+______________________
+
+db.inventory.find({tags:"B"});
+
+find all contain only tags B
+______________________
+
+db.inventory.find({tags:["B"]});
+
+
+find all contain only in A, B
+_____________________________
+db.inventory.find({tags:{$in:["A","C"]}})
+
+
+https://docs.mongodb.com/manual/reference/operator/query-comparison/
+
+
+Query Selectors: Logical - $and, $or, $nor
+______________________________________
+db.inventory.find({$and: [{qty:{$gt:20}},{tags:"A"}]})
+
+
+MongoDB Query Modifications using limit(), sort()
+-------------------------------------------------
+
+Limits
+------
+	=> Limit the number of documents which are returned in the result set for a query. 
+
+	db.emp.find().limit(2).forEach(printjson);
+
+Orders
+--------
+	=> One can specify the order of documents to be returned based on ascending or descending order 
+	of any key in the collection.
+
+	=> -1 indicates that we want to return the documents based on the descending order of Employee id. 
+
+	db.emp.find().sort({Employeeid:-1}).forEach(printjson)
+
+getting infromation about indexes:
+	______________________________
+	db.employees.getIndexes()
+
+	In order to create an index
+	___________________
+		 uses db.tablename.ensureIndex(column)
+
+		Eg:
+		db.employees.ensureIndex({empName:1})
+
+
+	https://docs.mongodb.com/manual/core/index-single/
+	http://grokbase.com/t/gg/mongodb-user/11crp59gtt/what-is-the-meaning-of-ns-and-v-in-the-context-of-indexes
+
+	To drop indexes
+	___________
+		 uses db.tablename.dropIndex(column). 
+
+		Eg: db.employees.dropIndex({empName:1})
+
+
+	To create an unique indexes
+	________________________-
+		 uses db.tablename.ensureIndex({column},{unique:true})
+	
+		Eg: db.employees.ensureIndex({empName:1},{unique:true});
+
+
+index 
+	_____________________________________________________
+	=> it will validate previous data if validation fail u cant apply this
+
+	db.employees.ensureIndex( { empName: 1, email: 1 }, { unique: true } );
+	
+	
+	
+	
+	
+	
+	
+	
+	
