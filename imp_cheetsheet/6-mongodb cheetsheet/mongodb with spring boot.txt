@@ -21,18 +21,18 @@ Mongodb with docker compose:
 
 docker-compose.yml
 --------------------
-version: '3.9'
+version: '3.8'
 services:
-  mongo:
-    image: mongo
-    container_name: mongodb
+  mongodb:
+    image: mongo:6-jammy
     ports:
-      - 27017:27017
+      - '27018:27017'
     volumes:
-      - ./mongo:/data/db
-    environment:
-      - MONGO_INITDB_ROOT_USERNAME=mongo
-      - MONGO_INITDB_ROOT_PASSWORD=root
+      - dbdata6:/data/db
+volumes:
+  dbdata6:
+  
+  
 	
 CRUD methods:
 ---------------
@@ -309,6 +309,7 @@ public class User {
     private boolean sentimentAnalysis;
     @NonNull
     private String password;
+	
     @DBRef
     private List<JournalEntry> journalEntries = new ArrayList<>();
     private List<String> roles;

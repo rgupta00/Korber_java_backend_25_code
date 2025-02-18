@@ -40,6 +40,50 @@ mongodb installation
 https://www.youtube.com/watch?v=1LiZRYzgM2o
 
 
+Some important terms:
+-----------------
+mongod
+	mongo-dee and it’s the MongoDB daemon, also known as the server for MongoDB. 
+	If you don’t start your server you have no cluster and then, 
+	well, you got nothing. You run mongod to start your server.
+
+	The MongoDB server listens for connections from clients on port 27017, 
+	and stores data in the /data/db directory when you use mongod. 
+	However, you can start your MongoDB server with different parameters if required:
+
+	mongod -–port 12345 --dbpath /srv/mongodb/
+	
+mongo and mongosh
+---------------------
+	So what is mongo? 
+	------------------
+		It’s the shell, it’s the client, it’s a javascript interface that you can use 
+		to interact with the MongoDB server (mongod). 
+
+		mongo --host mongodb0.example.com:27017
+
+	Note: However, as of June 2020, it was superseded by the new Mongo Shell,
+	called,mongosh! 
+	
+	What is mongosh?
+	----------------
+		mongosh has improved syntax highlighting, command history and 
+		logging in case you were wondering
+
+		mongosh --host mongodb0.example.com:27017
+		
+		
+		MongoDB Compass 
+		--------------
+			is a free, graphical user interface (GUI) that helps you explore, 
+			analyze, and manage your MongoDB data
+	
+		MongoDB Atlas 
+		-------------
+			is a cloud database service that helps users build, manage, and scale applications. 
+			It's available on multiple cloud providers, including AWS, Azure, and Google Cloud. 
+			
+			
 RDBMS 	MongoDB
 -------------------
 Table 	<--->	Collection
@@ -365,9 +409,9 @@ db.students.find({'idCards.hasAdhaarCard': true});
 
 
 
-Logical Operators in MongoDB in Hindi ( $not, $and, $or & $nor)
+Logical Operators in MongoDB  ( $not, $and, $or & $nor)
 ---------------------------------
-find student whose age more then or eq to 10 and less then and req to 12?
+find student whose age more then or eq to 10 and less then and eq to 12?
 
 db.students.find({$or: [{age: {$lte:10}},{age: {$gte:12}}]});
 
@@ -556,7 +600,7 @@ We come to know only one doc is search to return one index
 
 we can drop index:
 
-db.teachers.dropIndex({"age":1}); //we can also provide the index
+db.teachers.dropIndex({"age":1}); //we can also provide the index name while droping the index
 
 When not to use indexes:
 ------------------------
@@ -639,6 +683,10 @@ sample of documents once the query are run and set it as winning plan
 Then for second query of similer type it dont race them again
 It store the winning plan in cache
 
+Understanding B+ tree
+-----------------------
+https://www.youtube.com/watch?v=aZjYr87r1b8&ab_channel=AbdulBari
+
 
 Aggrigation in mongodb:
 -----------------------
@@ -691,6 +739,7 @@ Aggrigation in mongodb:
 	The $group operator group documents by the age field 
 	creating a new doc for each unique age value
 	
+	
 	The _id field in the group stage specifies the field based on which documents
 	will be grouped
 	
@@ -714,7 +763,10 @@ Aggrigation in mongodb:
 	
 	Example: give a count per age of male teacher
 	
-	db.teachers.aggregate([{$match: {"gender":"male"}},{$group: {_id:"$age",count: {$sum: 1}}}])
+	db.teachers.aggregate([
+		{$match: {"gender":"male"}},
+		{$group: {_id:"$age",count: {$sum: 1}}}
+		])
 	
 	The value of $sum is 1, which means that for each document in the group the value of 
 	"number" will be incremented by 1
@@ -813,9 +865,16 @@ What is the capped collection in MongoDB?
 	the oldest documents in the collection
 	
 	Ex: 
-	db.createCollection("order_logs",{capped:true, size: 100000});
+	db.createCollection("order_logs",{capped:true, max=4, size: 100000});
 	size: in byte
 	
+	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	
+	As soon as we are trying to inert 5th records it will delete first record that we have inserted.
+	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
 	
 
 	
@@ -1107,6 +1166,22 @@ mMongoDB Command Line Database Tools Download
 https://www.mongodb.com/try/download/database-tools
 
 https://www.digitalocean.com/community/tutorials/how-to-create-queries-in-mongodb
+
+imp terms:
+https://www.helenjoscott.com/2022/01/29/mongod-mongo-mongosh-mongos-what-now/#:~:text=It's%20the%20shell%2C%20it's%20the,%2C%20wait%20for%20it%2C%20mongosh!
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
