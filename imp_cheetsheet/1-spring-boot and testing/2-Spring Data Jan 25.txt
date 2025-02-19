@@ -587,7 +587,7 @@ public class Project {
 
 Data init:
 -------
-Employee emp1 = new Employee("sunita", 4000.00);
+		Employee emp1 = new Employee("sunita", 4000.00);
 		Employee emp2 = new Employee("keshav", 7000.00);
 		Employee emp3 = new Employee("gunika", 3400.00);
 		

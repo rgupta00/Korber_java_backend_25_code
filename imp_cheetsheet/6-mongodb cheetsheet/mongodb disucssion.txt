@@ -55,6 +55,7 @@ mongod
 	
 mongo and mongosh
 ---------------------
+
 	So what is mongo? 
 	------------------
 		It’s the shell, it’s the client, it’s a javascript interface that you can use 
@@ -136,9 +137,11 @@ updating records with idCards
 db.students.updateOne({"name":"ram"},{$set:{idCards:{hasPanCard:false, hasAdhaarCard:true}}});
 db.students.find({name: "ram"})
 
+
 adding hobbies to everyone:
 -------------------------
 db.students.updateMany({},{$set :{hobbies:['dancing','cooking']}})
+
 
 count all student with hobbies dancing
 -------------------------------------
@@ -255,6 +258,7 @@ db.students.find({},{name:1})
 Note: it i dont want id
 db.students.find({},{name:1, _id: 0})
 
+
 Note: Mongodb ObjectId()
 -------------------
 	db.emp.insert({_id:10, "EmployeeName" : "Smith"})
@@ -289,11 +293,13 @@ insertOne(data, options)
 insertMany(data,options)
 
 key can not be duplicate , let we are adding following records
+
 db.books.insertMany
 	([{_id: "A",name: "A",price: 3},
 		{_id: "C",name: "C",price: 3},
-		{_id: "C",name: "C",price: 3},
-		{_id: "D",name: "D",price: 3}]
+		{_id: "C",name: "C",price: 30},
+		{_id: "D",name: "D",price: 3}
+		]
 	);
 	
 errors comes but 2 records are inserted,and last records is ignored
@@ -399,7 +405,7 @@ find student with age in 5,11,12
 db.students.find({age: {$in: [5,11,12]}});
 
 find student with AdhaarCard
-db.students.find({'idCards.hasAdhaarCard': true});
+db.students.find({'idCards.hasAadharCard': true});
 
 
  idCards: {
@@ -502,8 +508,8 @@ db.stu.updateOne({},{$mul:{age: 2}});
 
 
 $unset: remove age field
---------
-db.stu.updateOne({},{$unset:{age: 2}});
+-----------------------------
+db.stu.updateOne({"name":"ram"},{$unset:{age: 2}});
 
 upsert: update if found else insert new record:
 ---------------------------------------------
@@ -515,6 +521,10 @@ db.stu.updateOne({name:"foo"},{$set:{age: 100}},{upsert: true});
 
 Indexing in mongodb:
 --------------------
+best ds video in indian context:
+	
+	https://www.youtube.com/watch?v=aZjYr87r1b8&ab_channel=AbdulBari
+	
 if we dont use indexing then data will be searched one by one (aka liner search)
 if we do indexing then it will do index search
 
@@ -525,8 +535,9 @@ When a query executed mongodb can use the index to quickly locate the document t
 searching through b tree 
 
 Trade off:
-storage space
-write performance: if you add new data then B tree will be reorganized
+-------------
+	storage space
+	write performance: if you add new data then B tree will be reorganized
 
 Perfered for read only data collections
 Not for heavy write operation
@@ -594,6 +605,7 @@ db.teachers.createIndex({"age":1});
 
 Now when we run the command:
 db.teachers.createIndex({"age":1});
+
 db.teachers.createIndex({"age":-1});
 
 We come to know only one doc is search to return one index
@@ -688,8 +700,11 @@ Understanding B+ tree
 https://www.youtube.com/watch?v=aZjYr87r1b8&ab_channel=AbdulBari
 
 
-Aggrigation in mongodb:
------------------------
+
+
+Aggrigation pipeline in mongodb:
+--------------------------------
+
 	In Aggrigation quaries we have sequnce of operation applied on one another
 	It is also called pipeline operation
 	
@@ -755,6 +770,9 @@ Aggrigation in mongodb:
 							 ----------
 							 
 	Example: I want complete details of teachers as per group:
+	--------------------------------------------------------------
+	
+	age group ---> techers
 	
 	db.teachers.aggregate([{$group: {_id:"$age",teachers:{$push: "$$ROOT"}}}])
 	
@@ -762,7 +780,7 @@ Aggrigation in mongodb:
 	which represent complete document
 	
 	Example: give a count per age of male teacher
-	
+	-----------------------------------------------
 	db.teachers.aggregate([
 		{$match: {"gender":"male"}},
 		{$group: {_id:"$age",count: {$sum: 1}}}
@@ -772,19 +790,25 @@ Aggrigation in mongodb:
 	"number" will be incremented by 1
 	
 	Give count per age of male teachers and sort them by count in desc manner
-	
+	------------------------------------------------------------------------
 	db.teachers.aggregate([
 			{$match: {"gender":"male"}},
 			{$group: {_id:"$age",count: {$sum: 1}}},
 			{$sort:{count:-1}}])
 	
 	Avg age of all teachers
+	-----------------------------
 		db.teachers.aggregate([
 			{$group: {_id: null,
 			avgAge: {$avg: "$age"}}}])
 	Note: if you specifies _id null in the $group operator , it means that all the documents
 	in the collection will be grouped togather in the single group
 	
+	
+	
+	RDBMS: joins
+	-------------
+	Consider :left outer join, right outer join,eq join,  full outer join
 	
 	$lookup (aggregation)
 	==================
@@ -845,15 +869,40 @@ db.order.insertOne({"_id":3,"order_number":"ORD003","cust_id":103});
 Now we want to apply $lookup:
 db.cust.aggregate([{ $lookup: {from:"order", localField: "_id", foreignField: "cust_id", as: "orderDetails"}}]);
 
-	db.cust.aggregate([
+
+db.cust.aggregate([
 			{ $lookup: {
 					from:"order", 
 					localField: "_id", 
 					foreignField: "cust_id", 
 					as: "orderDetails"
+		    }
+]);	
+		
+
+db.cust.aggregate([
+			{ $lookup: {
+					from:"order", 
+					localField: "_id", 
+					foreignField: "cust_id", 
+					as: "orderDetails",
+					"pipeline": [{ "$project": { "order_number": 1, "cust_id": 1, "_id": 0 } }]
+		
 					}
 		    }
-		]);	
+	]);	
+		
+		
+		
+
+
+
+
+How to get selected field:
+-------------------------------
+
+https://stackoverflow.com/questions/35583569/mongodb-aggregation-with-lookup-only-include-or-project-some-fields-to-return
+
 
 
 What is the capped collection in MongoDB?
@@ -865,24 +914,121 @@ What is the capped collection in MongoDB?
 	the oldest documents in the collection
 	
 	Ex: 
-	db.createCollection("order_logs",{capped:true, max=4, size: 100000});
+	db.createCollection("order_logs",{capped:true, max:4, size: 10000000});
 	size: in byte
 	
+	10MB
+	-----
+	
+	
 	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
-	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
-	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
-	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"a","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"b","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"c","price":10000,"customer":"amit"})
 	
 	As soon as we are trying to inert 5th records it will delete first record that we have inserted.
-	db.order_logs.insertOne({"product":"laptop","price":10000,"customer":"amit"})
+	db.order_logs.insertOne({"product":"d","price":10000,"customer":"amit"})
 	
 
+
+Application specific schema design?
+-------------------------------------
+join:
+	1:1 case : composite object
+Citizin --- Aahar
+	
+	[
+	
+	{
+		
+		
+		{
+		}
+	
+	}
+	
+	]
+	
+1:N 
+Emp has many addreess
+----------------------
+[
+	
+	{
+		
+		_id: jfkldjfdlkjfdlk
+		name: raja
+		[
+			{
+			},
+			{
+			}
+		]
+	
+	}
+	
+]
+	
+	N: 1
+	M: M
+
+
+	
+Mongodb schema design:
+----------------------
+https://medium.com/@eloutmadiabderrahim/mongodb-schema-d-23003eeb0199
 	
 	
 	
 	
 	
+Mongodb cluster: replicaset without K8s
+-----------------------------------------
+
+mkdir db1
+mkdir db2
+mkdir db3
+ 
+mongod --port 2717 --dbpath .\db1\ -replSet myReplicaSet
+mongod --port 2727 --dbpath .\db2\ -replSet myReplicaSet
+mongod --port 2737 --dbpath .\db3\ -replSet myReplicaSet
+ 
+ 
+mongosh --port 2717
+ 
+rs.initiate()
+rs.status()
+ 
+rs.add("localhost:2727");
+rs.add("localhost:2737");
+ 
+rs.secondaryOk();
+
 	
+https://www.youtube.com/watch?v=gChzfhVGqp8&list=PLdHg5T0SNpN27dJ4aPVxKAw_zjcjsvO06&index=4&t=997s
+
+MongoDB Sharding Demo :
+https://www.youtube.com/watch?v=Jr0PiGIVJ8k
+
+with AWS
+https://www.youtube.com/watch?v=L8Je2vug79Q
+
+https://www.youtube.com/@NeerajGarg/playlists
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Spring boot mongodb
 ---------------------
 choose dependencies: web, devtools, mongo

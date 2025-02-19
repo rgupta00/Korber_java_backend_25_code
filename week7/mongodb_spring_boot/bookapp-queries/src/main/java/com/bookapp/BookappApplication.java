@@ -14,10 +14,8 @@ import java.util.List;
 @SpringBootApplication
 public class BookappApplication implements CommandLineRunner {
 
-	//jdbc => jdbcTemplate vs mongodb => mongoTemplate
-	//jpa => JpaRepository	vs mongoRepository
 	@Autowired
-	private BookRepo bookRepository;
+	private BookRepo bookRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookappApplication.class, args);
@@ -25,58 +23,22 @@ public class BookappApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		insertAllRecords();
-		//get all records
-		//printAll();
 
-		//get by id
-		//getById();
 
-		//update by id
-		//updateAnBookById();
 
-		//deleteById();
-		//getByIdQuery();
-		//getBookByPagesLessThenQuery
-		//List<Book> getBookByPagesLessThenQuery=bookRepository.getBookByPagesLessThenQuery(310);
-		//getBookByPagesLessThenQuery.forEach(System.out::println);
+		//getting book by id
+		//bookRepo.deleteAll();
+		//insertAllRecords();
 
 	}
 
-	private void getByIdQuery() {
-		Book book=bookRepository.getBookByIdQuery("67b2dc6c23010e2dd3e32204");
-		System.out.println(book);
-	}
-
-
-	private void deleteById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		bookRepository.delete(book);
-	}
-
-	private void updateAnBookById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		book.setCost(book.getCost()*1.1);
-		bookRepository.save(book);
-	}
-
-	private void getById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		System.out.println(book);
-	}
-
-	private void printAll() {
-		List<Book> getAll = bookRepository.findAll();
-		getAll.forEach(System.out::println);
-	}
 
 	private void insertAllRecords() {
-		bookRepository.save(new Book("algebra", 300, "gunika", 900.0));
-		bookRepository.save(new Book("adv maths", 300, "ektga", 500.0));
-		bookRepository.save(new Book("spring boot", 300, "raj", 700.0));
-		bookRepository.save(new Book("python adv", 200, "raj", 600.0));
+		bookRepo.save(new Book("core java", 270, "raj", 300.0));
+		bookRepo.save(new Book("spring boot", 770, "raj", 550.0));
+		bookRepo.save(new Book("algebra", 200, "gunika", 900.0));
+		bookRepo.save(new Book("adv maths", 170, "ekta", 500.0));
+		bookRepo.save(new Book("spring boot", 300, "raj", 700.0));
+		bookRepo.save(new Book("python adv", 220, "keshav", 600.0));
 	}
 }

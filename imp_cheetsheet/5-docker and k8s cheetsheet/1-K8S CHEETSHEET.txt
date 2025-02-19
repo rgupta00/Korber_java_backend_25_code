@@ -1763,6 +1763,41 @@ kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
  
 
 
+Persistance volume and persistance volume claim:
+-----------------------------------------------
+https://spacelift.io/blog/kubernetes-persistent-volumes
+
+A PersistentVolume (PV)
+----------------------
+	is a piece of storage in the cluster or central storage let's say 100GB.
+
+A PersistentVolumeClaim (PVC)
+---------------------------
+	is a request for storage by a user for the application to use 10GB.
+
+In real life scenario, PV is whole cake and PVC is piece of cake 
+(But you can have a whole cake if there are no other people to eat 
+(just like if there are no other application to use you can use whole PV ))
+
+
+Persistance volume VS persistance volume claim:
+---------------------------------------
+	So a persistent volume (PV) is the "physical" volume on the host machine that stores your persistent data.
+	A persistent volume claim (PVC) is a request for the platform to create a PV for you,
+	and you attach PVs to your pods via a PVC.
+
+	PVs are resources in the cluster. PVCs are requests for those resources and also act as claim checks to the resource.
+
+
+	Something akin to
+
+	Pod -> PVC -> PV -> Host machine
+
+https://stackoverflow.com/questions/48956049/what-is-the-difference-between-persistent-volume-pv-and-persistent-volume-clai
+
+ref:
+https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/
+
 
 
 

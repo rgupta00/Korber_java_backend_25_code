@@ -87,6 +87,11 @@ update
 delete
 
 
+19-02-25
+===========
+Spring boot mongodb
+Spring data joins
+practice
 
 
 
@@ -286,12 +291,13 @@ update.set("name", "Core Java");
 mt.upsert(query, update, Book.class);
 
 
+https://stackoverflow.com/questions/16209681/what-is-the-difference-between-save-and-insert-in-mongo-db
 
 Mongodb join example:
 ======================
 
-spring.data.mongodb.auto-index-creation
-
+spring.data.mongodb.auto-index-creation=true
+--------------------------------
 
 @Document(collection = "users")
 @Data
@@ -329,6 +335,30 @@ public class JournalEntry {
     private LocalDateTime date;
     private Sentiment sentiment;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 Blog for reference:
 -------------------

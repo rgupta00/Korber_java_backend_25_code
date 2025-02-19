@@ -19,33 +19,33 @@ public interface BookRepo extends MongoRepository<Book, String> {
 
     /// SELECT * FROM BOOK WHERE ID=?
     @Query("{id :?0}")
-    Optional<Book> getBookById(Integer id);
+    Optional<Book> getBookById(String id);
 
     // SELECT * FROM BOOK where pages<?
-    //@Query("{pages : {$lt: ?0}}")
+    @Query("{pages : {$lt: ?0}}")
+    public List<Book> getBooksByPagesLessThan(Integer pages);
 
-// SELECT * FROM BOOK where pages>=?
 
-    // @Query("{ pages : { $gte: ?0 } }")
+    // SELECT * FROM BOOK where pages>=?
+    @Query("{ pages : { $gte: ?0 } }")
+    public List<Book> getBooksByPagesGreaterThanEqualTo(Integer pages);
 
-// SELECT * FROM BOOK where pages=?
 
-    //@Query("{ pages : ?0 }")
+      // SELECT * FROM BOOK where pages=?
+    @Query("{ pages : ?0 }")
     List<Book> getBooksByPages(Integer pages);
 
-// SELECT * FROM BOOK where author = ?
-
+     // SELECT * FROM BOOK where author = ?
     @Query("{author : ?0}")
     List<Book> getBooksByAuthor(String author);
 
     //SELECT * FROM BOOK where author = ? and cost=?
-
     @Query("{author: ?0, cost: ?1}")
 //@Query("{$and :[{author: ?0},{cost: ?1}] }")
     List<Book> getBooksByAuthorAndCost(String author, Double cost);
 
 
-    //select count(*) from book where author=? or name=?
+    //select * from book where author=? or name=?
     @Query("{$or :[{author: ?0},{name: ?1}]}")
     List<Book> getBooksByAuthorOrName(String author, String name);
 
@@ -60,7 +60,7 @@ public interface BookRepo extends MongoRepository<Book, String> {
 //@Query(value = "{author=?0}", sort= "{name:-1}") //DESC
     List<Book> getBooksByAuthorSortByName(String author);
 
-//@Query with Projection
+    //@Query with Projection
     // only data of name & author properties will be displayed
 
     @Query(value = "{pages: ?0}", fields = "{name:1, author:1}")

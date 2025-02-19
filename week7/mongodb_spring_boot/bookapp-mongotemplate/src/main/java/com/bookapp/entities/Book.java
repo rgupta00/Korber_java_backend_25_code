@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.annotation.Collation;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 //convention over configuration
-@Document(collection = "book_collection")
+@Document(collection = "book_mongotemplate")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
