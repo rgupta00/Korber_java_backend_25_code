@@ -15,7 +15,7 @@ public class ParkingappApplication {
 
 	@Autowired
 	private ParkingRepo parkingRepo;
-//
+
 	@Autowired
 	private EmployeeRepo employeeRepo;
 
@@ -26,8 +26,8 @@ public class ParkingappApplication {
 
 	@Bean
 	public CommandLineRunner commandLineRunner(){
+
 		return  args->  {
-			//
 //			Employee employe=new Employee();
 //			employe.setEmpName("sumit");
 //
@@ -35,13 +35,24 @@ public class ParkingappApplication {
 //			parking.setParkingLocation("E31");
 //
 //			parking.setEmployee(employe);
+//
 //			employe.setParking(parking);
 //
-//			employeeRepo.save(employe);
-		//	parkingRepo.save(parking);
+//			parkingRepo.save(parking);
+
+			//employeeRepo.save(employe);
+
+			//lazy vs lazy
+			Parking parking=parkingRepo.findById(1).orElseThrow(()-> new RuntimeException("not found"));
+			System.out.println("--------------------------");
+			System.out.println(parking.getParkingLocation());
+			System.out.println("-------------------------");
+			System.out.println(parking.getEmployee().getEmpName());
 
 		};
 	}
+
+
 }
 
 

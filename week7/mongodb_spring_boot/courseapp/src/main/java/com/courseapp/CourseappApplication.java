@@ -1,17 +1,24 @@
 package com.courseapp;
 
+import com.courseapp.entities.Course;
 import com.courseapp.exceptions.CourseNotFoundException;
 import com.courseapp.repo.CourseRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
 
-import java.awt.print.Book;
+import static org.springframework.data.mongodb.core.aggregation.MatchOperation.*;
+
+
 import java.util.List;
 
 @SpringBootApplication
 public class CourseappApplication implements CommandLineRunner {
+
+	@Autowired
+	private CourseRepo courseRepo;
 
 	public static void main(String[] args) {
 		SpringApplication.run(CourseappApplication.class, args);
@@ -19,6 +26,19 @@ public class CourseappApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		//(String courseName, String instructor, double courseFee, String duration, boolean isCourseLive)
+//		Course course1 = new Course("Java", "Rajeev", 10000, "4 month", true);
+//		Course course2 = new Course("Python", "kapil", 1000, "2 month", true);
+//		Course course3 = new Course("Angular", "Durga", 10000, "4 month", true);
+//
+//		courseRepo.save(course1);
+//		courseRepo.save(course2);
+//		courseRepo.save(course3);
+//
+//		List<Course> courseList = courseRepo.findByInstructorAndCourseFee("Rajeev", 1000);
+//		courseList.forEach(System.out::println);
+
+
 
 	}
 }

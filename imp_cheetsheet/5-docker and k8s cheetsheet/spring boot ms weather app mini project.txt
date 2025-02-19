@@ -1,0 +1,271 @@
+Mini project demostraction spring boot kubernetes:
+-------------------------------------------
+Run ms1:
+--------
+wservice: 8082
+wclient: 8085
+Eureka server: 8070
+api gateway: 8072
+
+
+
+
+Removing all docker images window: use powershell
+docker images -a -q | % { docker image rm $_ -f }
+
+step 1: k8s local setup using docker desktop and k8s dashboard
+--------------------------------------------------------
+
+step 0: install kubectl
+step 1: enable k8s with docker desktop and update
+step 2: check commands
+config get-contexts
+kubectl config get-clusters
+
+kubectl config use-context docker-desktop
+Switched to context "docker-desktop".
+
+kubectl get nodes
+NAME             STATUS   ROLES           AGE     VERSION
+docker-desktop   Ready    control-plane   3m38s   v1.29.1
+
+
+Step 2: create docker images of wservice, wclient  and push to docker hub
+---------------------------------------------------------------------------
+Step 1.1: add jibs plugin to every project and give correct name
+
+<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:21-jre</image>
+					</from>
+					<to>
+						<image>rgupta00/${project.artifactId}:v1</image>
+					</to>
+				</configuration>
+</plugin>
+
+step 1.2: create docker image:
+---------------------------
+mvn compile jib:dockerBuild
+
+
+step 1.3: push to docker hub
+-------------------------
+ docker push rgupta00/wclient:v1
+ docker push rgupta00/wservice:v1
+
+step 1.3: run docker compose and try end points
+
+
+
+--------------------------------------------
+ms2
+-----------------------------------------
+
+Step 1: Configure eureka server:
+-------------------------------
+create new project with: eureka server, actuator
+
+1. apply annotation on bootstrap class
+@EnableEurekaServer
+
+2. url pattern
+http://localhost:8070/
+
+check
+http://localhost:8070/eureka/app
+
+3. application.yml configuration for eureka server
+--------------------------
+spring:
+  application:
+    name: eureka
+server:
+  port: 8070
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+		
+configure client to all applications:
+----------------------------------
+configure eureka client in all  the projects accounts, cards and loans
+--------------------------------------------------------------------------
+ add eureka client dep to all projects
+ 
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+	  
+
+5. now check all service must be registed with eureka server
+
+6. now replace hard coded url in Openfeign service to logical names and run the examples
+	give logical name of service 
+
+
+
+Now we need to push the images:
+-----------------------------
+Change the version in the pom.xml for each project and 
+create new images 
+
+mvn compile jib:dockerBuild
+
+
+docker push rgupta00/wservice:v2
+ docker push rgupta00/wclient:v2
+ docker push rgupta00/eureka:v2
+ 
+  docker push rgupta00/eureka:v2
+
+
+
+
+
+
+step 4.gateway routing and cross cutting concern in 
+microservicve using "spring cloud gateway"
+-----------------------------------------------
+step 1:
+
+choose eureka client, actuator, api gateway
+
+<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-gateway</artifactId>
+</dependency>
+
+
+
+property file configuration:
+--------------------------
+
+application.yml
+--------------------
+server:
+  port: 8072
+spring:
+  application:
+    name: gateway
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8070/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    gateway:
+      enabled: true
+    health:
+      probes:
+        enabled: true
+
+
+
+
+
+		
+Java configuration give more flexiblity to define routes:
+---------------------------------------------------
+
+
+@Configuration
+public class RouteConfig {
+    @Bean
+    public RouteLocator busycoderRouteConfig(RouteLocatorBuilder routeLocatorBuilder) {
+        return routeLocatorBuilder.routes()
+                .route(p -> p
+                        .path("/weathermgt/wc/**")
+                        .filters( f -> f.rewritePath("/weathermgt/wc/(?<segment>.*)",
+                                        "/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .uri("lb://WCLIENT"))
+                .route(p -> p
+                        .path("/weathermgt/ws/**")
+                        .filters( f -> f.rewritePath("/weathermgt/ws/(?<segment>.*)","/${segment}")
+                                .addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+                        .uri("lb://WSERVICE"))
+               .build();
+    }
+}
+
+
+Configuring global filter:
+---------------------------
+
+@Component
+public class LoggingFilter implements GlobalFilter {
+	private Logger logger = LoggerFactory.getLogger(LoggingFilter.class);
+	@Override
+	public Mono<Void> filter(ServerWebExchange exchange, 
+			GatewayFilterChain chain) {
+		logger.info("Path of the request received -> {}", exchange.getRequest().getPath());
+		return chain.filter(exchange);
+	}
+}
+
+
+
+mvn compile jib:dockerBuild
+
+
+docker push rgupta00/wservice:v3
+docker push rgupta00/wclient:v3
+docker push rgupta00/eureka:v3
+ 
+docker push rgupta00/gateway:v3
+  
+
+
+
+
+step 7.Configure resilence 4j to productstore application
+---------------------------------------------------------
+We can apply circuitbreaker pattern to api gateway
+and to indidual microservice
+
+
+
+
