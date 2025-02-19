@@ -10,4 +10,6 @@ import java.util.List;
 
 @Repository
 public interface EmployeeRepo extends JpaRepository<Employee, Integer> {
+    @Query("SELECT e FROM Employee e WHERE e.eid IN (:eid)")
+    public List<Employee> findEmployeessByIds(@Param("eid") List<Integer> eid);
 }

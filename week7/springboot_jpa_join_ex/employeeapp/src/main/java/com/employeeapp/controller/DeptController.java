@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 public class DeptController {
+
     @Autowired
     private DepartmentRepo departmentRepo;
 

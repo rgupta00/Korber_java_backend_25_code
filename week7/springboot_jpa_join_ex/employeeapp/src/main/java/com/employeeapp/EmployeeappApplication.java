@@ -30,12 +30,16 @@ public class EmployeeappApplication {
 	@Bean
 	public CommandLineRunner commandLineRunner(){
 		return args -> {
+			for (DeptEmpResponse deptEmployeeDatum : departmentRepo.deptEmployeeData()) {
+				System.out.println(deptEmployeeDatum);
+			}
+
 
 //			List<Employee> employees=employeeRepo.findByDepartmentDname("IT");
 //
 //			employees.forEach(e-> System.out.println(e));
-
-
+//
+//
 //			List<DeptEmpResponse> deptEmpResponses=
 //					departmentRepo.deptEmpInforation();
 //			deptEmpResponses.forEach(r-> System.out.println(r));
@@ -65,7 +69,7 @@ public class EmployeeappApplication {
 //			departmentRepo.save(d1);
 //			departmentRepo.save(d2);
 //			departmentRepo.save(d3);
-//
+
 //			employeeRepo.save(emp1);
 //			employeeRepo.save(emp2);
 //			employeeRepo.save(emp3);

@@ -27,16 +27,16 @@ public class CourseappApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		//(String courseName, String instructor, double courseFee, String duration, boolean isCourseLive)
-//		Course course1 = new Course("Java", "Rajeev", 10000, "4 month", true);
-//		Course course2 = new Course("Python", "kapil", 1000, "2 month", true);
-//		Course course3 = new Course("Angular", "Durga", 10000, "4 month", true);
-//
-//		courseRepo.save(course1);
-//		courseRepo.save(course2);
-//		courseRepo.save(course3);
-//
-//		List<Course> courseList = courseRepo.findByInstructorAndCourseFee("Rajeev", 1000);
-//		courseList.forEach(System.out::println);
+		Course course1 = new Course("Basic Java", "Rajeev", 2000, "4 month", true);
+		Course course2 = new Course("new feature Python", "kapil", 2000, "2 month", true);
+		Course course3 = new Course("Angular vs react", "Durga", 1060, "4 month", true);
+
+		courseRepo.save(course1);
+		courseRepo.save(course2);
+		courseRepo.save(course3);
+
+		List<Course> courseList = courseRepo.findByInstructorAndCourseFee("Rajeev", 3000);
+		courseList.forEach(System.out::println);
 
 
 

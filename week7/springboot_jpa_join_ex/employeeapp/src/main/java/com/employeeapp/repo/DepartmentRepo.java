@@ -10,8 +10,8 @@ import java.util.List;
 
 @Repository
 public interface DepartmentRepo extends JpaRepository<Department, Integer> {
-//    @Query("select new com.employeeapp.dto.DeptEmpResponse(e.name, e.salary, d.dname) from Department d inner join d.employees e")
-//    List<DeptEmpResponse> deptEmployeeData();
+    @Query("select new com.employeeapp.dto.DeptEmpResponse(e.name, e.salary, d.dname) from Department d inner join d.employees e")
+    List<DeptEmpResponse> deptEmployeeData();
 }
 
 

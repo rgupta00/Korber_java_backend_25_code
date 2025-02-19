@@ -24,9 +24,7 @@ public class Project {
 	private String manager;
 	private LocalDate startDate;
 
-	@JoinTable(name="emp_project_join", joinColumns = @JoinColumn(name="pid_fk"),
-			inverseJoinColumns = @JoinColumn(name="eid_fk"))
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany
 	private List<Employee> employees=new ArrayList<>();
 
 	public Project(String pname, String manager, LocalDate startDate) {

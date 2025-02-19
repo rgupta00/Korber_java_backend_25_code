@@ -1,23 +1,28 @@
 package com.bookapp;
 
-import com.bookapp.entities.Book;
-import com.bookapp.exceptions.BookNotFoundException;
-import com.bookapp.repo.BookRepo;
+import com.bookapp.entities.JournalEntry;
+import com.bookapp.entities.User;
+import com.bookapp.exceptions.ResourceNotFoundException;
+import com.bookapp.repo.JournalEntryRepo;
+import com.bookapp.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.data.mongodb.core.MongoTemplate;
 
+import java.awt.print.Book;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @SpringBootApplication
 public class BookappApplication implements CommandLineRunner {
 
-	//jdbc => jdbcTemplate vs mongodb => mongoTemplate
-	//jpa => JpaRepository	vs mongoRepository
 	@Autowired
-	private BookRepo bookRepository;
+	private JournalEntryRepo journalEntryRepo;
+
+	@Autowired
+	private UserRepo userRepo;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(BookappApplication.class, args);
@@ -25,58 +30,22 @@ public class BookappApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		insertAllRecords();
-		//get all records
-		//printAll();
+		JournalEntry journalEntry = new JournalEntry("life with tech", "it is is good but u need to be always learning",
+				LocalDateTime.now());
+		JournalEntry journalEntry2 = new JournalEntry("family", "depends how you serve them", LocalDateTime.now());
+		JournalEntry journalEntry3 = new JournalEntry("weather", "dont ask", LocalDateTime.now());
 
-		//get by id
-		//getById();
-
-		//update by id
-		//updateAnBookById();
-
-		//deleteById();
-		//getByIdQuery();
-		//getBookByPagesLessThenQuery
-		//List<Book> getBookByPagesLessThenQuery=bookRepository.getBookByPagesLessThenQuery(310);
-		//getBookByPagesLessThenQuery.forEach(System.out::println);
-
-	}
-
-	private void getByIdQuery() {
-		Book book=bookRepository.getBookByIdQuery("67b2dc6c23010e2dd3e32204");
-		System.out.println(book);
-	}
+		User user=new User("raj","raj@gmail.com");
+		user.getJournalEntries().add(journalEntry);
+		user.getJournalEntries().add(journalEntry2);
+		user.getJournalEntries().add(journalEntry3);
 
 
-	private void deleteById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		bookRepository.delete(book);
-	}
+		journalEntryRepo.save(journalEntry);
+		journalEntryRepo.save(journalEntry2);
+		journalEntryRepo.save(journalEntry3);
 
-	private void updateAnBookById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		book.setCost(book.getCost()*1.1);
-		bookRepository.save(book);
-	}
+		userRepo.save(user);
 
-	private void getById() {
-		Book book = bookRepository.findById("67b2d50b88254a44fd25fb4a")
-				.orElseThrow(()-> new BookNotFoundException("book with id is not found"));
-		System.out.println(book);
-	}
-
-	private void printAll() {
-		List<Book> getAll = bookRepository.findAll();
-		getAll.forEach(System.out::println);
-	}
-
-	private void insertAllRecords() {
-		bookRepository.save(new Book("algebra", 300, "gunika", 900.0));
-		bookRepository.save(new Book("adv maths", 300, "ektga", 500.0));
-		bookRepository.save(new Book("spring boot", 300, "raj", 700.0));
-		bookRepository.save(new Book("python adv", 200, "raj", 600.0));
 	}
 }

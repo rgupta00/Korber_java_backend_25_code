@@ -18,3 +18,15 @@ public interface CourseRepo extends MongoRepository<Course, String> {
     public List<Course>findByInstructorAndCourseFee(String instructor, double courseFee);
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
