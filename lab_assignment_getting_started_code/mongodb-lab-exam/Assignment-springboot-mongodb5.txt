@@ -1,0 +1,17 @@
+Spring boot mongodb join CRUD application:
+----------------------------------
+DBRefs (Database References) are a way to store references to documents 
+from other collections in MongoDB. 
+They are essentially a small embedded document that contains the _id of the referenced document, 
+the collection name, and optionally, the database name.
+They provide a simple method for referencing documents across collections,
+ 
+In this lab exam you need to create relationship between JournalEntry and User.
+One user can have multiple JournalEntry entries. We want to store JournalEntry of each User in a seperate collection
+
+1. Apply suitable annotation to establish relationship between JournalEntry and User and popluate some data to 
+verify it
+2. apply index on name of user so that searching on basis of name should be faster
+3. create rest endpoint for User to do CRUD operations
+4. create rest endpoint for JournalEntry to do CRUD operations
+5. we want rest endpoint to provide all the JournalEntry of an specific user
