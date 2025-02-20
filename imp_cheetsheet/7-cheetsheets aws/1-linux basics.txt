@@ -1,0 +1,870 @@
+basics of Linux OS and comman commands
+----------------------------------------
+Agenda: 
+	Linux Operating system
+	Ubuntu commands with AWS vm instance
+
+
+Introduction to Linux essential commands for everyone
+-----------------------------------------------------
+What is Linux?
+------------------
+	Open source Operating system: 
+	
+	The linux is free to use and everyone have freedom to contributed to its
+	development. The code used to create linux is free and available to the
+	public to view, edit and for users with the appropriate skill to 
+	contribute to
+	
+	Written in C and assembly 
+	
+	Developed by linus torvalds,1991
+	
+Arch of Linux Operating system
+----------------------------------
+
+
+Linux basics commands categories
+--------------------------------------
+	System and hardware informatation
+	User informatation and mgt
+	File and directory commands
+	file editing and navigation inside files
+	Piping and i/o redirection
+	Analysis and file manipulation commands
+	Wildcard chars
+	Package management
+	Services and Process mgt
+	file permission
+
+
+	
+
+System and hardware informatation
+----------------------------------
+whoami	#The whoami command displays your login name
+
+uname -a # display linux system informations
+uname -r # display kernel release informations
+
+uptime # display how long system is running
+
+hostname # display hostname of the system
+
+last # when the system has been last rebooted
+
+date
+
+cal
+
+free	# allows you to check for memory RAM on your system or 
+	to check the memory statics of the Linux operating system.
+
+lscpu	# get CPU information of the system
+
+pwd	#pwd command in Linux stands for "print working directory"
+
+df 	#  used to display the disk space used in the file system
+
+echo	# display the text passed in as an argument
+
+histroy # lists and annotates the last 1000 commands issued in the terminal
+
+id	#print the real and effective user and group IDs
+
+Linux directory structure
+--------------------------
+/ 	root of file syste	
+
+/
+
+/root: home dir of root user
+
+/home	default dir of all users (except root user)
+
+boot	contain file used to boot the system
+
+dev	  all device driver reside here hd user etc
+
+etc	  system configuration files etc/os-release
+
+mnt	 intended for mount points to removable or temporary files storage
+
+opt 	installed 3rd party sw
+
+proc	info about running process store here
+
+root	home dir of root user
+
+usr/sbin	system binary used by admin store here
+
+snap	 where the files and folders from installed snap packages appear on your system
+
+srv	The /srv directory points to the location of data files for a specific service.
+	 For example, if you are running a web server, 
+	 your HTML files would go into /srv/http or /srv/www.
+	 If you were running an FTP server, your files would go into /srv/ftp.
+
+sys	 /sys is another virtual directory like /proc and /dev and 
+	also contains information from devices connected to your computer
+
+tmp	 used to store the data used by the system and user applications to 
+	store the data that are needed for a short period of time
+
+usr	directory that contain files and utilities share bw the users
+
+var	contain files that can change size, logs etc
+
+
+swich to root user:
+-------------------
+sudo su -
+sudo su busycoderacademy
+logout
+
+
+File and directory commands
+---------------------------
+pwd
+
+cd
+ls
+	various options
+	-l	long and details listing
+	-a   hidden files
+	-t  sort by modification time
+	-u  access time
+	-r  reverse listing
+	-R  list sub directories
+
+
+mkdir	used to make dir
+------------------------
+create dir foo and bar 
+
+mkdir -p dir1/dir2/dir3
+
+ls -R dir
+
+mkdir -p dir4/{dir5, dir6}
+
+	
+	
+absolute and relative path
+-------------------------
+. current working dir
+.. parent dir
+
+cd .
+cd ..
+cd ../../..
+
+
+cd ~	: go to home dir
+cd -	: go to previous working dir
+
+
+
+file editing and navigation inside files
+----------------------------------
+vi/vim/nano/gedit etc
+
+
+India is a country in Asia.
+sky is blue
+India is the second most populated country in the world
+India is the largest democracy in the world
+India has many different cultures and religions
+India is famous for its food, music, and dance
+India has many beautiful places to visit, such as the Taj Mahal and the Himalayas
+India is a land of great diversity, with people from all walks of life
+India is a country with a rich history and culture
+India is a country with a bright future
+I am proud to be an Indian
+
+cat
+
+more
+more /etc/services
+
+less
+
+head/tail
+
+Ex:
+head facts.txt
+head -n 3 facts.txt
+tail -n 2 facts.txt
+
+
+copying , moving ,deleting files/ Copy Files and Directories in Linux
+---------------------------------
+cp
+
+If the `cp` command contains two file names, 
+it copies the contents of the first file to the second file.
+ If the second file doesn’t exist, it is created, and the content is copied into it. 
+ However, if the second file already exists, it is overwritten without warning.
+ 
+Ex: 
+cp hi.txt raj/
+cp cats.txt /tmp/cat2.txt
+cp f1 f2 f3 /tmp
+
+
+
+copying dir with contents
+--------------------------
+mkdir cities 
+cd cities
+touch delhi paris tokyo
+ls cd ..
+
+cp -r cities /temp	: -r recursively copy files to an dir
+
+Ex:
+mkdir d1 d2 d3
+cp -r d1 d2 d3 /tmp
+
+
+moving one file : mv
+----------------------
+Two Distinct Functions of `mv` Command
+
+1) Renaming a file or directory.
+2) Moving a file or directory to another location
+
+
+mv cats.txt /tmp
+mv f1 f2 f3 /d2
+
+move dir
+----------
+mv d3 d2 	put d3 inside d2
+
+mv d1 d2 big
+
+Removing empty dir
+-----------------
+rmdir d1
+
+removing files
+----------------
+rm file1 file2
+
+removing non empty dir
+-----------------------
+rm -rf garbage
+
+
+
+Piping and i/o redirection
+-------------------------------
+Pipe is used to send O/P of one command to the I/P of another command
+
+Ex: redirecting std o/p
+
+	head -n 5 facts.txt | tail -n 1
+	
+	lscpu | head -n 5|tail -n 1
+
+I/P and o/p redirects:
+	linux commands works on 3 different steams of data
+	
+	std input  --> stdin	terminal 0
+	std output --> stdout	terminal 1
+	std error --> stderr	terminal 2
+	
+
+Ex: redirecting std O/P
+ date > mydate.txt
+ echo "l love programming" > mydate.txt
+ 
+
+What is file descriptor
+
+date> mydate.txt ====> date 1>mydate.txt
+
+	1: refer file descriptor 1 (std output)
+	
+Ex: 
+cat demo.txt blabla 2> error.txt
+cat demo.txt blabla 1> output.txt
+
+reading both std op and std error to the same file:
+cat demo.txt blabla > all.txt 2>1
+
+
+redirecting std error
+
+cat blabla 2>error.txt
+rm blabla 2 >> error.txt
+
+discarting errors
+cat blabla 2> /dev/null	: /dev/null is just like gc
+
+
+Ex: redirecting std i/p
+read message < mydate.txt
+echo $message
+
+
+Analysis and file manipulation commands
+----------------------------------------
+diff	: compare content of two files and highlight the difference
+Ex:
+cp f1.txt f2.txt
+echo "i love linux" >> f2.txt
+diff f1.txt f2.txt
+
+
+du	: disk usages file/dir size
+	
+	du dir
+
+wd	: counting char/words/lines from a text
+
+	wc -l f1.txt		lines
+	wc -w f1.txt		words
+	wc -c f1.txt		char
+	
+	wc f1.txt
+	
+file	: viewing file types
+
+	file /var	directory
+	file f1.txt ASCII file
+	
+sort	: sort text files
+	
+	sort facts.txt
+	sort -r facts.txt
+	
+grep	:searches a file for a particular pattern of characters and displays all lines that contain that pattern
+
+	grep green facts.txt
+	
+	ls | grep txt
+	
+	grep -i earth facts.txt
+		-i case insensative search
+		
+	https://www.geeksforgeeks.org/grep-command-in-unixlinux/
+	
+sed	:SED command in UNIX stands for stream editor and it can perform lots of
+	 functions on file like searching, find and replace, insertion or deletion
+	 
+	 sed 's/sky/cloud/' facts.txt	: replace sky with cloud just display
+	 
+	 sed -i 's/sky/cloud/' facts.txt	: replace sky with cloud edit original file
+	 
+
+	https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
+
+cut	: cutting text print only portion of the file
+	
+	 cut -d ' ' -f 1,3 facts.txt
+	
+	-d : delimiter
+	' ': seperator
+	f 1: first field
+	3 :third field
+
+awk	: Powerful tool to analysis and process text data
+
+	awk '{print $1}' facts.txt
+	awk '{print $1 $2}' facts.txt
+	
+	Note ' ' is default delimiter
+	better then cut command, it can work even if have many spaces in the line
+	
+
+
+Wildcard chars
+---------------
+* ====> Match any char
+? ==> Match single char
+[char]====> Match char that are members of the set
+	ex [abc]
+[!char]====> Not Match char that are members of the set
+	ex [!abc]
+
+[[:class]]====>[[:alpha:]] all alphabets
+
+Ex:
+ls -l *.txt
+ls -l f*
+ls -l ???
+ls -l ???.txt
+ls -l [af]*
+ls -l [!af]*.txt
+
+touch one Two 7wounder GITA1
+ls -l *[[:upper:]]*
+ls -l *[[:digit:]]*
+
+
+
+Package management
+------------------
+	Package is compressed archive file that contains all the nessary file for a particular s/w
+	to run
+	
+	dpkg (debian package mgt)
+	rpm( redhat package mgt)
+	
+	RPM and YUM are both package managers for Linux. R
+	PM is a packaging format, while YUM is the command used to install packages.
+	
+	
+	update all install packages
+		apt-get update (updated list of packages)
+		apt-get upgrade (actually update)
+		
+	ex:
+	
+	 apt-get update	#update list of packages
+	 apt-get upgrade	# actually update the packages
+	 
+	 
+	 
+	 apt-get download cmatrix	# donwnload
+	  dpkg -c cmatrix_2.0-2_amd64.deb	#content inside it
+	  dpkg -i cmatrix_2.0-2_amd64.deb
+	  runnning:
+	  cmatrix
+	  
+	  one go:  apt-get install cmatrix
+	  
+	  removing packages:  apt-get remove cmatrix
+	  remove package config files : apt-get purge cmatrix
+	  
+	  
+Configure apache2
+cat /etc/os-release 
+
+apt install apache2 -y
+apt show apache2	getting package information
+ 
+apt remove apache2
+
+
+  
+	  
+	  
+	  
+	
+Services and Process mgt
+--------------------------
+Services?
+	Program that run in the background outside the intrractive control
+	of system user as they lacking interface
+	
+systemctl and services
+
+systemctl list-unit-files	# list all the servies that run in the background like ssh cron
+systemctl list-unit-files | grep ssh
+
+
+Note: what is the difference bw enable and start
+enable: means that service remain alive after system restart
+disable: we need to manually restart
+
+start: start the service
+
+
+systemctl status apache2
+ 
+systemctl stop <service>
+systemctl stop apache2
+
+
+
+systemctl start <service>
+systemctl start apache2
+
+systemctl disable <service>
+systemctl disable apache2
+
+
+systemctl enable <service>
+systemctl enable apache2
+
+service <service> start
+service <service> stop
+service <service> restart
+service <service> reload
+service --status-all
+service <service> start
+
+
+
+Process Management
+-------------------
+A process in linux is a program in execution
+it is a running instance of a program 
+any command that you execute start a process
+
+process id: uniquly identified process
+window taskmanager
+
+process monitoring: every process need ram + cpu 
+		to monitor we use various commands
+		
+
+Commands
+---------
+ps
+kill
+top
+nice
+umstat
+df
+pstree
+free
+
+
+ps: process state
+------------------
+ps 	: process of current terminal
+ps -e 	: all process informations
+ps -ef  : full formate
+ps -ef | more
+ps -ef | grep -i ssh
+ps -ef | grep -i apache
+
+ps -aux | more	very useful commands display cpu memory usages very similar to taks manager
+
+ps -u username	process related to some user
+
+ps -eH	(process tree)
+	within one process, other sub process can run
+	to see all that in tree formate
+	
+ 
+kill command:
+-----------
+ Kill command send signal to a process to terminate, start stop etc
+ This can terminalte a process, intrept/ suspend/crash 
+ you must own that process
+ or login as root user
+ 
+ 
+ example:
+ 
+ kill -l 	: show all signals
+
+ 1) SIGHUP       2) SIGINT       3) SIGQUIT      4) SIGILL       5) SIGTRAP
+ 6) SIGABRT      7) SIGBUS       8) SIGFPE       9) SIGKILL     10) SIGUSR1
+11) SIGSEGV     12) SIGUSR2     13) SIGPIPE     14) SIGALRM     15) SIGTERM
+16) SIGSTKFLT   17) SIGCHLD     18) SIGCONT     19) SIGSTOP     20) SIGTSTP
+21) SIGTTIN     22) SIGTTOU     23) SIGURG      24) SIGXCPU     25) SIGXFSZ
+26) SIGVTALRM   27) SIGPROF     28) SIGWINCH    29) SIGIO       30) SIGPWR
+31) SIGSYS      34) SIGRTMIN    35) SIGRTMIN+1  36) SIGRTMIN+2  37) SIGRTMIN+3
+38) SIGRTMIN+4  39) SIGRTMIN+5  40) SIGRTMIN+6  41) SIGRTMIN+7  42) SIGRTMIN+8
+43) SIGRTMIN+9  44) SIGRTMIN+10 45) SIGRTMIN+11 46) SIGRTMIN+12 47) SIGRTMIN+13
+48) SIGRTMIN+14 49) SIGRTMIN+15 50) SIGRTMAX-14 51) SIGRTMAX-13 52) SIGRTMAX-12
+53) SIGRTMAX-11 54) SIGRTMAX-10 55) SIGRTMAX-9  56) SIGRTMAX-8  57) SIGRTMAX-7
+58) SIGRTMAX-6  59) SIGRTMAX-5  60) SIGRTMAX-4  61) SIGRTMAX-3  62) SIGRTMAX-2
+63) SIGRTMAX-1  64) SIGRTMAX
+
+
+sleep 100 &
+kill -2 pid
+
+kill -1 pid	: restart
+kill -2 pid	: ctrl +C
+kill -9 pid	: kill forcefully
+kill -15 pid	: kill gracefully
+
+
+ps -ef |grep -i apache2
+kill -1 pid	restart apache2 server
+
+
+top command
+--------------
+	top command display resouces cpu, ram occupied by processes
+	dynamically
+	used to monitor load on machine
+	  
+    
+       PID USER      PR  NI    VIRT    RES    SHR S  %CPU  %MEM     TIME+
+
+	PID: Shows task’s unique process id.
+	
+	PR: The process’s priority. The lower the number, the higher the priority.
+	
+	VIRT: Total virtual memory used by the task.
+	
+	USER: User name of owner of task.
+	
+	%CPU: Represents the CPU usage.
+	
+	TIME+: CPU Time, the same as ‘TIME’, but reflecting more granularity through hundredths of a second.
+	
+	SHR: Represents the Shared Memory size (kb) used by a task.
+	
+	NI: Represents a Nice Value of task. A Negative nice value implies higher priority,
+	 and positive Nice value means lower priority.
+	 
+	%MEM: Shows the Memory usage of task.
+	
+	RES: How much physical RAM the process is using, measured in kilobytes.
+	
+	COMMAND: The name of the command that started the process.
+
+
+nice command
+-----------------
+	nice and renine only super user cand run
+	renice: used to alter priority for running processes
+	nice: we can launch a process with user defined scheduling priorities
+	
+	A process with -19	0	+20
+		 	highest	lowest
+		 	
+
+	Ex
+	sleep 400 &
+	 ps -eo pid,euser,stat,pcpu,pmem,ni,command
+	 ps -eo pid,euser,stat,pcpu,pmem,ni,command | grep -i sleep
+	 renice -15 5332
+	 
+	renice	-15 -u raj	it will change priority of raj user
+				only superuser can increse priority
+				
+
+
+
+
+
+user mangement and permissions
+----------------------------
+	user information is store in /etc/passwd
+	
+	cat /etc/passwd
+	
+	username: passwrd: user id: group id: comments: home dir: bash
+
+	
+	users : system user
+		   service user
+		
+		
+Example: we want to create 4 users:
+
+	dev:
+	
+	gun 
+	kesh
+	
+	tester:
+	
+	ekta
+	vicky
+	
+	
+first change password of root user:
+------------------------------
+sudo su -
+sudo passwd
+adding users:
+
+----------------
+switch back to root user: 
+su
+and provide the password
+--------------------------
+
+useradd -m -s /bin/bash gun
+useradd -m -s /bin/bash kesh
+
+	-m : make home dir for user
+	-s : use specific shell
+	
+adding more users
+useradd -m -s /bin/bash ekta
+useradd -m -s /bin/bash vicky
+
+
+
+
+now assign passwords
+--------------------
+passwd gun
+passwd kesh
+passwd ekta
+passwd vicky
+
+
+ cat /etc/passwd
+ ------------------
+gun:x:1002:1003::/home/gun:/bin/bash
+kesh:x:1003:1004::/home/kesh:/bin/bash
+ekta:x:1004:1005::/home/ekta:/bin/bash
+vicky:x:1005:1006::/home/vicky:/bin/bash
+
+
+create and delete user:
+------------------------
+useradd -m -s /bin/bash foo
+userdel -r foo
+
+
+groups :collection of users share same role and purpose
+
+cat /etc/group
+group name: group pw: group id: hash value
+
+gun:x:1003:
+kesh:x:1004:
+ekta:x:1005:
+vicky:x:1006:
+
+
+adding user to the group
+-------------------------------
+Primary group: login group 
+		default same name as that of usre
+		only one
+		
+sec group:	supplimenty group
+		optional
+		
+
+
+we want to add gun kesh --------> dev group
+		ekta vicky -----> tester group
+		
+steps :
+groupadd dev		# creating dev group
+usermod -aG dev gun	# add gun to the dev group
+usermod -aG dev kesh
+
+groupadd tester	# creating tester group
+usermod -aG tester ekta	# add ekta to the tester group
+usermod -aG tester vicky
+
+
+Now use id command to check group of an user
+---------------------------------------
+id gun
+uid=1002(gun) gid=1003(gun) groups=1003(gun),1007(dev)
+
+let we add ekta to sec group ie dev group
+---------------------------------------------
+usermod -aG dev ekta
+
+id ekta
+uid=1004(ekta) gid=1005(ekta) groups=1005(ekta),1007(dev),1008(tester)
+
+Now ekta is part of 2 groups
+
+now try to switch to different user and check
+
+su ekta
+
+
+File Ownership and permission
+---------------------------------
+	Every file is owned by specific user and group
+	
+	
+su - gun
+
+echo "some demo stuff by gun">> demo.txt
+
+ls -l demo.txt 
+
+-rw-rw-r-- 1 gun gun 23 Jan  6 05:54 demo.txt
+	     user gr
+	     
+changing file owership (chown)
+--------------------------
+chown user:group file
+
+ ls -l demo.txt 
+-rw-rw-r-- 1 gun gun 23 Jan  6 05:54 demo.txt
+
+chown kesh:dev demo.txt 
+
+
+Want root to be owner of the demo.txt
+chown root demo.txt
+
+
+File permission:
+-------------
+	Every file is assigned permission to 
+	3 different entities
+	
+	
+	R	W	X
+	4	2	1
+	
+	owner
+	group
+	everyone else
+	
+	
+	
+find file permission
+-----------------------------
+ chown gun:dev demo.txt 
+ 
+ ls -l demo.txt 
+ 
+-rw-rw-r-- 
+
+owner: gun: can read and write
+group : read write
+other: only read
+
+now change the file permission
+chmod 700 demo.txt
+
+now switch back to kesh : he can not read the file
+
+
+chmod o+w demo.txt
+
+
+
+
+	
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,1446 @@
+AWS tutorial:
+--------------
+What is cloud computing?
+----------------------------
+Cloud computing is the delivery of computing services over the internet, 
+such as storage, databases, and software. 
+It allows users to access these services on-demand, without having to manage physical servers. 
+
+https://aws.amazon.com/what-is-cloud-computing/
+
+
+AWS Cloud Computing Models
+------------------------
+Infrastructure as a Service (IaaS): 
+	It is the basic building block of cloud IT. It generally provides access to data storage space, 
+	networking features, and computer hardware(virtual or dedicated hardware). 
+	It is highly flexible and gives management controls over the IT resources to the developer. 
+	For example, VPC, EC2, EBS.
+	
+Platform as a Service (PaaS): 
+	This is a type of service where AWS manages the underlying infrastructure (usually operating system and hardware). 
+	This helps the developer to be more efficient as they do not have to worry about 
+	undifferentiated heavy lifting required for running the applications such as capacity planning, 
+	software maintenance, resource procurement, patching, etc., 
+	and focus more on deployment and management of the applications. 
+	For example, RDS, EMR, ElasticSearch.
+	
+Software as a Service(SaaS): 
+	It is a complete product that usually runs on a browser.
+	It primarily refers to end-user applications. It is run and managed by the service provider. 
+	The end-user only has to worry about the application of the software suitable to its needs. 
+	For example, Saleforce.com, Web-based email, Office 365 .
+	
+	
+What Is AWS And Why Is It Used?
+---------------------------------
+	AWS stands for Amazon Web Services, 
+	It is an expanded cloud computing platform provided by Amazon Company. 
+	AWS provides a wide range of services with a pay-as-per-use pricing model 
+	over the Internet such as Storage, Computing power, Databases, Machine Learning services, and much more.
+
+	AWS facilitates for both businesses and individual users with effectively hosting the applications, 
+	storing the data securely, and making use of a wide variety of tools and services improving management
+	flexibility for IT resources.
+	
+AWS Fundamentals
+-----------------
+aws region vs availability zone vs data center
+
+	Regions: 
+		AWS provide the services with respective division of regions.
+		The regions are divided based on geographical areas/locations 
+		and will establish data centers. 
+		
+		Based on need and traffic of users, the scale of data centers is depended to facilitate 
+		users with low-latencies of servcies.
+		
+	Availability Zones (AZ): 
+		To prevent the Data centers for the Natural Calamities or any other disasters.
+		The Datacenters are established as sub sections with isolated locations to enhance 
+		fault tolerance and disaster recovery management.
+		
+		
+
+Imp AWS Services
+--------------
+	Amazon EC2(Elastic Compute Cloud) : 
+		It provides the Scalable computing power via cloud allowing the users to run
+		applications and manage the workloads over their remotely.
+		
+Amazon S3 (Simple Storage Service ): 
+	It offers scalable object Storage as a Service with high durability 
+	for storing and retrieving any amount of data.
+	
+AWS Lambda: 
+	It is a service in Serverless Architecture with Function as a
+	Service facilitating serverless computing i.e., running the code on response to the events,
+	the background environment management of servers is handled by aws automatically.
+	It helps the developers to completely focus on the logic of code build.
+	
+Amazon RDS (Relational Database Service): 
+	This is an aws service that simplifies the management of database 
+	providing high available relational databases in the cloud.
+	
+Amazon VPC (Virtual Private Cloud): 
+	It enables the users to create isolated networks with option of public 
+	and private expose within the AWS cloud, providing safe and adaptable configurations of their resources.
+	
+
+
+Amazon EC2 (Elastic Cloud Compute)
+--------------------------
+	It offers virtual, secure, reliable, and resizable servers for any workload. 
+	Through this service, it becomes easy for developers to access resources and also 
+	facilitates web-scale cloud computing
+	. This comes with the best suitable processors, networking facilities, and storage systems.
+	Developers can quickly and dynamically scale capacities as per business needs. 
+	
+
+Amazon RDS (Relational Database Services) 
+----------------------------------
+	managed database for PostgreSQL, MariaDB, MySQL, and Oracle.
+	Using Amazon RDS, you can set up, operate, and scale databases in the cloud. 
+	
+	It provides high performance by automating the tasks like database setup, 
+	hardware provisioning, patching, and backups
+	
+Amazon S3 (Simple Storage Service)
+-------------------------------------
+	Amazon S3 an object storage service offering scalability, availability, security, and high-performing. 
+	
+Amazon IAM (Identity and Access Management)
+--------------------------------------------
+	IAM allows users to securely access and manage resources. 
+	To achieve complete access to the tools and resources provided by AWS, AWS IAM is the best AWS service.
+	
+	It gives you the right to have control over who has authorization (signed in) 
+	and authentication (has permissions) access to the resources.
+	
+	It comes with attribute-based access control which helps you to create separate permissions 
+	on the basis of the user’s attributes such as job role, department, etc.
+
+	Through this, you can allow or deny access given to users. 
+	
+
+Amazon Lambda
+----------------------------
+	serverless and event-driven computing service that lets you run code for virtual applications 
+	or backend services automatically. 
+	You need to worry about servers and clusters when working with solutions using Amazon Lambda. 
+	
+	It is also cost-effective where you have to only pay for the services you use.
+
+	As a user, your responsibility is to just upload the code and Lambda handles the rest.
+	
+	Using Lambda, you get precise software scaling and extensive availability. With hundreds
+	to thousands of workloads per second, AWS Lambda responsibly handles code execution requests. 
+	
+
+Amazon SNS (Simple Notification Service)
+--------------------------------------------
+	fully managed solution for messaging having low-cost infrastructure. 
+	
+	It is used for bulk message delivery and direct chat with the customers 
+	through system-to-system or app-to-person between decoupled microservice apps.
+
+	It is used to easily set up, operate, and send notifications from the cloud. 
+	It is a messaging service between Application to Application (A2A) and Application to Person (A2Person), 
+	and sends notifications in two ways – A2A and A2P. 
+	
+	A2P allows many-to-many messaging between microservices, distributed systems, 
+	and event-driven serverless applications, allowing you to send messages to 
+	customers with SMS texts, email, and push notifications. 
+
+ Amazon VPC (Virtual Private Cloud)
+ --------------------------------------
+	it enables you to set up an isolated section where you can deploy AWS resources at scale in a virtual environment
+	
+	. This service is responsible to control the virtual networking environment
+	such as resource placement, security, and connectivity. 
+	
+	Security can be improved by applying rules for outbound and inbound connections.
+	
+	Also, it detects anomalies in the patterns, troubleshoots network connections,
+	prevents data leakage, and handles configuration issues. 
+	
+	Using VPC, you get complete access to control the environment, such as choosing IP address, 
+	subset creation, and route table arrangement. 
+	
+
+ Amazon SQS (Simple Queue Service)
+ -------------------------------
+	SQS lets you store, send, and receive messages between software components through a polling method 
+	at any volume without any data loss.
+
+	It	uses the FIFO technique to guarantee the message is processed once in sequential order.
+
+	It allows the decoupling and scaling of microservices, distributed systems, and serverless apps. 
+	Through SQS, you can manage message queuing services to exchange data anytime and anywhere. 
+
+
+Amazon Elastic Beanstalk
+------------------------------
+	Amazon Elastic Beanstalk is an AWS service used for deployment and scaling web applications 
+	developed using Java, PHP, Python, Docker, etc. It supports running and managing web applications.
+
+	You just need to upload your code and the deployment part is handled by Elastic Beanstalk 
+	(from capacity provisioning, load balancing, and auto-scaling to application health monitoring).
+
+	
+Dynamo DB
+-----------
+	DynamoDB is a serverless, document database key-value NoSQL database that is designed to run high-performance applications.
+	It can manage up to 10 trillion requests on a daily basis and support thresholds of more than 20 million requests per second.
+
+	DynamoDB has built-in security with a fully-managed multi-master, multi-region, durable database,
+	and in-memory archiving for web-scale applications. 
+	
+AWS Aurora
+-------------
+	AWS Aurora is an RDBMS (Relational Database Management System) which 
+	is built with MySQL and PostgreSQL for the cloud. 
+	
+	It is a high-performing compatible database that is five times faster than MySQL.
+	You can reduce the cost and enhance its security, reliability, and availability
+	. Also, it is cost-effective by reducing the cost to one-tenth. 
+	
+
+Amazon S3 Glacier
+	Amazon S3 Glacier is the archive storage at a low cost.
+
+	It is a long-term, secure, durable storage class for data archiving at the lowest cost and milliseconds of access.
+	Its storage classes are generally built for data archiving, providing high-performance, 
+	and retrieval flexibility and is also cost-effective.
+
+
+Amazon Cloudwatch
+---------------------
+	Amazon CloudWatch detects uncommon changes in the environment, set an alert, troubleshoots issues,
+	and take automated actions. 
+	With this, you can track the complete stack, and use logs, alarms, and events data to take 
+	actions and thereby focusing on building the application, resulting in the growth of the business. 
+	
+	It is the best service designed for developers, DevOps engineers, site reliability engineers,
+	and IT managers. With Amazon CloudWatch, you can detect anomalies in the environment.
+
+	With this single platform, you can monitor all AWS resources and applications quickly. 
+	It monitors application performance and optimizes resources. 
+
+
+
+
+
+	
+EC2 Fundamentals
+-------------------
+EC2 Instance Basics:
+	Understanding the concept of virtual servers and instances.
+	Key components of an EC2 instance: AMI (Amazon Machine Image), instance types, and instance states.
+	Differentiating between On-Demand, Reserved, and Spot instances.
+
+Launching an EC2 Instance:
+	- Step-by-step guide on launching an EC2 instance using the AWS Management Console.
+	- Configuring instance details, such as instance type, network settings, and storage options.
+	- Understanding security groups and key pairs for securing instances.
+
+Managing EC2 Instances:
+	- Starting, stopping, and terminating instances.
+	- Monitoring instance performance and utilization.
+	- Basic troubleshooting and accessing instances using SSH (Secure Shell).
+
+
+What is EC2, and why is it important?
+---------------------------------------
+	- Amazon Elastic Compute Cloud (Amazon EC2) is a web service that provides secure, 
+			resizable compute capacity in the cloud.
+	- Access reliable, scalable infrastructure on demand. Scale capacity within minutes with SLA
+			commitment of 99.99% availability.
+			
+	- Provide secure compute for your applications. Security is built into the foundation of 
+			Amazon EC2 with the AWS Nitro System.
+			
+	- Optimize performance and cost with flexible options like AWS Graviton-based instances, 
+		Amazon EC2 Spot instances, and AWS Savings Plans.
+
+
+EC2 usecases
+---------------------
+	Deliver secure, reliable, high-performance, and cost-effective compute infrastructure to
+	meet demanding business needs.
+	
+	Access the on-demand infrastructure and capacity you need to 
+	run HPC applications faster and cost-effectively.
+	
+	Access environments in minutes, dynamically scale capacity as needed, 
+	and benefit from AWS’s pay-as-you-go pricing.
+	
+	Deliver the broadest choice of compute, networking (up to 400 Gbps), 
+	and storage services purpose-built to optimize price performance for ML projects
+
+EC2 Instance Types
+----------------------
+	Recommended to follow [this](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html) 
+	page for very detailed and updated information.
+
+General purpose
+	General Purpose instances are designed to deliver a balance of compute, memory, and network resources. 
+	They are suitable for a wide range of applications, including web servers,
+	small databases, development and test environments, and more.
+
+
+Compute optimized
+	Compute Optimized instances provide a higher ratio of compute power to memory. 
+	They excel in workloads that require high-performance processing such as batch processing, 
+	scientific modeling, gaming servers, and high-performance web servers.
+
+
+Memory optimized
+	Memory Optimized instances are designed to handle memory-intensive workloads. 
+	They are suitable for applications that require large amounts of memory, such as in-memory databases,
+	real-time big data analytics, and high-performance computing.
+
+Storage optimized
+	Storage Optimized instances are optimized for applications that require high, sequential read
+	and write access to large datasets. 
+	They are ideal for tasks like data warehousing, log processing, and distributed file systems.
+
+
+Accelerated computing
+	Accelerated Computing Instances typically come with one or more types of accelerators,
+	such as Graphics Processing Units (GPUs),
+	Field Programmable Gate Arrays (FPGAs), or custom Application Specific Integrated Circuits (ASICs). 
+	
+	These accelerators offload computationally intensive tasks from the main CPU, enabling faster
+	and more efficient processing for specific workloads.
+
+Instance families
+
+    C – Compute
+    D – Dense storage
+    F – FPGA
+    G – GPU
+    Hpc – High performance computing
+    I – I/O
+    Inf – AWS Inferentia
+    M – Most scenarios
+    P – GPU
+    R – Random access memory
+    T – Turbo
+    Trn – AWS Tranium
+    U – Ultra-high memory
+    VT – Video transcoding
+    X – Extra-large memory
+
+
+
+Ex1: getting started with compute engine
+----------------------------------------
+
+Step 1: Sign in root account
+
+Step 2: Create EC2 instance
+
+Step 3: Connect with moboXterm
+
+Step 4: Practice some common Linux commands
+
+Stpe 5: Installing HTTP Webserver on AWS EC2 and access its
+		change inbound rule
+	
+	
+sudo su
+yum update -y
+yum install httpd
+systemctl start httpd
+systemctl enable httpd
+echo "Hello World" > /var/www/html/index.html
+
+
+
+
+
+sudo su
+apt update 
+apt install apache2
+ls /var/www/html
+echo "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+echo $(hostname)
+echo $(hostname -i)
+echo "Hello World from $(hostname)"
+echo "Hello World from $(hostname) $(hostname -i)"
+echo "Hello world from $(hostname) $(hostname -i)" > /var/www/html/index.html
+
+sudo service apache2 start
+
+
+Ex 2: Security Group
+-------------------
+Virtual firewall to control incoming and outgoing
+traffic to/from AWS resources (EC2 instances,databases etc)
+
+Provides additional layer of security
+
+Edit outboud rule and inbound rule
+
+
+
+Ex 3: EC2 IP Addresses
+-------------------------
+Public IP addresses are internet addressable.
+
+Private IP addresses are internal to a corporate network
+
+You CANNOT have two resources with same public IP address
+
+Try pinging public ip address ?
+it dont work by default , we need to enable inboud traffice: All ICMP
+
+Now we can ping public IP adress 
+
+
+
+Ex 4: Elastic IP Addresses
+-----------------------------------------
+How do you get a constant public IP address for a EC2 instance?
+Quick and dirty way is to use an Elastic IP!
+
+
+
+How to have constant public ip address?
+
+Note:
+Elastic IP can be switched to another EC2 instance within the same region
+Elastic IP remains attached even if you stop the instance. You have tomanually detach it.
+
+Search Elastic IP addresses -> Allocate Elestic IP address
+Associate this elestic IP address
+
+Now restart instance : you will find IP remain same
+
+Now 
+go to Elastic IP addresses==> action ==>Dissociate Elestic IP address ==> then release Elestic IP address
+
+
+
+
+Ex 5 : Simplify EC2 creating 
+---------------------------
+There are 3 options:
+--------------
+	1. Userdata
+	2. Launch Template
+	3. AMI
+
+
+Using Userdata
+----------------
+	In EC2, we can configure userdata to bootstrap
+	We can Install OS patches or so ware when an EC2 instance is launched.
+	
+
+Example: create new instance: this time amazon Linux
+---------------------------
+#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl start httpd
+systemctl enable httpd
+ls /var/www/html
+echo "Hello World!"
+echo "Hello World!" > /var/www/html/index.html
+echo "Hello world from $(hostname) $(hostname -i)" > /var/www/html/index.html
+
+Note:
+Dont forget to enable enboud rule to allow traffic
+
+
+
+
+
+Launch Templates
+-------------------
+	Why do you need to specify all the EC2 instance details (AMI ID, instance type, and network settings) every time
+	you launch an instance?
+
+	How about creating a Launch Template?
+
+	DEMO - Launch EC2 instances using Launch Templates
+
+
+
+
+
+IAM
+========
+	AWS IAM (Identity and Access Management) is a service provided by Amazon Web Services (AWS)
+	that helps you manage access to your AWS resources. 
+	It's like a security system for your AWS account.
+
+	IAM allows you to create and manage users, groups, and roles. 
+	Users represent individual people or entities who need access to your AWS resources.
+	Groups are collections of users with similar access requirements, making it easier to manage permissions. 
+	Roles are used to grant temporary access to external entities or services.
+
+	With IAM, you can control and define permissions through policies.
+	Policies are written in JSON format and specify what actions are allowed or 
+	denied on specific AWS resources. These policies can be attached to IAM entities (users, groups, or roles) 
+	to grant or restrict access to AWS services and resources.
+
+	IAM follows the principle of least privilege, meaning users and entities are given only 
+	the necessary permissions required for their tasks, minimizing potential security risks. 
+	IAM also provides features like multi-factor authentication (MFA) for added security and an
+	audit trail to track user activity and changes to permissions.
+
+	By using AWS IAM, you can effectively manage and secure access to your AWS resources, 
+	ensuring that only authorized individuals have appropriate permissions and actions are 
+	logged for accountability and compliance purposes.
+
+	Overall, IAM is an essential component of AWS security, providing granular control 
+	over access to your AWS account and resources, reducing the risk of unauthorized access
+	and helping maintain a secure environment.
+
+	Components of IAM
+	-------------------
+	Users: 
+		IAM users represent individual people or entities (such as applications or services) 
+		that interact with your AWS resources. Each user has a unique name and security credentials
+		(password or access keys) used for authentication and access control.
+
+	Groups: 
+		IAM groups are collections of users with similar access requirements. 
+		Instead of managing permissions for each user individually, you can assign permissions to groups, 
+		making it easier to manage access control. Users can be added or removed from groups as needed.
+
+	Roles: 
+		IAM roles are used to grant temporary access to AWS resources. 
+		Roles are typically used by applications or services that need to access AWS 
+		resources on behalf of users or other services. Roles have associated policies 
+		that define the permissions and actions allowed for the role.
+
+	Policies: 
+		IAM policies are JSON documents that define permissions. 
+		Policies specify the actions that can be performed on AWS resources and the 
+		resources to which the actions apply. Policies can be attached to users, 
+		groups, or roles to control access. IAM provides both AWS managed policies
+		(predefined policies maintained by AWS) and customer
+		managed policies (policies created and managed by you).
+
+
+
+Lab 1: Create IAM user (Without IAM policies): Authentication
+---------------------------------------------------------------
+step 1: login using root account
+
+step 2: create IAM user without IAM policies
+
+step 3: create user without any group, autogen password
+
+step 4: try to access resouces by using this IAM account
+
+
+Lab 2: Authorization:
+-------------------
+Create user group
+crate user to each group with different permissions
+
+
+
+
+Building a Simple Spring Boot Java Project on AWS EC2 Using Maven
+----------------------------------------------------------------
+step 1: create spring boot project and push to github
+step 2: create ec2 instance and  Connect to EC2 Instance via MobaXterm
+step 3: configure ec2 instance
+
+apt-get update -y
+apt-get upgrade -y
+
+apt install openjdk-21-jdk openjdk-21-jre -y
+
+apt-get install maven -y
+
+mvn -version
+
+step 4: package spring boot application on ec2 instance
+and run
+	java -jar target/ <<your jar file name>>
+
+
+AWS S3 Buckets
+===============
+What is Amazon S3?
+	Simple Storage Service is a scalable and secure cloud storage service provided by Amazon Web Services (AWS).
+	It allows you to store and retrieve any amount of data from anywhere on the web.
+
+What are S3 buckets?
+--------------------
+	S3 buckets are containers for storing objects (files) in Amazon S3. 
+	Each bucket has a unique name globally across all of AWS. 
+	You can think of an S3 bucket as a top-level folder that holds your data.
+
+Why use S3 buckets?
+-----------------
+	S3 buckets provide a reliable and highly scalable storage solution for various use cases. 
+	They are commonly used for backup and restore, data archiving, 
+	content storage for websites, and as a data source for big data analytics.
+
+Key benefits of S3 buckets
+-----------------------------
+    Durability and availability: 
+		S3 provides high durability and availability for your data.
+		
+    Scalability: 
+		You can store and retrieve any amount of data without worrying about capacity constraints.
+		
+    Security: 
+		S3 offers multiple security features such as encryption, access control, and audit logging.
+		
+    Performance:	
+		S3 is designed to deliver high performance for data retrieval and storage operations.
+		
+    Cost-effective: 
+		S3 offers cost-effective storage options and pricing models based on your usage patterns.
+
+
+
+Ex 1: Creating and Configuring S3 Buckets
+--------------------------------------------
+Steps :
+	1. Creating an S3 bucket
+	2. Choosing a bucket name and region
+	3. Bucket properties and configurations
+	4. Configure Bucket-level permissions and policies
+	5. Uploading and Managing Objects in S3 Buckets
+
+		You can upload objects to an S3 bucket using various methods, including the AWS Management Console,
+		AWS CLI, SDKs, and direct HTTP uploads. 
+		Each object is assigned a unique key (name) within the bucket to retrieve it later.
+
+	6. Object metadata and properties
+		Object metadata contains additional information abouteach object in an S3 bucket. 
+		It includes attributes like content type, cache control, encryption settings, 
+		and custom metadata. These properties help in managing and organizing objects within the bucket.
+
+	6. File formats and object encryption
+		S3 supports various file formats, including text files, images, videos, and more.
+		You can encrypt objects stored in S3 using server-side encryption (SSE). 
+	
+	
+Advanced S3 Bucket Features
+------------------------------
+	Different type of S3 Storage Classes
+	S3 Replication
+	S3 Event Notifications and Triggers
+	S3 Batch Operations
+
+
+S3 bucket policies
+-------------------
+	Create and manage bucket policies to control access to your S3 buckets.
+	Bucket policies are written in JSON and define permissions for various actions and resources.
+
+{
+  "Version": "2012-10-17",
+  "Id": "RestrictBucketToIAMUsersOnly",
+  "Statement": [
+    {
+      "Sid": "AllowOwnerOnlyAccess",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::your-bucket-name/*",
+        "arn:aws:s3:::your-bucket-name"
+      ],
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalArn": "arn:aws:iam::     AWS_ACCOUNT_ID     :root"
+        }
+      }
+    }
+  ]
+}
+
+S3 access control and IAM roles
+-----------------------------
+	Use IAM roles and policies to manage access to S3 buckets. 
+	IAM roles provide temporary credentials and fine-grained access control to AWS resources.
+
+
+
+
+AWS CLI
+==========
+	UI is not automcation friendly
+	
+	AWS CLI is a unified tool to manage your AWS services.
+	With just one tool to download and configure, you can control multiple AWS services from the command 
+	line and automate them through scripts.
+
+	Using CLI we can send request programmatically to create a resouces
+	
+	AWS provide api provide many tools that can be used:
+	
+	AWS CLI: it is python utility written by aws 
+	CDK
+	Terraform -IAC
+	Cloud formation-IAC
+	
+	We just need to install aws cli and use to intract with aws
+	./aws s3 ___ ___
+	
+	Step 1: install aws cli (version > 2.X)
+	Step 2: check aws --version and login
+		aws configure
+		
+	Step 3: create an access key and use it with login
+	
+	to check buckets
+	aws s3 ls
+	aws s3 help
+
+	We can use s3api to create a bucket using AWS CLI
+	-------------------------------------------
+	aws s3api help
+	
+	aws s3api create-bucket --bucket test-bucket-989282533we4 --region us-east-1
+
+
+
+
+
+AWS S3 Spring boot integration:
+----------------------------------
+Step 1: Create IAM account with admin access
+Step 2: go to security crendential -> create access key (DONT FORGET TO DELETE ONCE EXP IS DONE)
+
+Refer code sample and try with postman
+
+
+
+
+
+
+
+AWS SQS(Simple Queue Service)
+==============================
+
+What is AWS SQS?
+----------------
+	Amazon Simple Queue Service (Amazon SQS) offers a secure, durable,
+	and available hosted queue that lets you integrate and decouple distributed 
+	software systems and components. 
+	
+	Amazon SQS offers common constructs such as dead-letter queues and cost allocation tags. 
+	It provides a generic web services API that you can access using any 
+	programming language that the AWS SDK supports.
+	
+	
+Benefits of using Amazon SQS
+-----------------------------
+	Security:
+			You control who can send messages to and receive messages from an Amazon SQS queue.
+			You can choose to transmit sensitive data by protecting the contents of messages 
+			in queues by using default Amazon SQS managed server-side encryption (SSE), 
+			or by using custom SSE keys managed in AWS Key Management Service (AWS KMS).
+
+	Durability:
+		For the safety of your messages, Amazon SQS stores them on multiple servers. 
+		Standard queues support at-least-once message delivery, 
+		and FIFO queues support exactly-once message processing and high-throughput mode.
+
+	Availability:
+		Amazon SQS uses redundant infrastructure to provide highly-concurrent access to 
+		messages and high availability for producing and consuming messages.
+
+	Scalability:
+		Amazon SQS can process each buffered request independently, scaling transparently to 
+		handle any load increases or spikes without any provisioning instructions.
+
+	Reliability:
+		Amazon SQS locks your messages during processing, so that multiple producers
+		can send and multiple consumers can receive messages at the same time.
+
+	Customization:
+		Your queues don't have to be exactly alike—for example, 
+		you can set a default delay on a queue. You can store the contents of messages
+		larger than 256 KB using Amazon Simple Storage Service (Amazon S3) or Amazon DynamoDB, 
+		with Amazon SQS holding a pointer to the Amazon S3 object,
+		or you can split a large message into smaller messages.
+		
+SQS arch and discusssion:
+------------------------
+
+EX1: Creating SQS and creating messaging and consuming form UI
+
+EX2: We will create a message and access from the code
+
+Ex3: We will do post request to send an message and message would be used by the consumers
+
+Note: Delete SQS after demo
+	And delete access key and secrete key
+	
+	
+	
+
+
+
+
+
+
+
+Integrate AWS SNS(Simple Notification Service) 
+========================================
+
+What is SNS?
+-----------
+	Amazon Simple Notification Service (SNS) is a fully managed messaging service
+	from AWS that enables developers to send notifications to various subscribers 
+	through channels like email, SMS, and mobile push notifications, using a publish-subscribe (pub/sub) model
+	
+https://docs.aws.amazon.com/sns/latest/dg/welcome.html
+
+
+Documentation:
+-----------------
+https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welcome.html
+
+
+	Use case:
+	-----
+	I want to provide user to register to my email substribtion and also allow him
+	
+	I will send email to student, he will accept and will recive message
+	till he now unscribe
+	
+Step 1: first create topic with some name
+
+Step 2: Create substribtion and provide email of the client
+
+Step 3: Publish message
+		it will be automcatically recived by the subscribers
+		
+Spring boot SNS
+=================
+Run the application and observe message is send to all subscribers
+
+
+
+AWS RDS 
+========
+	Amazon Relational Database Service (Amazon RDS) is a web service 
+	that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. 
+	It provides cost-efficient, resizable capacity for an industry-standard
+	relational database and manages common database administration tasks.
+
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html
+
+steps : 
+	1. go to rds service choose freetier mysql
+	2. provide DB instance identifier  for example mydbraj12345id
+	3. provide db name rajdb root root1234
+	
+	
+DynamoDB
+========
+	Amazon DynamoDB is a database service from Amazon Web Services (AWS) 
+	that stores and retrieves data in key-value pairs. 
+	It's a NoSQL database that's cloud-native, meaning it only runs on AWS. 
+	
+
+	Scalability
+		DynamoDB can scale automatically to support tables of any size. 
+		It can handle millions of queries per second. 
+	Performance
+		DynamoDB offers fast, consistent performance at any scale.
+		It maintains low latency and predictable performance. 
+	Serverless
+		DynamoDB supports serverless applications. 
+		It has a flexible billing model and serverless-friendly connection model. 
+	Key-value pairs
+		DynamoDB's data model consists of key-value pairs in a large, non-relational table of rows. 
+		
+
+	Example : creating dynamodb table and running with spring boot application
+	
+	
+AWS Secrets Manager
+======================
+	Easily rotate, manage, and retrieve secrets throughout their lifecycle
+	AWS Secrets Manager helps you protect access to your applications, 
+	services, and IT resources. You can easily rotate, manage, and retrieve database credentials, 
+	API keys, and other secrets throughout their lifecycle.
+
+	How it help?
+	------------------
+	You can store database credentials or any other type of secret.
+	Store a new secret
+	
+	How it works
+	------------
+	Use Secrets Manager to store, rotate, monitor, and control access 
+	to secrets such as database credentials, API keys, and OAuth tokens. 
+	Enable secret rotation using built-in integration for MySQL, PostgreSQL,
+	and Amazon Aurora on Amazon RDS. 
+	You can also turn on rotation for other secrets using AWS Lambda functions.
+	To retrieve secrets, you simply replace hardcoded secrets in applications
+	with a call to Secrets Manager APIs, eliminating the need to expose plaintext secrets
+	
+https://ap-south-1.console.aws.amazon.com/secretsmanager/landing?region=ap-south-1
+
+	Java program to retrive secreate 
+
+
+
+AWS Lambda
+==============
+https://aws.amazon.com/lambda/
+	AWS Lambda
+	lets you run code without thinking about servers.
+	
+	You pay only for the compute time that you consume — 
+	there is no charge when your code is not running.
+	With Lambda, you can run code for virtually any type of application or backend service,
+	all with zero administration.
+	
+	
+	Serverless dont mean it dont have any server..
+	Programmer is not responsable for managing and scaling
+	
+	We want to deploy function that do some specific jobs
+	
+	Funcation as a service
+	
+	Limitation: function shoud not table more then 15min
+	
+	Lambda can act as trigger for example let say when we upload an doc on aws s3 
+	a function must run to process that file
+	
+	
+	AWS Lambda is a cloud computing service that lets developers run code
+	without managing compute resources.
+	It's an example of serverless architecture and function as a service (FaaS). 
+	
+	How it works 
+	---------
+		Function: The code that performs a task
+		Configuration: Specifies how the function is executed
+		Event source: Triggers the function, such as a user action on a website
+	
+	Use cases 
+	----------
+		Real-time data processing
+		File and data transformation
+		API backend
+		Chatbots and natural language processing (NLP)
+		IoT device management
+		Scheduled tasks and cron jobs
+		Data validation and enrichment
+		User authentication and authorization
+
+	Example 1: create hello world lambda function
+
+	
+	Step 1: create myfirstlambda
+	Step 2: check log group on cloud watch : no logs
+	Step 3: Create jar of hello world project and upload it
+	Step 4: edit runtime setting and change name of package and class and handler
+	Step 5: test it
+	
+	
+
+
+ Amazon EKS
+ ============
+What is Amazon EKS?
+	Amazon EKS is a managed service that is used to run Kubernetes on AWS. 
+	Using EKS users don’t have to maintain a Kubernetes control plan on their own. 
+	It is used to automate the deployment, scaling, and maintenance of the containerized application. 
+	It works with most operating systems.
+
+
+ Benefits of Amazon EKS
+		Normally time-consuming tasks, such as constructing the Kubernetes master 
+		cluster and setting service discovery, Kubernetes primitives, and networking, 
+		are handled by AWS EKS. 
+		Existing tools will almost certainly work through EKS with minimal if any, modifications.
+
+	The Kubernetes control plane, comprising the backend persistence layer and API servers, 
+	is provisioned and scaled across multiple AWS availability zones using Amazon EKS, 
+	resulting in high availability and the elimination of a single point of failure.
+	Unhealthy control plane nodes are identified and replaced, and control plane patching is given.
+	As a result, an AWS-managed Kubernetes cluster that can endure the loss of an availability zone has been created.
+	
+
+	local setup of tool on window laptop:
+	https://www.youtube.com/watch?v=vqA5dlEHYbQ
+	
+ Amazon EKS cluster setup:
+ --------------------------
+ 1. using UI console
+ 2. using Terraform
+ 3. Using eksctl
+ 
+ using eksctl
+ ------------
+ step 1: create ec2 instance and install eksctl
+ step 2: check arch  uname -m    x86_64
+ setp 3: 
+ mkdir eks-setup
+ cd eks-setup
+ 
+ https://github.com/eksctl-io/eksctl/releases
+ wget https://github.com/eksctl-io/eksctl/releases/download/v0.204.0/eksctl_Linux_amd64.tar.gz
+ 
+ https://github.com/eksctl-io/eksctl to refer installation steps
+ 
+ tar -xvzf  eksctl_Linux_amd64.tar.gz
+ 
+ sudo mv eksctl /usr/local/bin
+ 
+ now check the command : eksctl
+ 
+ command to create cluster:
+  eksctl create cluster
+
+We already have aws cli installed on ec2 instance
+
+ IAM user : We need to create access key and secreat key 
+ 
+ aws configure
+
+	AWS Access Key ID [None]: 
+	AWS Secret Access Key [None]: 
+	Default region name [None]: ap-south-1
+	
+aws s3 ls
+	to check aws cli is working correctly or not
+	
+check : eksctl help
+Now we need to create cluster:
+eksctl create cluster --region ap-south-1
+
+What is do?
+-----------
+https://eksctl.io/
+
+	eksctl create cluster
+	A cluster will be created with default parameters:
+
+	exciting auto-generated name, e.g., fabulous-mushroom-1527688624
+	two m5.large worker nodes (this instance type suits most common use-cases, and is good value for money)
+	use the official AWS EKS AMI
+	us-west-2 region
+	a dedicated VPC (check your quotas)
+	
+	Now check your eks cluster is in configuration process on aap-south-1
+	
+	
+	
+	
+how to communicate control plan?
+-----------------------------------------------------------
+2025-02-16 12:57:54 [✖]  kubectl not found, v1.10.0 or newer is required
+kubectl try to read a file: kubeconfig as "/root/.kube/config"
+-----------------------------------------------------
+
+	how to connect api server?
+	All request goes via api server 
+	Copy api server end point
+	curl -I https://257786D1BE05C03F673BA7A1BAE4E987.gr7.ap-south-1.eks.amazonaws.com
+	
+	ssl certificate required
+	
+	i need a tool that can communicate to the cluster : kubectl 
+	we will give api server end point and key 
+
+
+	cat /root/.kube/config
+	
+	how to delete an cluster ?
+	----------------------------
+	eksctl delete cluster --name adorable-party-1739709816 --region ap-south-1
+
+
+	we need to install kubectl 
+	https://docs.aws.amazon.com/eks/latest/userguide/install-kubectl.html
+	
+	curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl
+	curl -O https://s3.us-west-2.amazonaws.com/amazon-eks/1.32.0/2024-12-20/bin/linux/amd64/kubectl.sha256
+	
+	now we need to set the path
+	chmod +x ./kubectl
+	
+	cp kubectl /usr/local/bin/
+	Now check the command
+	
+	how to get help to create cluster ?
+	eksctl create cluster -h
+
+	Now creating cluster with t2.micro
+	-------------------------------------
+	https://eksctl.io/getting-started/
+
+vim	
+eks.yaml
+-----------
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: busycoder-cluster
+  region: ap-south-1
+
+nodeGroups:
+  - name: ng-1
+    instanceType: t2.micro
+    desiredCapacity: 2
+	
+how to run:
+------------
+eksctl create cluster -f eks.yaml
+
+to check cluster in some specific regions:
+--------------------------------------
+eksctl get cluster --region ap-south-1
+
+to get nodegroup information:
+-----------------------------
+ eksctl get nodegroup --cluster busycoder-cluster2
+
+
+now check nodes:
+-------------------
+ kubectl get node
+
+create a pod :
+------------
+ kubectl run nginxapp2 --image nginx
+  kubectl get all
+
+
+to delete cluster:
+----------------
+eksctl delete cluster --name busycoder-cluster2 --region ap-south-1
+
+	
+ 
+
+
+Amazon CloudWatch 
+====================
+	Amazon CloudWatch is a monitoring tool that helps you track the 
+	health of your AWS applications and resources. 
+	
+	It can help you monitor and fix operational issues, optimize performance, and troubleshoot infrastructure. 
+	
+	What it does 
+	---------------------
+	Monitors applications, infrastructure, network, and services
+	Collects and stores log files
+	Sets alarms
+	Views graphs and statistics
+	Streams metrics
+	Provides cross-account observability
+	
+	
+ 
+
+
+
+Ex 6: Elastic Load Balancer
+-----------------------------
+
+	Distribute traffic across EC2 instances
+	in one or more AZs in a single region
+	Managed service - AWS ensures that it
+	is highly available
+
+	Auto scales to handle huge loads
+	Load Balancers can be public or
+	private
+
+	Health checks - route traffic to healthy
+	instances
+
+
+
+Four Types of Elastic Load Balancers
+--------------------------------------
+	Classic Load Balancer ( Layer 4 and Layer 7)
+	----------------------------------------
+		Old generation supporting Layer 4(TCP/TLS) and Layer 7(HTTP/HTTPS) protocols
+		Not Recommended by AWS
+		
+	Application Load Balancer (Layer 7)
+	-----------------------------------
+		New generation supporting HTTP/HTTPS and advanced routing approaches
+		
+	Network Load Balancer (Layer 4)
+	--------------------------------
+		New generation supporting TCP/TLS and UDP
+		Very high performance usecases
+
+	Gateway Load Balancer
+	---------------------
+		The Gateway Load Balancer (GWLB) is a specialized load balancer designed to deploy,
+		scale, and manage third-party virtual appliances on AWS. It allows for seamless traffic 
+		distribution across multiple virtual appliances, providing a single entry point for all 
+		traffic while offering scalability and increased availability.
+		
+		
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+lab 2: getting started with gcloud
+------------------------------------------
+gcloud --version
+	all service availble on gcloud
+	
+gcloud init
+
+
+gcloud config list
+
+	
+gcloud config list project
+gcloud config list account
+
+listing all active configuration list
+---------------------------------
+gcloud config configurations list
+
+
+
+creating new configuration
+----------------------------
+gcloud config configurations create my-sec-config
+gcloud config configurations activate  my-sec-config
+gcloud config configurations describe my-sec-config
+
+
+configuration project to new gcloud configuration:
+----------------------------------------------
+gcloud config set project rgupta-gcp-p1
+gcloud config set core/account rgupta.cloud@gmail.com
+
+again activate earlier configuration
+-------------------------------
+gcloud config configurations activate my-app-config
+
+delete another configuration
+-----------------------------
+gcloud config configurations list
+gcloud compute instances delete my-first-instance-from-gcloud
+
+
+
+playing with services
+----------------------------
+
+gcloud compute instances list
+
+gcloud compute instances create
+
+gcloud compute instances create my-first-instance
+	to create new instance of vm instance
+	
+gcloud compute instances describe my-first-instance
+
+
+gcloud config list
+		check region and zone information
+		
+gcloud compute instances list
+	go get list of instances
+
+gcloud compute instances delete my-first-instance
+
+other informations
+----------------------
+gcloud compute zones list
+gcloud compute regions list
+gcloud compute machine-types list
+
+
+
+ 
+gcloud compute machine-types list --filter zone:asia-southeast2-b
+gcloud compute machine-types list --filter "zone:(asia-southeast2-b asia-southeast2-c)"
+gcloud compute zones list --filter=region:us-west2
+gcloud compute zones list --sort-by=region
+gcloud compute zones list --sort-by=~region
+gcloud compute zones list --uri
+gcloud compute regions describe us-west4
+ 
+gcloud compute instance-templates list
+gcloud compute instance-templates create instance-template-from-command-line
+gcloud compute instance-templates delete instance-template-from-command-line
+gcloud compute instance-templates describe my-instance-template-with-custom-image
+
+
+
+
+
+
+
+
+
+
+Step-by-Step Guide to Install Docker/kubectl/minkikube/Kind for local development on Ubuntu in AWS
+---------------------------------------------------------------------------------------------
+Installing docker
+Starting the Docker service
+Verifying the installation
+Enabling the Docker service
+Check the Docker version
+Add User to Docker Group
+run some docker examples
+install kubectl
+install minikube
+install kind
+
+
+
+updating system
+sudo apt-get update
+
+install docker
+sudo apt-get install docker.io -y
+
+Starting the Docker service
+
+sudo systemctl status docker
+sudo systemctl enable --now docker
+sudo systemctl start docker
+
+Verifying the installation
+sudo docker run hello-world
+
+
+To start the Docker service automatically when the instance starts, you can use the following command:
+sudo systemctl enable docker
+
+
+Check the Docker version
+docker --version
+
+
+Add your user to the Docker group to run Docker commands without 'sudo'
+sudo usermod -a -G docker $(whoami)
+
+Note that the change to the user’s group membership will not take effect until the next time the user logs in. You can log out and log back in to apply the changes or use the following command to activate the changes without logging out:
+ 
+newgrp docker
+
+
+inbound rule
+
+
+install kubectl:
+-----------------
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+
+download lastest version of kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+install
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+If you do not have root access on the target system, you can still install kubectl to the ~/.local/bin directory:
+
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+# and then append (or prepend) ~/.local/bin to $PATH
+
+
+
+
+
+install minkikube:
+-----------------
+https://minikube.sigs.k8s.io/docs/start/
+
+
+download and install
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+start the cluster
+minikube start
+
+Interact with your cluster
+kubectl get po -A
+
+
+minikube dashboard
+
+install kinD cluster
+---------------------
+https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+
+
+
+
+
+
+EC2 instance metadata service and dynamic data:
+----------------------------------------------
+instance metadata service:
+		get details about EC2 instance form inside and EC instance
+		AMI ID, storage descie, DNS hostname, instanceId, isntance type
+		security group, IP address etc
+		
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+IMP LINKS
+=========
+
+
+good video on how to configure aws EKS cluster
+https://www.youtube.com/watch?v=dLKfESAFJa8&t=3051s&ab_channel=TechDevOps%40AJ
+
+
+spring boot eks
+https://rifkhan107.medium.com/deploying-a-spring-boot-application-to-aws-eks-using-terraform-amazon-ecr-and-github-actions-9edd71c2c3ab
+
+good lab assignment on aws ec2
+https://github.com/sinemozturk/simple-maven-springboot-prohect
+https://github.com/sinemozturk/Jenkins-CI-CD-Pipeline
