@@ -494,6 +494,18 @@ Launch Templates
 
 
 
+EC2 instance metadata service and dynamic data:
+----------------------------------------------
+instance metadata service:
+		get details about EC2 instance form inside and EC instance
+		AMI ID, storage descie, DNS hostname, instanceId, isntance type
+		security group, IP address etc
+		
+	
+
+
+
+
 
 IAM
 ========
@@ -555,6 +567,7 @@ IAM
 
 Lab 1: Create IAM user (Without IAM policies): Authentication
 ---------------------------------------------------------------
+
 step 1: login using root account
 
 step 2: create IAM user without IAM policies
@@ -573,20 +586,20 @@ crate user to each group with different permissions
 
 
 
-
-
-
-
 Building a Simple Spring Boot Java Project on AWS EC2 Using Maven
 ----------------------------------------------------------------
 step 1: create spring boot project and push to github
+
+https://github.com/rgupta00/employeeappaws.git
+
 step 2: create ec2 instance and  Connect to EC2 Instance via MobaXterm
+
 step 3: configure ec2 instance
 
 apt-get update -y
 apt-get upgrade -y
 
-apt install openjdk-21-jdk openjdk-21-jre -y
+apt install openjdk-17-jdk openjdk-17-jre -y
 
 apt-get install maven -y
 
@@ -597,12 +610,8 @@ and run
 	java -jar target/ <<your jar file name>>
 
 
-
-
-
-
-Step-by-Step Guide to Install Docker/kubectl/minkikube/Kind for local development on Ubuntu in AWS
----------------------------------------------------------------------------------------------
+Step 5: Step-by-Step Guide to Install Docker local development on Ubuntu in AWS
+---------------------------------------------------------------------------------
 Installing docker
 Starting the Docker service
 Verifying the installation
@@ -610,9 +619,6 @@ Enabling the Docker service
 Check the Docker version
 Add User to Docker Group
 run some docker examples
-install kubectl
-install minikube
-install kind
 
 
 
@@ -652,6 +658,57 @@ newgrp docker
 
 inbound rule
 
+Step 5: create docker file and run on local machine
+-----------------------------------------------
+Dockerfile
+
+FROM openjdk:17-alpine
+MAINTAINER email="rgupta.mtech@gmail.com"
+EXPOSE 8080
+ADD target/*.jar empapp.jar
+ENTRYPOINT ["java","-jar","employeeappaws.jar"]
+
+
+
+step 3: create image using command
+
+docker build -t rgupta00/employeeappaws:1.1 .
+
+docker image ls
+
+
+step 4: run image 
+docker container run --name employeeappaws -p 8080:8080 -d rgupta00/employeeappaws:1.1
+
+docker container logs <id>
+
+docker container logs -f <id>
+
+step 5: push image to docker hub
+
+first login : docker login
+
+then run command : 
+
+	docker push rgupta00/employeeappaws:1.1
+
+step 6: pull image from the docker hub
+
+docker pull rgupta00/employeeappaws:1.1
+
+step 7: other person now can pull the image
+
+
+
+
+
+
+Step-by-Step Guide to Install Kind for local development on Ubuntu in AWS
+---------------------------------------------------------------------------
+install kubectl
+install kind
+
+
 
 install kubectl:
 -----------------
@@ -674,6 +731,21 @@ mv ./kubectl ~/.local/bin/kubectl
 
 
 
+install kinD cluster
+---------------------
+https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+
+
+
+
+
+
+
+
+
+
+
 
 install minkikube:
 -----------------
@@ -692,29 +764,6 @@ kubectl get po -A
 
 
 minikube dashboard
-
-install kinD cluster
----------------------
-https://kind.sigs.k8s.io/docs/user/quick-start/#installation
-
-
-
-
-
-
-
-EC2 instance metadata service and dynamic data:
-----------------------------------------------
-instance metadata service:
-		get details about EC2 instance form inside and EC instance
-		AMI ID, storage descie, DNS hostname, instanceId, isntance type
-		security group, IP address etc
-		
-	
-
-
-
-
 
 
 
