@@ -827,7 +827,22 @@ chmod 700 demo.txt
 now switch back to kesh : he can not read the file
 
 
+
 chmod o+w demo.txt
+
+
+
+let say kesh want to access the files created by gun
+--------------------------------------------------
+step 1: admin will change permission of gun home directry
+
+sudo chmode 777 /home/gun
+
+step 2: now gun will change the permission of file
+chmod 770 demo.txt
+
+step 3: login as kesh, he can now access gun home directly and files
+
 
 
 

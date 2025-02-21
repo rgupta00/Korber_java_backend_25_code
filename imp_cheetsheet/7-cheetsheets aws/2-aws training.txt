@@ -357,6 +357,10 @@ systemctl enable httpd
 echo "Hello World" > /var/www/html/index.html
 
 
+systemctl status apache2
+ 
+systemctl stop <service>
+systemctl stop apache2
 
 
 
@@ -373,6 +377,25 @@ echo "Hello World from $(hostname) $(hostname -i)"
 echo "Hello world from $(hostname) $(hostname -i)" > /var/www/html/index.html
 
 sudo service apache2 start
+
+
+systemctl status apache2
+ 
+systemctl stop <service>
+systemctl stop apache2
+
+
+
+systemctl start <service>
+systemctl start apache2
+
+systemctl disable <service>
+systemctl disable apache2
+
+
+systemctl enable <service>
+systemctl enable apache2
+
 
 
 Ex 2: Security Group
@@ -529,6 +552,7 @@ IAM
 
 
 
+
 Lab 1: Create IAM user (Without IAM policies): Authentication
 ---------------------------------------------------------------
 step 1: login using root account
@@ -544,6 +568,11 @@ Lab 2: Authorization:
 -------------------
 Create user group
 crate user to each group with different permissions
+
+
+
+
+
 
 
 
@@ -566,6 +595,132 @@ mvn -version
 step 4: package spring boot application on ec2 instance
 and run
 	java -jar target/ <<your jar file name>>
+
+
+
+
+
+
+Step-by-Step Guide to Install Docker/kubectl/minkikube/Kind for local development on Ubuntu in AWS
+---------------------------------------------------------------------------------------------
+Installing docker
+Starting the Docker service
+Verifying the installation
+Enabling the Docker service
+Check the Docker version
+Add User to Docker Group
+run some docker examples
+install kubectl
+install minikube
+install kind
+
+
+
+updating system
+sudo apt-get update
+
+install docker
+sudo apt-get install docker.io -y
+
+Starting the Docker service
+
+sudo systemctl status docker
+sudo systemctl enable --now docker
+sudo systemctl start docker
+
+Verifying the installation
+sudo docker run hello-world
+
+
+To start the Docker service automatically when the instance starts, you can use the following command:
+sudo systemctl enable docker
+
+
+Check the Docker version
+docker --version
+
+
+Add your user to the Docker group to run Docker commands without 'sudo'
+sudo usermod -a -G docker $(whoami)
+
+Note that the change to the user’s group membership will not take effect until the next time the user logs in. 
+You can log out and log back in to apply the changes or use t
+he following command to activate the changes without logging out:
+ 
+newgrp docker
+
+
+inbound rule
+
+
+install kubectl:
+-----------------
+https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/
+
+
+download lastest version of kubectl
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+
+install
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+
+If you do not have root access on the target system, you can still install kubectl to the ~/.local/bin directory:
+
+chmod +x kubectl
+mkdir -p ~/.local/bin
+mv ./kubectl ~/.local/bin/kubectl
+# and then append (or prepend) ~/.local/bin to $PATH
+
+
+
+
+
+install minkikube:
+-----------------
+https://minikube.sigs.k8s.io/docs/start/
+
+
+download and install
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+
+start the cluster
+minikube start
+
+Interact with your cluster
+kubectl get po -A
+
+
+minikube dashboard
+
+install kinD cluster
+---------------------
+https://kind.sigs.k8s.io/docs/user/quick-start/#installation
+
+
+
+
+
+
+
+EC2 instance metadata service and dynamic data:
+----------------------------------------------
+instance metadata service:
+		get details about EC2 instance form inside and EC instance
+		AMI ID, storage descie, DNS hostname, instanceId, isntance type
+		security group, IP address etc
+		
+	
+
+
+
+
+
+
+
+
+
+
 
 
 AWS S3 Buckets
@@ -608,6 +763,7 @@ Key benefits of S3 buckets
 Ex 1: Creating and Configuring S3 Buckets
 --------------------------------------------
 Steps :
+
 	1. Creating an S3 bucket
 	2. Choosing a bucket name and region
 	3. Bucket properties and configurations
@@ -638,8 +794,23 @@ Advanced S3 Bucket Features
 
 S3 bucket policies
 -------------------
-	Create and manage bucket policies to control access to your S3 buckets.
+	* S3 provide bucket policies, access control and encryptation setting
+	
+	* Encrpt data at rest using server side encryption options provided by S3. Additionally
+	eanble encryptation in transit by using SSL/TSL for data transfer
+	
+	* Enable access logging to capture detailed records of request made to your S3 bucket
+		Monitor access logs and configure alerts to detect any suspiciou activities or unauthorized assess attempts
+		
+	
+
+	Let we have one IAM account we want that he should be not able to access with bucket inspite of having
+	s3full access ..
+	
+	In this case : Create and manage bucket policies to control access to your S3 buckets.
 	Bucket policies are written in JSON and define permissions for various actions and resources.
+	
+	
 
 {
   "Version": "2012-10-17",
@@ -663,10 +834,33 @@ S3 bucket policies
   ]
 }
 
+{
+  "Version": "2012-10-17",
+  "Id": "RestrictBucketToIAMUsersOnly",
+  "Statement": [
+    {
+      "Sid": "AllowOwnerOnlyAccess",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::app1-shoppingcart-busycoder-app/*",
+        "arn:aws:s3:::app1-shoppingcart-busycoder-app"
+      ],
+      "Condition": {
+        "StringNotEquals": {
+          "aws:PrincipalArn": "arn:aws:iam::904233120381:root"
+        }
+      }
+    }
+  ]
+}
+
 S3 access control and IAM roles
 -----------------------------
 	Use IAM roles and policies to manage access to S3 buckets. 
 	IAM roles provide temporary credentials and fine-grained access control to AWS resources.
+
 
 
 
@@ -682,11 +876,20 @@ AWS CLI
 	Using CLI we can send request programmatically to create a resouces
 	
 	AWS provide api provide many tools that can be used:
-	
+	-----------------------------------------------------
 	AWS CLI: it is python utility written by aws 
 	CDK
 	Terraform -IAC
 	Cloud formation-IAC
+	
+	What problem aws cli solve?
+	-------------------------
+	
+	AWS CLI use API to intract with aws and you need to intract and pass parameter do post request
+	We need to talk programmatically
+	AWS has created python application called aws cli that help you to intract easily with aws resouces
+	We dnot need to write api to intract
+	
 	
 	We just need to install aws cli and use to intract with aws
 	./aws s3 ___ ___
@@ -717,6 +920,8 @@ Step 1: Create IAM account with admin access
 Step 2: go to security crendential -> create access key (DONT FORGET TO DELETE ONCE EXP IS DONE)
 
 Refer code sample and try with postman
+
+
 
 
 

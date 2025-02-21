@@ -1,0 +1,187 @@
+
+Approach 1: using docekr file : Docker hello world spring boot:
+------------------------------------------------------------
+server:
+  port: 8080
+spring:
+  application:
+    name: 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  health:
+    readinessstate:
+      enabled: true
+    livenessstate:
+      enabled: true
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+
+step 1: create empapp project, create hello controller 
+
+	Give final name inside build :<finalName>empapp</finalName>
+
+@RestController
+public class HelloController {
+    @Autowired
+    private InstanceInformationService instanceInformationService;
+
+    @GetMapping(path="hello-world")
+    public String hello(){
+        return "hello empapp v2  :"+instanceInformationService.retrieveInstanceInfo();
+    }
+}
+
+
+@Service
+public class InstanceInformationService {
+
+	private static final String HOST_NAME = "HOSTNAME";
+
+	private static final String DEFAULT_ENV_INSTANCE_GUID = "LOCAL";
+
+	
+	@Value("${" + HOST_NAME + ":" + DEFAULT_ENV_INSTANCE_GUID + "}")
+	private String hostName;
+
+	public String retrieveInstanceInfo() {
+		return hostName.substring(hostName.length()-5);
+	}
+
+}
+
+try to call it locally
+http://localhost:8080/actuator/health/readiness
+
+
+
+
+
+
+
+step 2: Create Dockerfile
+FROM openjdk:17-alpine
+
+
+
+FROM openjdk:21
+MAINTAINER email="rgupta.mtech@gmail.com"
+EXPOSE 8080
+ADD target/empapp.jar empapp.jar
+ENTRYPOINT ["java","-jar","empapp.jar"]
+
+
+
+step 3: create image using command
+
+docker build -t rgupta00/empapp:1.2 .
+
+docker image ls
+
+
+step 4: run image 
+docker container run --name producer -p 8080:8080 -d rgupta00/empapp:1.2
+
+docker container logs <id>
+
+docker container logs -f <id>
+
+step 5: push image to docker hub
+
+first login : docker login
+
+then run command : 
+	docker tag empapp:1.2 rgupta00/empapp:1.2
+	docker push rgupta00/empapp:1.2
+
+step 6: pull image from the docker hub
+
+docker pull rgupta00/empapp:1.2
+
+step 7: other person now can pull the image
+
+	remove the images 
+	docker images
+	docker image rmi <imgid> -f
+	
+now pull the image and run it
+
+docker run --name empapp -p 8080:8080 rgupta00/empapp:1.2
+
+
+
+
+Approach 2: Spring boot with Build pack step to follow:
+-------------------------
+ 
+1. Add the configuration in the pom.xml
+
+          <plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<image>
+						<name>rgupta00/${project.artifactId}:v1</name>
+					</image>
+				</configuration>
+			</plugin>
+			
+2. Run the maven command from the location where pom.xml is visible
+mvn spring-boot:build-image
+
+3. Execute the docker command
+docker run -p 8090:8080 rgupta00/empapp:v1
+
+
+
+
+Approach 2: google gib step to follow:
+-------------------------
+Jib builds containers without using a Dockerfile or requiring a Docker installation.
+ You can use Jib in the Jib plugins for Maven or Gradle, or you can use the Jib Java library.
+ 
+ https://cloud.google.com/java/getting-started/jib
+ https://github.com/GoogleContainerTools/jib
+ 
+  
+ 
+1. Add the configuration in the pom.xml
+
+        <plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.1</version>
+				<configuration>
+					<from>
+						<image>openjdk:21</image>
+					</from>
+					<to>
+						<image>rgupta00/${project.artifactId}:v2</image>
+					</to>
+				</configuration>
+			</plugin>
+	  
+	  <plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.3.2</version>
+				<configuration>
+					<from>
+						<image>eclipse-temurin:21-jre</image>
+					</from>
+					<to>
+						<image>rgupta00/${project.artifactId}:v1</image>
+					</to>
+				</configuration>
+</plugin>
+
+2. Run the maven command from the location where pom.xml is visible
+mvn compile jib:dockerBuild
+
+3. Execute the docker command
+docker run -p 8090:8080 rgupta00/empapp:v1
