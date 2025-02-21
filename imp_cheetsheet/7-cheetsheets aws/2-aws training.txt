@@ -655,8 +655,8 @@ he following command to activate the changes without logging out:
  
 newgrp docker
 
-
 inbound rule
+
 
 Step 5: create docker file and run on local machine
 -----------------------------------------------
