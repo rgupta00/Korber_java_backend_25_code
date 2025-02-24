@@ -1071,6 +1071,7 @@ SQS arch and discusssion:
 ------------------------
 
 EX1: Creating SQS and creating messaging and consuming form UI
+demoqueue-bca
 
 EX2: We will create a message and access from the code
 
@@ -1081,9 +1082,6 @@ Note: Delete SQS after demo
 	
 	
 	
-
-
-
 
 
 
@@ -1112,34 +1110,24 @@ https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/welco
 	I will send email to student, he will accept and will recive message
 	till he now unscribe
 	
-Step 1: first create topic with some name
+	Step 1: first create topic with some name
+	sns-busycoder-app1
 
-Step 2: Create substribtion and provide email of the client
+	Step 2: Create substribtion and provide email of the client
 
-Step 3: Publish message
-		it will be automcatically recived by the subscribers
-		
+	Step 3: Publish message
+			it will be automcatically recived by the subscribers
+	
+
+	
 Spring boot SNS
 =================
 Run the application and observe message is send to all subscribers
 
 
 
-AWS RDS 
-========
-	Amazon Relational Database Service (Amazon RDS) is a web service 
-	that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. 
-	It provides cost-efficient, resizable capacity for an industry-standard
-	relational database and manages common database administration tasks.
 
-https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html
 
-steps : 
-	1. go to rds service choose freetier mysql
-	2. provide DB instance identifier  for example mydbraj12345id
-	3. provide db name rajdb root root1234
-	
-	
 DynamoDB
 ========
 	Amazon DynamoDB is a database service from Amazon Web Services (AWS) 
@@ -1161,6 +1149,10 @@ DynamoDB
 		
 
 	Example : creating dynamodb table and running with spring boot application
+	
+	Step 1: create table with name "user"
+			and provide partition key "id"
+			
 	
 	
 	
@@ -1188,13 +1180,22 @@ AWS Secrets Manager
 	
 https://ap-south-1.console.aws.amazon.com/secretsmanager/landing?region=ap-south-1
 
+	Step 1: create a secreat key "myseckey123"
 	Java program to retrive secreate 
 
 
 
+
+	
+	
 AWS Lambda(FAAS)
 ==============
 https://aws.amazon.com/lambda/
+https://www.contino.io/insights/aws-lambda-use-cases
+
+
+	FAAS
+	
 	AWS Lambda
 	lets you run code without thinking about servers.
 	
@@ -1249,9 +1250,29 @@ https://aws.amazon.com/lambda/
 	Step 5: test it
 	
 	
+	
+	
+	
 
- Amazon EKS
- ============
+AWS RDS 
+========
+	Amazon Relational Database Service (Amazon RDS) is a web service 
+	that makes it easier to set up, operate, and scale a relational database in the AWS Cloud. 
+	It provides cost-efficient, resizable capacity for an industry-standard
+	relational database and manages common database administration tasks.
+
+
+https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html
+
+steps : 
+	1. go to rds service choose freetier mysql
+	2. provide DB instance identifier  for example MyInstanceIdentifier
+	3. provide db name rajdb root root1234
+	
+	
+	
+Amazon EKS
+============
 What is Amazon EKS?
 	Amazon EKS is a managed service that is used to run Kubernetes on AWS. 
 	Using EKS users don’t have to maintain a Kubernetes control plan on their own. 
@@ -1278,11 +1299,15 @@ What is Amazon EKS?
 	
 	
 	
+
+	
  Amazon EKS cluster setup:
  --------------------------
  1. using UI console
  2. using Terraform
  3. Using eksctl
+ 
+ 
  
  using eksctl
  ------------

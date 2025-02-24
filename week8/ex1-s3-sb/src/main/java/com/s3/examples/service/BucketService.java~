@@ -25,6 +25,11 @@ public class BucketService {
 
 	private Logger logger = LogManager.getLogger(this.getClass().getName());
 
+	/**
+	 * Method will download file from S3 and will push content to CloudWatch Logs
+	 * 
+	 * @param fileName
+	 */
 	public void downloadFile(String fileName, AmazonS3 amazonS3,String bucketName) {
 		try {
 			logger.info("File to be fetched from S3 {}", fileName);
