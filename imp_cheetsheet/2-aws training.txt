@@ -1299,7 +1299,30 @@ What is Amazon EKS?
 	
 	
 	
+	
+	
+scp command to put jar to EC2 instance:
+----------------------------------------
+use git bash
 
+ssh -i xxxxxx.pem ec2-user@12.4.5.6
+scp -i xxxxxx.pem	xxxxxxx.jar	ec2-user@12.4.5.6:/home/ec2-user
+	
+
+	
+	
+	
+What is EKS ?
+================
+	Amazon EKS, or Elastic Kubernetes Service, is a service provided by Amazon Web Services (AWS) 
+	that simplifies the deployment, management, and scaling of containerized applications using Kubernetes.
+
+	In simpler terms, it’s a tool that helps you efficiently run and manage your 
+	software applications in a flexible and scalable way. 
+	EKS takes care of many technical details, you don’t have to worry too
+	much about the complicated details — 
+	it’s like having someone else take care of the hard work so you can focus on using your programs
+	
 	
  Amazon EKS cluster setup:
  --------------------------
@@ -1316,6 +1339,7 @@ What is Amazon EKS?
  setp 3: 
  mkdir eks-setup
  cd eks-setup
+ 
  
  https://github.com/eksctl-io/eksctl/releases
  wget https://github.com/eksctl-io/eksctl/releases/download/v0.204.0/eksctl_Linux_amd64.tar.gz
@@ -1457,9 +1481,31 @@ to delete cluster:
 eksctl delete cluster --name busycoder-cluster --region ap-south-1
 
 	
+https://medium.com/@javatechie/deploying-a-spring-boot-application-on-aws-eks-fdd7d075f034	
+	
+ 
+
+
+Amazon CloudWatch 
+====================
+	Amazon CloudWatch is a monitoring tool that helps you track the 
+	health of your AWS applications and resources. 
+	
+	It can help you monitor and fix operational issues, optimize performance, and troubleshoot infrastructure. 
+	
+	What it does 
+	---------------------
+	Monitors applications, infrastructure, network, and services
+	Collects and stores log files
+	Sets alarms
+	Views graphs and statistics
+	Streams metrics
+	Provides cross-account observability
 	
 	
  
+
+
 
 
 AWS  ALB
@@ -1489,29 +1535,6 @@ Elastic Load Balancing supports the following load balancers:
 Demo: AWS ALB with spring boot:
 
 step1: create spring boot application with an end point and health endpoint
-
-
-
-Amazon CloudWatch 
-====================
-	Amazon CloudWatch is a monitoring tool that helps you track the 
-	health of your AWS applications and resources. 
-	
-	It can help you monitor and fix operational issues, optimize performance, and troubleshoot infrastructure. 
-	
-	What it does 
-	---------------------
-	Monitors applications, infrastructure, network, and services
-	Collects and stores log files
-	Sets alarms
-	Views graphs and statistics
-	Streams metrics
-	Provides cross-account observability
-	
-	
- 
-
-
 
 Ex 6: Elastic Load Balancer
 -----------------------------

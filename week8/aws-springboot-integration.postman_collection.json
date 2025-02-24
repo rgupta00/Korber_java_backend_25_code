@@ -1,0 +1,330 @@
+{
+	"info": {
+		"_postman_id": "cf77711a-0821-4208-8df2-3647231aecc9",
+		"name": "aws-springboot-integration",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1432109"
+	},
+	"item": [
+		{
+			"name": "1-aws-s3-sb",
+			"item": [
+				{
+					"name": "1-create-bucket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/s3bucket/add/jkijkljvdf-fjdklfj-21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"s3bucket",
+								"add",
+								"jkijkljvdf-fjdklfj-21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "2-upload-bucket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/busyc/Downloads/index.html"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/s3bucket/upload/file/jkijkljvdf-fjdklfj-21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"s3bucket",
+								"upload",
+								"file",
+								"jkijkljvdf-fjdklfj-21"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "3-delete-file",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/busyc/OneDrive/Desktop/sonar running.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/s3bucket/delete/file/jkijkljvdf-fjdklfj-21/sonar running.txt",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"s3bucket",
+								"delete",
+								"file",
+								"jkijkljvdf-fjdklfj-21",
+								"sonar running.txt"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "4-delete-bucket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": "/C:/Users/busyc/OneDrive/Desktop/sonar running.txt"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/s3bucket/delete/bucket/jkijkljvdf-fjdklfj-21",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"s3bucket",
+								"delete",
+								"bucket",
+								"jkijkljvdf-fjdklfj-21"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "2-aws-sqs-sb",
+			"item": [
+				{
+					"name": "publish-message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/publish/hello-bhi",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publish",
+								"hello-bhi"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "3-aws-sns-sb",
+			"item": [
+				{
+					"name": "send-sns-message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"My hello subject\",\"some random body\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "4-rds-mysql-sb",
+			"item": [
+				{
+					"name": "send-sns-message",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\r\n    \"My hello subject\",\"some random body\"\r\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/publish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"publish"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "5-dynamodb-sb",
+			"item": [
+				{
+					"name": "add record",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"12324\",\r\n    \"name\":\"raja\",\r\n    \"age\":36,\r\n    \"email\":\"test@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/add",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update user",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"12324\",\r\n    \"name\":\"raja\",\r\n    \"age\":46,\r\n    \"email\":\"test@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/update",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "age between",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\":\"12324\",\r\n    \"name\":\"raja\",\r\n    \"age\":36,\r\n    \"email\":\"test@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/agebetween/10/30",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"agebetween",
+								"10",
+								"30"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
