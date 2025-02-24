@@ -49,23 +49,12 @@ public class BucketService {
 
 	}
 
-	/**
-	 * Calls FileStore.java class to create bucket on AWS S3
-	 * 
-	 * @param bucketName
-	 * @return
-	 */
+
 	public String createBucket(String bucketName) {
 		return fileStore.createBucket(bucketName);
 	}
 
-	/**
-	 * Calls FileStore.java upload file on AWS S3, first validates file is empty if
-	 * then throw Excepiton
-	 * 
-	 * @param file
-	 * @return
-	 */
+
 	public String uploadFile(MultipartFile file, String bucketName) {
 		if (file.isEmpty()) {
 			throw new IllegalStateException("Cannot upload empty file");
